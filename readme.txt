@@ -49,6 +49,9 @@ Enable ContactUS.com Form in your website.
 
 == Changelog ==
 
+= V1.0b - 13.03.2013 =
+* UPDATE : Plugin Ready to be tested.
+
 = V0.0.3b - 06.03.2013 =
 * NEW : Plugin Support Link Added.
 
