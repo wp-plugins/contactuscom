@@ -4,7 +4,7 @@
     Plugin URI:  http://help.contactus.com/entries/23229688-Adding-the-ContactUs-com-Plugin-for-WordPress
     Description: ContactUs.com Plugin for Wordpress.
     Author: ContactUs.Com
-    Version: 0.03b
+    Version: 1.0b
     Author URI: http://contactus.com/
     License: GPLv2 or later
 */

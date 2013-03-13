@@ -4,7 +4,7 @@ Donate link:
 Tags: ContactUs.com Form, contact form plugin, contact, contacts, feedback, form, contact tab, contact us
 Requires at least: 3.3
 Tested up to: 3.5.1
-Stable tag: 3.5
+Stable tag: 1.0b
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
