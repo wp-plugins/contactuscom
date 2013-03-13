@@ -45,9 +45,12 @@ Enable ContactUS.com Form in your website.
 
 == Screenshots ==
 
-1. Plugin Main Screen "screenshot.jpg"
+1. Plugin Main Screen "screenshot.png"
 
 == Changelog ==
+
+= V1.0b - 13.03.2013 =
+* UPDATE : Plugin Ready to be tested.
 
 = V0.0.3b - 06.03.2013 =
 * NEW : Plugin Support Link Added.
