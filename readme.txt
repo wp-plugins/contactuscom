@@ -45,7 +45,7 @@ Enable ContactUS.com Form in your website.
 
 == Screenshots ==
 
-1. Plugin Main Screen "screenshot.png"
+1. Plugin Main Screen
 
 == Changelog ==
 
