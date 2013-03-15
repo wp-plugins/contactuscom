@@ -25,7 +25,7 @@ Our ContactUs.com Form+ solution offers:
 * Mobile optimized form
 * Form analytics
 
-The ContactUs.com form is more than a simple contact form solution. Instead of plugging directly into the website, Contact Form+ places a â€œContact Usâ€ button tab on all website pages, and opens a configurable form as a frame on top of the WordPress site.
+The ContactUs.com form is more than a simple contact form solution. Instead of plugging directly into the website, Contact Form+ places a "Contact Us" button tab on all website pages, and opens a configurable form as a frame on top of the WordPress site.
 
 **Features**
 
@@ -42,7 +42,7 @@ The ContactUs.com form is more than a simple contact form solution. Instead of p
 **Signup**
 
 1. Signup for an account with ContactUs.com <a href="http://www.contactus.com/signup.php" target="_blank">here</a> (outside of WordPress)
-2. Once your account is activated, youâ€™ll be emailed with your Website Code
+2. Once your account is activated, you'll be emailed with your Website Code
 
 **Premium Features**
 
@@ -65,12 +65,12 @@ You can find support on the ContactUs.com Help page at <a href="http://help.cont
 1. Login to your WordPress admin
 2. Unzip the contactus.zip file.
 3. Upload the ContactUs folder (not just the files in it!) to your wp-contents/plugins folder. If you're using FTP, use 'binary' mode.
-4. Upon successful upload, activate the plugin by clicking the â€œActivate Pluginâ€ link.
+4. Upon successful upload, activate the plugin by clicking the "Activate Plugin" link.
 5. Click on the ContactUs.com plugin
-6. Copy/paste your own ContactUs.com website code into the â€œContactUs.com JavaScript Codeâ€.
-7. Press â€œSave Changesâ€.
-8. Go back to your ContactUs.com Client Admin, to the "Website Code" section. Press â€œCheck Code Installationâ€ to check that the code has been installed corrected.
-9.	Open up your website to confirm that the ContactUs form experience is online.
+6. Copy/paste your own ContactUs.com website code into the "ContactUs.com JavaScript Code".
+7. Press "Save Changes".
+8. Go back to your ContactUs.com Client Admin, to the "Website Code" section. Press "Check Code Installation" to check that the code has been installed corrected.
+9. Open up your website to confirm that the ContactUs form experience is online.
 
 Detailed instructions, which screenshots, on how to implement the ContactUs.com Wordpress can be found <a href="http://help.contactus.com/entries/23229688-Adding-the-ContactUs-com-Plugin-for-WordPress" target="_blank">here</a>.
 
@@ -78,7 +78,7 @@ Detailed instructions, which screenshots, on how to implement the ContactUs.com 
 
 Most installation-related questions can be answered from the ContactUs.com Help Desk at <a href="http://help.contactus.com" target="_blank">http://help.contactus.com</a>
 
-ContactUs.com is part of an overall lead generation and lead management system. Itâ€™s not just a front-end form. For registered ContactUs.com users, the settings for your form can be set within the ContactUs.com client admin. If you arenâ€™t a registered user, you will need to sign up for free at ContactUs.com form <a href="https://www.contactus.com/signup.php" target="_blank">here</a>.
+ContactUs.com is part of an overall lead generation and lead management system. It's not just a front-end form. For registered ContactUs.com users, the settings for your form can be set within the ContactUs.com client admin. If you aren't a registered user, you will need to sign up for free at ContactUs.com form <a href="https://www.contactus.com/signup.php" target="_blank">here</a>.
 
 You will then log into the ContactUs.com client admin in order to set-up and customize the form and form settings.
 
@@ -92,7 +92,7 @@ Below are links to answer additional questions about:
 
 **Customizing Your Contact Form**
 
-Hereâ€™s a look at how simple it is to customize your form:
+Here's a look at how simple it is to customize your form:
 
 1. Plugin Main Screen
 2. Customizing your form on ContactUs.com
