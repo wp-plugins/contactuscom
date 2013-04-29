@@ -55,7 +55,7 @@ You can customize your ContactUs form and contact management settings by logging
 For existing ContactUs.com users:
 
 1. Download, install and activate the ContactUs.com Form+ Plugin for WordPress
-2. After the plugin is activated, open the ContactUs.com plugin
+2. After the plugin is activated, open the ContactUs.com plugin 
 3. Log into your ContactUs.com account from inside the plugin to connect accounts
 4. Save your settings, and then you’re done!
 
