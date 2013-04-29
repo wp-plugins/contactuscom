@@ -6,7 +6,7 @@
         <span class="message">Check Our New Features</span>
     </div>
 
-    <h2>Welcome to v2.0 of the ContactUs.com Form+ Plugin</h2>
+    <h2>Welcome to v2.0 of the ContactUs.com Contact Form Plugin</h2>
     <p class="sub-title">We made it easy to sign up for a free ContactUs.com account from within our WordPress plugin</p>
 
     <div class="getting_features">
