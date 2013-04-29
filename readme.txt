@@ -1,7 +1,7 @@
-=== ContactUs.com Form+ ===
+=== ContactUs.com Contact Form Plugin ===
 Contributors: ContactUs.Com
 Donate link:
-Tags: ContactUs.com Form, contact form plugin, contact, contacts, feedback, form, contact tab, contact us
+Tags: ContactUs.com Form, contact form, contact form plugin, contact us form, contact us button, contact us button tab, contact, contacts, feedback, form, contact tab, contact us
 Requires at least: 3.3
 Tested up to: 3.5.1
 Stable tag: 2.0
@@ -14,9 +14,9 @@ ContactUs.com offers an end-to-end contact form system for websites to capture a
 
 **Generate new customer leads for your business by adding an advanced Contact Form powered by ContactUs.com onto your WordPress website**
 
-The ContactUs.com Form+ plugin for WordPress is a powerful contact form alternative for websites looking to generate new business. ContactUs.com offers an advanced and complete solution for individuals or companies aiming to improve the way that they generate new customers from their website. The plugin is free and makes it easy to add ContactUs.com to your WordPress website. For the plugin to work, you must have an active ContactUs.com account (available for free) to configure and publish your form plus to access your lead management system.
+The ContactUs.com Contact Form Plugin for WordPress is a powerful contact form alternative for websites looking to generate new business. ContactUs.com offers an advanced and complete solution for individuals or companies aiming to improve the way that they generate new customers from their website. The plugin is free and makes it easy to add ContactUs.com to your WordPress website. For the plugin to work, you must have an active ContactUs.com account (available for free) to configure and publish your form plus to access your lead management system.
 
-Our ContactUs.com Form+ solution offers:
+Our ContactUs.com Contact Form Plugin solution offers:
 
 * Easy implementation
 * Auto responder
@@ -25,7 +25,7 @@ Our ContactUs.com Form+ solution offers:
 * Mobile optimized form
 * Form analytics
 
-The ContactUs.com form is more than a simple contact form solution. Instead of plugging directly into the website, Contact Form+ places a "Contact Us" button tab on all website pages, and opens a configurable form as a frame on top of the WordPress site.
+The ContactUs.com form is more than a simple contact form solution. Instead of plugging directly into the website, ContactUs.com Contact Form Plugin places a "Contact Us" button tab on all website pages, and opens a configurable form as a frame on top of the WordPress site.
 
 **Features**
 
@@ -43,8 +43,8 @@ The ContactUs.com form is more than a simple contact form solution. Instead of p
 
 For new ContactUs.com users:
 
-1. Download, install and activate the ContactUs.com Form+ Plugin for WordPress
-2. Once installed, open up the ContactUs.com Form+ Plugin
+1. Download, install and activate the ContactUs.com Contact Form Plugin for WordPress
+2. Once installed, open up the ContactUs.com Contact Form Plugin
 3. Register for a ContactUs.com account, and await the activation email
 4. Activate your account by clicking on the activation link in the automated email delivered to the email account with which you registered
 5. Log into your ContactUs.com account from inside the plugin to connect accounts
@@ -54,7 +54,7 @@ You can customize your ContactUs form and contact management settings by logging
  
 For existing ContactUs.com users:
 
-1. Download, install and activate the ContactUs.com Form+ Plugin for WordPress
+1. Download, install and activate the ContactUs.com Contact Form Plugin for WordPress
 2. After the plugin is activated, open the ContactUs.com plugin 
 3. Log into your ContactUs.com account from inside the plugin to connect accounts
 4. Save your settings, and then you’re done!
@@ -79,7 +79,7 @@ You can find support on the ContactUs.com Help page at <a href="http://help.cont
 
 1. Log into your WordPress.org account as an administrator.
 2. Go to the “Plugins” section from the side panel, and choose “Add New”.
-3. Search for “ContactUs.com Form+” to find the ContactUs.com Form+ Plugin, and choose to install. 
+3. Search for “ContactUs.com Contact Form Plugin” to find the ContactUs.com Contact Form Plugin, and choose to install. 
 4. WordPress will automatically install the plugin into your account. 
 5. Once completed, go to your list of plugins (bottom of your side panel), and choose to “Activate”.
 6. After the plugin is activated, open the ContactUs.com plugin.
