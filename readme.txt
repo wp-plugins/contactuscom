@@ -63,7 +63,7 @@ You can find support on the ContactUs.com Help page at <a href="http://help.cont
 
 == Installation ==
 
-1. Log into your WordPRess.org account as an administrator.
+1. Log into your WordPress.org account as an administrator.
 2. Go to the “Plugins” section from the side panel, and choose “Add New”.
 3. Search for “ContactUs.com Form+” to find the ContactUs.com Form+ Plugin, and choose to install. 
 4. WordPress will automatically install the plugin into your account. 
