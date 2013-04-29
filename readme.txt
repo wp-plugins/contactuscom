@@ -4,7 +4,7 @@ Donate link:
 Tags: ContactUs.com Form, contact form plugin, contact, contacts, feedback, form, contact tab, contact us
 Requires at least: 3.3
 Tested up to: 3.5.1
-Stable tag: 1.0b
+Stable tag: 2.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -41,8 +41,9 @@ The ContactUs.com form is more than a simple contact form solution. Instead of p
 
 **Signup**
 
-1. Signup for an account with ContactUs.com <a href="http://www.contactus.com/signup.php" target="_blank">here</a> (outside of WordPress)
-2. Once your account is activated, you'll be emailed with your Website Code
+1. One-Step Registration. Sign up directly from our plugin
+2. We will send a verification email to activate your account.
+3. Then you'll able to Login. Connect your account for future sessions
 
 **Premium Features**
 
@@ -62,15 +63,13 @@ You can find support on the ContactUs.com Help page at <a href="http://help.cont
 
 == Installation ==
 
-1. Login to your WordPress admin
-2. Unzip the contactus.zip file.
-3. Upload the ContactUs folder (not just the files in it!) to your wp-contents/plugins folder. If you're using FTP, use 'binary' mode.
-4. Upon successful upload, activate the plugin by clicking the "Activate Plugin" link.
-5. Click on the ContactUs.com plugin
-6. Copy/paste your own ContactUs.com website code into the "ContactUs.com JavaScript Code".
-7. Press "Save Changes".
-8. Go back to your ContactUs.com Client Admin, to the "Website Code" section. Press "Check Code Installation" to check that the code has been installed corrected.
-9. Open up your website to confirm that the ContactUs form experience is online.
+1. Log into your WordPRess.org account as an administrator.
+2. Go to the “Plugins” section from the side panel, and choose “Add New”.
+3. Search for “ContactUs.com Form+” to find the ContactUs.com Form+ Plugin, and choose to install. 
+4. WordPress will automatically install the plugin into your account. 
+5. Once completed, go to your list of plugins (bottom of your side panel), and choose to “Activate”.
+6. After the plugin is activated, open the ContactUs.com plugin.
+7. Log into your ContactUs.com account from inside the plugin to connect accounts, and then you’re done!
 
 Detailed instructions, which screenshots, on how to implement the ContactUs.com Wordpress can be found <a href="http://help.contactus.com/entries/23229688-Adding-the-ContactUs-com-Plugin-for-WordPress" target="_blank">here</a>.
 
@@ -94,15 +93,27 @@ Below are links to answer additional questions about:
 
 Here's a look at how simple it is to customize your form:
 
-1. Plugin Main Screen
-2. Customizing your form on ContactUs.com
+1. Plugin V2 New Features
+2. One-Step Registration. Sign up directly from our plugin
+3. Easy Login. Connect your account for future sessions
+4. Form Settings. TAB BUTTON Form version
+5. Form Settings. INLINE Form Page version
 
 == Changelog ==
+= 2.0 - 29.04.2013 =
+
+* NEW : One-Step Registration. Sign up directly from our plugin
+* NEW : Instant Activation. Check your email after registration
+* NEW : Easy Login. Connect your account for future sessions
+* NEW : Form Settings. Update main form settings within the plugin
 
 = 1.0b - 13.03.2013 =
 * First version available to WordPress community
 
 == Upgrade Notice ==
+
+= 2.0 =
+New cool features added to the V.2 plugin.
 
 = 1.0b =
 First version available to WordPress community.
