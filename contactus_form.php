@@ -1,6 +1,6 @@
 <?php
 /*
-  Plugin Name: ContactUs.com Contact Form+
+  Plugin Name: ContactUs.com Contact Form Plugin
   Plugin URI:  http://help.contactus.com/entries/23229688-Adding-the-ContactUs-com-Plugin-for-WordPress
   Description: ContactUs.com Plugin for Wordpress.
   Author: ContactUs.Com
@@ -340,7 +340,7 @@ if (!function_exists('cUs_menu_render')) {
         
         ?>
         <div class="plugin_wrap">
-            <h2>You’re moments away from getting Your ContactUs.com Form+ Plugin Live</h2>
+            <h2>You’re moments away from getting Your ContactUs.com Contact Form Plugin Live</h2>
             <p class="sub-title">First, you’ll need to create and activate your Account with ContactUs.com to set up all of your Form Management and Lead Management.  Once you're ready to go, hit “Save”, and then you’re live!</p>
                 <div id="loginform">
                     <div id="cUs_tabs">
