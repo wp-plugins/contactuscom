@@ -41,9 +41,23 @@ The ContactUs.com form is more than a simple contact form solution. Instead of p
 
 **Signup**
 
-1. One-Step Registration. Sign up directly from our plugin
-2. We will send a verification email to activate your account.
-3. Then you'll able to Login. Connect your account for future sessions
+For new ContactUs.com users:
+
+1. Download, install and activate the ContactUs.com Form+ Plugin for WordPress
+2. Once installed, open up the ContactUs.com Form+ Plugin
+3. Register for a ContactUs.com account, and await the activation email
+4. Activate your account by clicking on the activation link in the automated email delivered to the email account with which you registered
+5. Log into your ContactUs.com account from inside the plugin to connect accounts
+6. Save your settings, and then you’re done!
+ 
+You can customize your ContactUs form and contact management settings by logging into ContactUs.com <a href="https://www.contactus.com/client-login.php" target="_blank">here</a>.
+ 
+For existing ContactUs.com users:
+
+1. Download, install and activate the ContactUs.com Form+ Plugin for WordPress
+2. After the plugin is activated, open the ContactUs.com plugin
+3. Log into your ContactUs.com account from inside the plugin to connect accounts
+4. Save your settings, and then you’re done!
 
 **Premium Features**
 
