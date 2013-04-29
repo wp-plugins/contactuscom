@@ -1,6 +1,6 @@
 <?php
 /*
-    Plugin Name: ContactUs.com Form+
+    Plugin Name: ContactUs.com Contact Form Plugin
     Plugin URI:  http://help.contactus.com/entries/23229688-Adding-the-ContactUs-com-Plugin-for-WordPress
     Description: ContactUs.com Plugin for Wordpress.
     Author: ContactUs.Com

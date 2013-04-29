@@ -1,4 +1,4 @@
-=== ContactUs.com Form+ ===
+=== ContactUs.com Contact Form Plugin ===
 Contributors: ContactUs.Com
 Donate link:
 Tags: ContactUs.com Form, contact form plugin, contact, contacts, feedback, form, contact tab, contact us
