@@ -4,7 +4,7 @@ Donate link:
 Tags: ContactUs.com Form, contact form, contact form plugin, contact us form, contact us button, contact us button tab, contact, contacts, feedback, form, contact tab, contact us
 Requires at least: 3.3
 Tested up to: 3.5.1
-Stable tag: 2.0
+Stable tag: 2.0.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -114,6 +114,11 @@ Here's a look at how simple it is to customize your form:
 5. Form Settings. INLINE Form Page version
 
 == Changelog ==
+
+= 2.0.1 - 30.04.2013 =
+
+* Bug Fix: Form Settings - Inline Form Page Version was not assigning a variable correctly. This has been resolved.
+
 = 2.0 - 29.04.2013 =
 
 * NEW : One-Step Registration. Sign up directly from our plugin

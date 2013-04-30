@@ -4,7 +4,7 @@
   Plugin URI:  http://help.contactus.com/entries/23229688-Adding-the-ContactUs-com-Plugin-for-WordPress
   Description: ContactUs.com Plugin for Wordpress.
   Author: ContactUs.Com
-  Version: 2.0
+  Version: 2.0.1
   Author URI: http://contactus.com/
   License: GPLv2 or later
  */
@@ -103,7 +103,6 @@ function contactUs_JS_into_head() {
         //include the contactUs.com JS file into the <head> section
         if (strlen($form_key) && $boolTab && $cus_version =='tab'):
             echo '<script type="text/javascript" src="//cdn.contactus.com/cdn/forms/'. $form_key .'/contactus.js"></script>';
-            //echo '<script type="text/javascript" src="//cdn.contactus.com/cdntest/forms/'. $form_key .'/contactus.js"></script>';
         elseif(strlen($userCode) && $boolTab):
              echo $userCode;
         endif;
@@ -132,8 +131,7 @@ function cus_shortcode_handler() {
     $cus_version= $options['cus_version'];
     $form_key   = $options['form_key'];
     if($cus_version == 'inline') :
-        $inlineJS_output = '<div style="min-height: 500px; width: 100%;clear:both;"><script type="text/javascript" src="//cdn.contactus.com/cdn/forms/' . $the_form_id . ',/inline.js"></script></div>';
-        //$inlineJS_output = '<div style="min-height: 500px; width: 100%;clear:both;"><script type="text/javascript" src="//cdn.contactus.com/cdntest/forms/'. $form_key .'/inline.js"></script></div>';
+        $inlineJS_output = '<div style="min-height: 500px; width: 100%;clear:both;"><script type="text/javascript" src="//cdn.contactus.com/cdn/forms/' . $form_key . '/inline.js"></script></div>';
     else:
         $inlineJS_output = '';
     endif;
@@ -597,7 +595,7 @@ function createCustomer($postData){
     $strCURLOPT .= '&Email='.sanitize_email(trim($postData['remail']));
     $strCURLOPT .= '&Password='.trim($postData['pass1']);
     $strCURLOPT .= '&Website='.esc_url(trim($postData['website']));
-    $strCURLOPT .= '&Promotion_Code='.trim($postData['promo_code']);
+    $strCURLOPT .= '&Promotion_Code=WP';
 
     curl_setopt($ch, CURLOPT_URL, $strCURLOPT);
     curl_setopt($ch, CURLOPT_HEADER, 0);
