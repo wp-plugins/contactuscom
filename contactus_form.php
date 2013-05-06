@@ -219,24 +219,28 @@ if (!function_exists('cUs_menu_render')) {
                     $cusAPIresult = createCustomer($_POST);
                     $userStatus = 'inactive';
                     $cUs_email = $_POST['remail'];
-                    $cUs_json = json_decode($cusAPIresult);
+                    if($cusAPIresult) :
+                        $cUs_json = json_decode($cusAPIresult);
 
-                    switch ( $cUs_json->status  ) :
+                        switch ( $cUs_json->status  ) :
 
-                        case 'success':
-                            $signupMessage = '<div id="message" class="updated fade">
-                                                    <p>Welcome to ContactUs.com, and thank you for your registration.</p>
-                                                    <p>First we’ll need to activate your account. We have sent a verification email to <b>"' . $cUs_email . '"</b>. Please find the email, and click on the activation link in the email.  Then, come back to this page.</p>
-                                                    <p><a class="btn orange tologin" href="javascript:;">Continue >> </a></p>
-                                              </div>';?>
-                                <script>jQuery(document).ready(function($) { $( "#cUs_registform" ).hide() });</script><?php
-                            break;
+                            case 'success':
+                                $signupMessage = '<div id="message" class="updated fade">
+                                                        <p>Welcome to ContactUs.com, and thank you for your registration.</p>
+                                                        <p>First we’ll need to activate your account. We have sent a verification email to <b>"' . $cUs_email . '"</b>. Please find the email, and click on the activation link in the email.  Then, come back to this page.</p>
+                                                        <p><a class="btn orange tologin" href="javascript:;">Continue >> </a></p>
+                                                  </div>';?>
+                                    <script>jQuery(document).ready(function($) { $( "#cUs_registform" ).hide() });</script><?php
+                                break;
 
-                        case 'error':
-                            $signupMessage = '<div class="error"><p>Ouch! unfortunately there has being an error during the application: <b>"'.$cUs_json->error[0].'"</b>. Please try again!</a></p></div>';
-                            break;
+                            case 'error':
+                                $signupMessage = '<div class="error"><p>Ouch! unfortunately there has being an error during the application: <b>"'.$cUs_json->error[0].'"</b>. Please try again!</a></p></div>';
+                                break;
 
-                    endswitch;
+                        endswitch;
+                     else:
+                         $signupMessage = '<div class="error"><p>Ouch! unfortunately there has being an error during the application: <b>"Connection Refused"</b>. Please try again!</a></p></div>';
+                     endif;
                 break;
 
                 case 'settings':?>
