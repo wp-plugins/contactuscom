@@ -6,7 +6,7 @@
         <span class="message">Check Our New Features</span>
     </div>
 
-    <h2>Welcome to v2 of the ContactUs.com Contact Form Plugin</h2>
+    <h2>Welcome to v2.5 of the ContactUs.com Contact Form Plugin</h2>
     <p class="sub-title">We made it easy to sign up for a free ContactUs.com account from within our WordPress plugin</p>
 
     <div class="getting_features">
@@ -32,6 +32,10 @@
                     <p><span class="bold">Form Settings</span>Update main form settings within the plugin</p>
                     <a class="upgrade orGrad <?php echo ($userStatus == 'active') ? 'gotosettingsa' : 'gotosettings'; ?>" href="#">Check</a>
                 </div>
+                <div class="feature">
+                    <p><span class="bold">Form Settings</span>* NEW Custom page selection, select "Inline or Tab".</p>
+                    <a class="upgrade orGrad <?php echo ($userStatus == 'active') ? 'gotosettingsa' : 'gotosettings'; ?>" href="#">Check</a>
+            </div>
             </div>
 
         </div>

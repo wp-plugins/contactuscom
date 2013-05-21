@@ -4,7 +4,7 @@ Donate link:
 Tags: ContactUs.com Form, contact form, contact form plugin, contact us form, contact us button, contact us button tab, contact, contacts, feedback, form, contact tab, contact us
 Requires at least: 3.3
 Tested up to: 3.5.1
-Stable tag: 2.0.1
+Stable tag: 2.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -38,6 +38,7 @@ The ContactUs.com form is more than a simple contact form solution. Instead of p
 7. Seamless confirmation pages and email auto-responders
 8. Lead Management System to track sales leads generated from the form
 9. Advanced reporting: Source tracking, Google Analytics integration and more
+10. Choose which page(s) to place your contact form (NEW in v2.5)11. Choose between Tab and Inline form placement options (NEW in v2.5)
 
 **Signup**
 
@@ -69,7 +70,7 @@ ContactUs.com Premium accounts are also able to enhance their WordPress contact 
 4. Remove ContactUs.com branding
 5. Add LeadQC lead qualification
 
-Launching in late-March 2013, these features can be enabled through the ContactUs.com client admin.
+The features can be enabled through the ContactUs.com client admin.
 
 **Support**
 
@@ -112,8 +113,14 @@ Here's a look at how simple it is to customize your form:
 3. Easy Login. Connect your account for future sessions
 4. Form Settings. TAB BUTTON Form version
 5. Form Settings. INLINE Form Page version
+6. CUSTOM Form Settings. Choose which page(s) to place your contact form. (NEW in 2.5)
 
 == Changelog ==
+
+**= 2.5 - 21.05.2013 =**
+
+* ***NEW : CUSTOM Form Settings. Choose which page(s) to place your contact form.***
+* Bug Fix: UI compatibility issue in older WordPress versions.
 
 = 2.0.1 - 30.04.2013 =
 
