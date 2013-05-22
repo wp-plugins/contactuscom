@@ -579,9 +579,6 @@ if (!function_exists('cUs_menu_render')) {
                                         <th></th><td><input id="craccbtn" class="btn orange" value="Create Account" type="submit" /></td>
                                     </tr>
                                     <tr>
-                                        <th></th><td>Your data could be taken from your <a href="profile.php">WordPress Profile</a></td>
-                                    </tr>
-                                    <tr>
                                         <th></th><td>By Create Account, you agree to the ContactUs.com <a href="https://www.contactus.com/terms-of-service.php" target="_blank">Terms of Service</a></td>
                                     </tr>
                                 </table>
