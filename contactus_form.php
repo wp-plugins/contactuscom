@@ -576,10 +576,10 @@ if (!function_exists('cUs_menu_render')) {
                                         <td><input type="password" class="inputform text" name="pass2" id="pass2"></td>
                                     </tr>
                                     <tr>
-                                        <th></th><td><input id="craccbtn" class="btn orange" value="Create Account" type="submit" /></td>
+                                        <th></th><td><input id="craccbtn" class="btn orange" value="Click Here" type="submit" /></td>
                                     </tr>
                                     <tr>
-                                        <th></th><td>By Create Account, you agree to the ContactUs.com <a href="https://www.contactus.com/terms-of-service.php" target="_blank">Terms of Service</a></td>
+                                        <th></th><td>By clicking <a href="https://www.contactus.com/terms-of-service.php" target="_blank">Click Here</a>, you agree to the ContactUs.com Terms of Service.</td>
                                     </tr>
                                 </table>
                                 <input type="hidden" value="signup" name="option" />
