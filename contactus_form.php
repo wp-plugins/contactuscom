@@ -579,7 +579,7 @@ if (!function_exists('cUs_menu_render')) {
                                         <th></th><td><input id="craccbtn" class="btn orange" value="Create Account" type="submit" /></td>
                                     </tr>
                                     <tr>
-                                        <th></th><td>By Create Account, you agree to the ContactUs.com <a href="https://www.contactus.com/terms-of-service.php" target="_blank">Terms of Service</a></td>
+                                        <th></th><td>By clicking <a href="https://www.contactus.com/terms-of-service.php" target="_blank">Click Here</a>, you agree to the ContactUs.com Terms of Service.</td>
                                     </tr>
                                 </table>
                                 <input type="hidden" value="signup" name="option" />
