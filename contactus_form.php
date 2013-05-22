@@ -121,7 +121,7 @@ if ( is_admin() ) {
         $xHtml_mediaButton = '<a href="javascript:;" class="insertShortcode" title="'.__('Insert Contactus.com Form').'">';
             $xHtml_mediaButton .= '<img hspace="5" src="'.plugins_url('style/images/Icon-Small_16.png', __FILE__).'" alt="'.__('Insert ContactUs.com Form').'" />';
         $xHtml_mediaButton .= '</a>';
-        print $xHtml_mediaButton;
+        //print $xHtml_mediaButton;
     }
 }
 
