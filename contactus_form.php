@@ -35,33 +35,23 @@ if (!function_exists('cUs_admin_header')) {
         if ($current_screen->id == 'toplevel_page_cUs_form_plugin') {
             
             wp_deregister_script('jquery');
-            wp_deregister_script('jquery-ui');
             wp_deregister_script('jquery-tools');
             wp_deregister_script('jquerytools');
+            wp_deregister_script('jquery-ui');
             wp_deregister_script('fancybox');
-            wp_deregister_script('cUs_Scripts');
             
-            wp_register_script('jquery', 'https://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js', array(), '2.0.0', 0);
-            wp_register_script('cUs_Scripts', plugins_url('scripts/cUs_scripts.js?pluginurl='.dirname(__FILE__), __FILE__), array(), '2.0.0', 1);
-            
-            wp_enqueue_script('jquery');
+            wp_register_script('jquery', 'https://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js', array(), '2.0.0', false);
+            wp_register_script('jquery-ui', plugins_url('scripts/jquery-ui.js', __FILE__), array(), '1.10.3', true);
+            wp_register_script('fancybox', plugins_url('scripts/fancybox/jquery.fancybox.pack.js', __FILE__), array(), '2.0.0', true);
+            wp_register_script('cUs_Scripts', plugins_url('scripts/cUs_scripts.js?pluginurl='.dirname(__FILE__), __FILE__), array(), '2.0.0', true);
             
             wp_enqueue_style('cUs_Styles', plugins_url('style/cUs_style.css', __FILE__), false, '1');
             wp_enqueue_style('fancybox', plugins_url('scripts/fancybox/jquery.fancybox.css', __FILE__), false, '1');
             wp_enqueue_style('start', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.1/themes/start/jquery-ui.min.css');
             
-            wp_enqueue_script('fancybox', plugins_url('scripts/fancybox/jquery.fancybox.pack.js?pluginurl='.dirname(__FILE__), __FILE__), array('jquery'), '1', false);
-          
-            wp_register_script('jquery-ui', 'http://code.jquery.com/ui/1.10.3/jquery-ui.js', array(), '1.10.3', 0);
-            
-            wp_enqueue_script('jquery-ui-dialog', false, array('jquery'));
-            wp_enqueue_script('jquery-ui-tabs', false, array('jquery'));
-            wp_enqueue_script('jquery-ui-selectable', false, array('jquery'));
-            wp_enqueue_script('jquery-ui-buttonset', false, array('jquery'));
-            wp_enqueue_script('jquery-ui-tooltip', false, array('jquery'));
-            wp_enqueue_script('jquery-ui-sortable', false, array('jquery'));
-            wp_enqueue_script('jquery-ui-accordion', false, array('jquery'));
+            wp_enqueue_script('jquery');
             wp_enqueue_script('jquery-ui');
+            wp_enqueue_script('fancybox');
             wp_enqueue_script('cUs_Scripts');
             
         }
@@ -132,6 +122,7 @@ function contactUs_JS_into_head() {
         $options = get_option('contactus_settings');
         $getTabPages = get_option('contactus_settings_tabpages');
         $userCode = stripslashes($options['javascript_usercode']);
+        
         $boolTab = $options['tab_user'];
         $cus_version= $options['cus_version'];
         $form_key   = $options['form_key'];
@@ -209,6 +200,7 @@ if (!function_exists('cUs_menu_render')) {
     function cUs_menu_render() {
         
         $options = get_option('contactus_settings');//get the values, wont work the first time
+        
         $plugins_url = plugins_url();
         
         if(!is_array($options)){
@@ -216,18 +208,11 @@ if (!function_exists('cUs_menu_render')) {
             do_settings_sections(__FILE__);
         }
         
-        if(isset($_REQUEST['welcome_status'])):
-            update_option( 'contactus_settings_welcome', $_REQUEST['welcome_status'] );
-        endif;
-        
-        $welcome = get_option('contactus_settings_welcome');
-        
         if(isset($_REQUEST['option'])):
             switch ( $_REQUEST['option'] ):
                 case 'login'://LOGIN
                     $cUs_email  = $_REQUEST['contactus_settings']['login_email'];
                     $cUs_pass   = $_REQUEST['contactus_settings']['user_pass'];
-                    $welcome = 'off';
 
                     $cusAPIresult = getFormKeyAPI($cUs_email, $cUs_pass); //api hook
 
@@ -248,7 +233,7 @@ if (!function_exists('cUs_menu_render')) {
                                 $_REQUEST['contactus_settings']['form_key']     = $cUs_json->form_key;
                                 update_option( 'contactus_settings', $_REQUEST['contactus_settings'] );?>
 
-                                <script>$(document).ready(function($) { setTimeout(function(){ try{  $( "#cUs_tabs" ).tabs({ active: 1 })  }catch(err){console.log(err);}  } ,1500)   });</script><?php
+                                <script>jQuery(document).ready(function($) { setTimeout(function(){ try{  jQuery( "#cUs_tabs" ).tabs({ active: 1 })  }catch(err){console.log(err);}  } ,1500)   });</script><?php
 
                                 $options = get_option('contactus_settings');//GET THE NEW OPTIONS
                                 $userCode   = $options['javascript_usercode'];
@@ -278,8 +263,7 @@ if (!function_exists('cUs_menu_render')) {
                 break;
 
                 case 'signup': //SIGNUP ?>
-                    <script>$(document).ready(function($) { try{  $( "#cUs_tabs" ).tabs({ active: 1 })  }catch(err){console.log(err);} });</script><?php
-                    $welcome = 'off';
+                    <script>jQuery(document).ready(function($) { try{  jQuery( "#cUs_tabs" ).tabs({ active: 1 })  }catch(err){console.log(err);} });</script><?php
                     $cusAPIresult = createCustomer($_POST);
                     $userStatus = 'inactive';
                     $cUs_email = $_POST['remail'];
@@ -294,7 +278,7 @@ if (!function_exists('cUs_menu_render')) {
                                                         <p>First we’ll need to activate your account. We have sent a verification email to <b>"' . $cUs_email . '"</b>. Please find the email, and click on the activation link in the email.  Then, come back to this page.</p>
                                                         <p><a class="btn orange tologin" href="javascript:;">Continue >> </a></p>
                                                   </div>';?>
-                                    <script>$(document).ready(function($) { $( "#cUs_registform" ).hide() });</script><?php
+                                    <script>jQuery(document).ready(function($) { jQuery( "#cUs_registform" ).hide() });</script><?php
                                 break;
 
                             case 'error':
@@ -308,10 +292,8 @@ if (!function_exists('cUs_menu_render')) {
                 break;
 
                 case 'settings': //SAVING FORM SETTINGS TAB - INLINE - SELECTION ?>
-                    <script>$(document).ready(function($) { try{  $( "#cUs_tabs" ).tabs({ active: 1 })  }catch(err){console.log(err);} });</script><?php
+                    <script>jQuery(document).ready(function($) { try{  jQuery( "#cUs_tabs" ).tabs({ active: 1 })  }catch(err){console.log(err);} });</script><?php
                     if( is_array($options) ): //ALREADY LOGGED
-
-                        $welcome = 'off';
                         $loginMessage = '<div id="message" class="updated fade"><p>You are already connected with your contactUs.com Account.</p></div>';
                         $settingsMessage = '<div id="message" class="updated fade"><p>Done! Your configuration has been saved correctly.</p></div>';
                         $userStatus = 'active';
@@ -319,7 +301,6 @@ if (!function_exists('cUs_menu_render')) {
 
                         $cUs_email  = $options['login_email'];
                         $cUs_pass   = $options['user_pass'];
-                        //$form_key   = (strlen($options['form_key']))?$options['form_key']:'NWJjNWJiZDE';
                         $form_key   = $options['form_key'];
                         $boolTab    = $_REQUEST['tab_user'];
                         $cus_version  = $options['cus_version'];
@@ -372,14 +353,14 @@ if (!function_exists('cUs_menu_render')) {
                 case 'logout': //LOGOUT
                     $userStatus = 'inactive';
                     delete_option( 'contactus_settings' );
-                    update_option( 'contactus_settings_welcome', 'on' );
+                    delete_option( 'contactus_settings_welcome' );
                     cus_shortcode_cleaner();
                     $loginMessage = '<div class="error"><p>You haven\'t logged in to your ContactUs.com account, please login below, if you don\'t have an account <a href="#" id="create-user">get one free!</a></p></div>'; 
                 break;
 
             endswitch;
         elseif( is_array($options) ): //ALREADY LOGGED ?>
-                    <script>$(document).ready(function($) { try{  $( "#cUs_tabs" ).tabs({ active: 1 })  }catch(err){console.log(err);} });</script><?php
+                    <script>jQuery(document).ready(function($) { try{  jQuery( "#cUs_tabs" ).tabs({ active: 1 })  }catch(err){console.log(err);} });</script><?php
             $userCode   = $options['javascript_usercode'];
             $boolTab    = $options['tab_user'];
             $cUs_email  = $options['login_email'];
@@ -418,133 +399,25 @@ if (!function_exists('cUs_menu_render')) {
             $settingsMessage = '<div class="error" ><p>Please, <a href="javascript:;" class="tologin">update</a> your user account to be able to save your settings.</p></div>';
         endif;
         
-        include_once 'features.php';
         
         ?>
         <div class="plugin_wrap">
-            <h2>You’re moments away from getting Your ContactUs.com Contact Form Plugin Live</h2>
-            <p class="sub-title">First, you’ll need to create and activate your Account with ContactUs.com to set up all of your Form Management and Lead Management.  Once you're ready to go, hit “Save”, and then you’re live!</p>
+            <?php if($userStatus == 'inactive'): ?><p class="sub-title">Configure your plugin below and we will send you a confirmation email to verify that our emails get to you.  This is the email your submissions will be sent to once you’re live.</p><?php endif;?> 
                 <div id="loginform">
                     <div id="cUs_tabs">
                         <ul>
-                            <li><a href="#tabs-1"><?php echo ($userStatus == 'active')? 'Your ContactUs.com Account': 'Login';?></a></li>
-                            <?php if($userStatus == 'inactive'): ?><li><a href="#tabs-2">Create Account</a></li><?php endif;?>
+                            <?php if($userStatus == 'inactive'): ?><li><a href="#tabs-1">Configure</a></li><?php endif;?>
+                            <li><a href="#tabs-2"><?php echo ($userStatus == 'active')? 'Your ContactUs.com Account': 'Login';?></a></li>
                             <li><a href="#tabs-3">Form Settings</a></li>
                             <li><a href="#tabs-4">More About ContactUs.com</a></li>
                         </ul>
-                        <div id="tabs-1">
-                            <h2>Login to your ContactUs.com Account</h2>
-                            <?php echo $loginMessage; ?>
-                            <form method="post" action="admin.php?page=cUs_form_plugin" id="cUs_login" name="cUs_login">
-                                <table class="form-table">
-                                    <tr>
-                                        <th></th><td><p class="validateTips"><?php echo ($userStatus == 'active') ? '' : 'All form fields are required.'; ?></p></td>
-                                    <tr>
-                                    <tr>
-                                        <th><label class="labelform" for="login_email">Email</label><br>
-                                        <td><input class="inputform" name="contactus_settings[login_email]" id="login_email" type="text" value="<?php echo (strlen($cUs_email)) ? $cUs_email : ''; ?>"></td>
-                                    </tr>
-                                    <tr>
-                                        <th><label class="labelform" for="user_pass">Password</label></th>
-                                        <td><input class="inputform" name="contactus_settings[user_pass]" id="user_pass" type="password" value="<?php echo (strlen($cUs_pass)) ? 'XxxXxxXxxX' : ''; ?>"></td>
-                                    </tr>
-                                    <tr><th></th>
-                                        <td>
-                                            <input id="loginbtn" class="btn orange" value="<?php echo ($userStatus == 'active') ? 'Disconnect' : 'Login'; ?>" type="submit">
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th></th>
-                                        <td>
-                                            <a href="https://www.contactus.com/client-login.php" target="_blank">I forgot my password</a>
-                                        </td>
-                                    </tr>
-
-                                </table>
-                                <input type="hidden" value="<?php echo ($userStatus == 'active') ? 'logout' : 'login'; ?>" name="option" />
-                            </form>
-                            <hr/>
-                            <div class="form_preview box-lighblue-grad">
-                                <h2 class="text-center">Preview ContactUs on your own website</h2>
-                                <form action="https://www.contactus.com/preview.php" target="_blank" name="preview" method="get" id="form_preview" onsubmit="return false">
-                                    <div class="text-left">Enter URL</div>
-                                    <div class="input"><input type="text" name="urlsite" placeholder="www.mywebsite.com" class="urlsite" id="urlsite"></div>
-                                    <div class="text-right"><input type="submit" value="" id="show-proview"></div>      
-                                    <input type="hidden" name="preview_url" id="preview_url">
-                                </form>
-                                <script type="text/javascript" async="" src="https://ssl.google-analytics.com/ga.js"></script>
-                                <script>
-                                    
-                                    $(document).ready(function($) {
-                                    
-                                        $('#form_preview').submit(function(){
-                                            if(document.getElementById('urlsite').value.length==0) {
-                                                alert("Please enter your URL");
-                                                return false;
-                                            }
-                                            var values={'line':$('#urlsite').val(),'option':'preview_url'};
-                                            var myjq = $.noConflict();
-                                            var redi_url = '';
-
-                                            try {
-                                                var posturl = '<?php echo $plugins_url;  ?>/contactuscom/ajax_proxy.php';
-                                                
-                                                $.ajax({
-                                                    type: "POST",
-                                                    url: posturl,
-                                                    dataType: 'json',
-                                                    data: values,
-                                                    success: function(data) {
-                                                      
-                                                        if(data['status']=='success' && data['url'] !='') {
-                                                        
-                                                            redi_url = data['url'];
-                                                            
-                                                            $('#preview_url').val(redi_url);
-
-                                                            goToURL = 'https://www.contactus.com/preview.php?urlsite='+ $('#urlsite').val() +'&preview_url='+ redi_url;
-
-                                                            var newWindow = window.open(goToURL, '_blank');
-
-                                                            newWindow.location = goToURL;
-
-                                                            console.log("ajax success: "+myjq.param(data));
-
-                                                            return false;
-
-                                                        }else if(data['alert']) {
-                                                            console.log("ajax alert: "+myjq.param(data));
-                                                            alert("There was an error processing your request. "+data['alert']);
-                                                            return false;
-                                                        }else {
-                                                            console.log("ajax error: "+myjq.param(data));
-                                                            alert("There was an error processing your request. Please check your data or try again later.");
-                                                            return false;
-                                                        }
-                                                       
-                                                    },
-                                                    async: false
-                                                });
-                                                
-                                            } catch(err) {
-                                                console.log("catch error: "+err);
-                                                alert("There was a js error processing your request. Please try again later.");
-                                                return false;
-                                            }
-
-                                        });
-                                    
-                                    });
-                                </script>
-                            </div>
-                            
-                        </div>
+                        
                         <?php 
                         global $current_user;
                         get_currentuserinfo();
                         if($userStatus == 'inactive'): ?>
-                        <div id="tabs-2">
-                            <h2>Sign up for a free ContactUs.com account. Complete registration and activation in minutes.</h2>
+                        <div id="tabs-1">
+                            <h2>Configure your plugin below.</h2>
                              <?php echo $signupMessage; ?>
                             <form method="post" action="admin.php?page=cUs_form_plugin" id="cUs_registform" name="cUs_registform">
                                 <table class="form-table">
@@ -585,8 +458,43 @@ if (!function_exists('cUs_menu_render')) {
                                 <input type="hidden" value="signup" name="option" />
                                 <input type="hidden" name="promo_code" id="promo_code" value="<?php echo (isset($_POST['promo_code']) && strlen($_POST['promo_code']))? $_POST['promo_code'] : '' ; ?>"/>
                             </form>
+                            
                         </div>
                         <?php endif;?>
+                        
+                        <div id="tabs-2">
+                            <h2>Login to your ContactUs.com Account</h2>
+                            <?php echo $loginMessage; ?>
+                            <form method="post" action="admin.php?page=cUs_form_plugin" id="cUs_login" name="cUs_login">
+                                <table class="form-table">
+                                    <tr>
+                                        <th></th><td><p class="validateTips"><?php echo ($userStatus == 'active') ? '' : 'All form fields are required.'; ?></p></td>
+                                    <tr>
+                                    <tr>
+                                        <th><label class="labelform" for="login_email">Email</label><br>
+                                        <td><input class="inputform" name="contactus_settings[login_email]" id="login_email" type="text" value="<?php echo (strlen($cUs_email)) ? $cUs_email : ''; ?>"></td>
+                                    </tr>
+                                    <tr>
+                                        <th><label class="labelform" for="user_pass">Password</label></th>
+                                        <td><input class="inputform" name="contactus_settings[user_pass]" id="user_pass" type="password" value="<?php echo (strlen($cUs_pass)) ? 'XxxXxxXxxX' : ''; ?>"></td>
+                                    </tr>
+                                    <tr><th></th>
+                                        <td>
+                                            <input id="loginbtn" class="btn orange" value="<?php echo ($userStatus == 'active') ? 'Disconnect' : 'Login'; ?>" type="submit">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th></th>
+                                        <td>
+                                            <a href="https://www.contactus.com/client-login.php" target="_blank">I forgot my password</a>
+                                        </td>
+                                    </tr>
+
+                                </table>
+                                <input type="hidden" value="<?php echo ($userStatus == 'active') ? 'logout' : 'login'; ?>" name="option" />
+                            </form>
+                            
+                        </div>
                         
                         <div id="tabs-3">
                             <h2>Form Settings</h2>
@@ -674,7 +582,7 @@ if (!function_exists('cUs_menu_render')) {
                             </form>
                             <?php if ( $cus_version == 'inline'):?>
                                 <script>
-                                    $(document).ready(function($) { $( "#cUs_button" ).hide() });
+                                    jQuery(document).ready(function($) { jQuery( "#cUs_button" ).hide() });
                                 </script>
                             <?php endif;?>
                             <form method="post" action="admin.php?page=cUs_form_plugin" id="cUs_inline" class="cus_versionform inline_version <?php echo ( strlen($cus_version) && $cus_version != 'inline')?'hidden':'';?>" name="cUs_inline">
@@ -705,12 +613,12 @@ if (!function_exists('cUs_menu_render')) {
                                     <?php if(strlen($inline_page_id)): ?>
                                         <script>
                                             var pageID = <?php echo $inline_page_id;?>;
-                                            $(document).ready(function($) { $( "#contactus_settings_page" ).val(pageID) });
+                                            jQuery(document).ready(function($) { jQuery( "#contactus_settings_page" ).val(pageID) });
                                         </script>
                                     <?php endif;?>
                                     <?php if($userStatus == 'inactive'): ?>
                                         <script>
-                                            $(document).ready(function($) { $( "#contactus_settings_page" ).attr({disabled:'disabled'}) });
+                                            jQuery(document).ready(function($) { jQuery( "#contactus_settings_page" ).attr({disabled:'disabled'}) });
                                         </script>
                                     <?php endif;?>
                                 </table>
@@ -743,9 +651,9 @@ if (!function_exists('cUs_menu_render')) {
                                             </div>
                                         </li>
                                         <script>
-                                            $('.pageclear-home').click(function(){
-                                                $('.home-page').removeAttr('checked');
-                                                $('.label-home').removeClass('ui-state-active');
+                                            jQuery('.pageclear-home').click(function(){
+                                                jQuery('.home-page').removeAttr('checked');
+                                                jQuery('.label-home').removeClass('ui-state-active');
                                             });
                                         </script>
                                         <?php foreach( $mypages as $page ) : ?>
@@ -765,9 +673,9 @@ if (!function_exists('cUs_menu_render')) {
                                                     </div>
                                                 </li>
                                                 <script>
-                                                    $('.pageclear-<?php echo $page->ID ; ?>').click(function(){
-                                                        $('.<?php echo $page->ID ; ?>-page').removeAttr('checked');
-                                                        $('.label-<?php echo $page->ID ; ?>').removeClass('ui-state-active');
+                                                    jQuery('.pageclear-<?php echo $page->ID ; ?>').click(function(){
+                                                        jQuery('.<?php echo $page->ID ; ?>-page').removeAttr('checked');
+                                                        jQuery('.label-<?php echo $page->ID ; ?>').removeClass('ui-state-active');
                                                     });
                                                 </script>
                                         <?php endforeach; ?>
@@ -867,15 +775,7 @@ if (!function_exists('cUs_menu_render')) {
                         </div>
                         
                     </div>
-                    <?php if($welcome == 'off'):?>
-                        <p><a href="javascript:;" class="callout-button features_button">Show "New Features" window</a></p>
-                    <?php endif;?>
-                    <hr/>
-                            
-                    <p>
-                        To get more information, customize your form, or manage your account, log in at
-                        <a href="https://www.contactus.com/client-login.php" target="_blank">https://www.contactus.com/client-login.php</a>
-                    </p>
+                    
                 </div>
 
         </div>
