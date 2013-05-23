@@ -1,5 +1,5 @@
 
-var myjq = $.noConflict();
+var myjq = jQuery.noConflict();
 
 myjq(window).error(function(e){
     e.preventDefault();
@@ -7,7 +7,7 @@ myjq(window).error(function(e){
 
 jQuery(document).ready(function($) {
     
-    var myjq = $.noConflict();
+    var myjq = jQuery.noConflict();
     
     var fname = $( "#fname" ),
     lname = $( "#lname" ),
@@ -114,7 +114,7 @@ jQuery(document).ready(function($) {
             $( "#cUs_tabs" ).tabs({ active: 0 });
             event.preventDefault();
         });
-        $('#create-user, .gotoreg, .gotosettingsa').click(function(event) {
+        $('.gotoreg, .gotosettingsa').click(function(event) {
             $( "#cUs_tabs" ).tabs({ active: 1 });
             event.preventDefault();
         });
@@ -165,25 +165,6 @@ jQuery(document).ready(function($) {
     $('#contactus_settings_page').change(function(){
         $('.show_preview').fadeOut();
         $('.save_page').fadeOut( "highlight" ).fadeIn().val('>> Save your settings');
-    });
-    
-    setTimeout(function(){
-        switch(welcome){
-            case 'on':
-                $('.getting_wpr').slideToggle('slow');
-            break;
-            default: return false; break;
-        }
-        
-    },2000)
-    
-    $('#show_welcome').click(function(){
-        if($(this).is(':checked')){
-            $('#welcome_status').val('off');
-        }else{
-            $('#welcome_status').val('on');
-        }
-        $('form#welcome').submit();
     });
     
     $('.callout-button').click(function() {
