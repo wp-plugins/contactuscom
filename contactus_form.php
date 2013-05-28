@@ -801,7 +801,7 @@ function getFormKeyAPI($cUs_email, $cUs_pass){
     $strCURLOPT .= '?API_Account=AC00000bb19ec0c1dd1fe715ef23afa9cf';
     $strCURLOPT .= '&API_Key=00000b77edc87072ce89f0982b3d9687';
     $strCURLOPT .= '&API_Action=getFormKey';
-    $strCURLOPT .= '&Email=' . trim($cUs_email);
+    $strCURLOPT .= '&Email='.sanitize_email(trim($cUs_email));
     $strCURLOPT .= '&Password=' . trim($cUs_pass);
     
     curl_setopt($ch, CURLOPT_URL, $strCURLOPT);
