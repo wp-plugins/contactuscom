@@ -14,6 +14,10 @@ ContactUs.com offers an end-to-end contact form system for websites to capture a
 
 **Generate new customer leads for your business by adding an advanced Contact Form powered by ContactUs.com onto your WordPress website**
 
+
+![image](https://www.contactus.com/img/ContactUs-Logo.png)
+
+
 The ContactUs.com Contact Form Plugin for WordPress is a powerful contact form alternative for websites looking to generate new business. ContactUs.com offers an advanced and complete solution for individuals or companies aiming to improve the way that they generate new customers from their website. The plugin is free and makes it easy to add ContactUs.com to your WordPress website. For the plugin to work, you must have an active ContactUs.com account (available for free) to configure and publish your form plus to access your lead management system.
 
 Our ContactUs.com Contact Form Plugin solution offers:
@@ -38,7 +42,8 @@ The ContactUs.com form is more than a simple contact form solution. Instead of p
 7. Seamless confirmation pages and email auto-responders
 8. Lead Management System to track sales leads generated from the form
 9. Advanced reporting: Source tracking, Google Analytics integration and more
-10. Choose which page(s) to place your contact form (NEW in v2.5)11. Choose between Tab and Inline form placement options (NEW in v2.5)
+10. Choose which page(s) to place your contact form (NEW in v2.5)
+11. Choose between Tab and Inline form placement options (NEW in v2.5)
 
 **Signup**
 
@@ -117,7 +122,7 @@ Here's a look at how simple it is to customize your form:
 
 == Changelog ==
 
-**= 2.5 - 21.05.2013 =**
+= 2.5 - 21.05.2013 =
 
 * ***NEW : CUSTOM Form Settings. Choose which page(s) to place your contact form.***
 * Bug Fix: UI compatibility issue in older WordPress versions.
@@ -137,6 +142,13 @@ Here's a look at how simple it is to customize your form:
 * First version available to WordPress community
 
 == Upgrade Notice ==
+
+= 2.5 - 21.05.2013 =
+NEW : CUSTOM Form Settings. Choose which page(s) to place your contact form.
+Bug Fix: UI compatibility issue in older WordPress versions.
+
+= 2.0.1 - 30.04.2013 =
+Bug Fix: Form Settings - Inline Form Page Version was not assigning a variable correctly. This has been resolved.
 
 = 2.0 =
 New cool features added to the V.2 plugin.
