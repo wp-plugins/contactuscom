@@ -164,3 +164,4 @@ New cool features added to the V.2 plugin.
 
 = 1.0b =
 First version available to WordPress community.
+
