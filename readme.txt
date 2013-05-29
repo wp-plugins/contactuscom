@@ -1,4 +1,4 @@
-=== ContactUs.com Contact Form Plugin ===
+    === ContactUs.com Contact Form Plugin ===
 Contributors: ContactUs.Com
 Donate link:
 Tags: ContactUs.com Form, contact form, contact form plugin, contact us form, contact us button, contact us button tab, contact, contacts, feedback, form, contact tab, contact us
@@ -117,8 +117,15 @@ Here's a look at how simple it is to customize your form:
 2. One-Step Registration. Sign up directly from our plugin
 3. Easy Login. Connect your account for future sessions
 4. Form Settings. TAB BUTTON Form version
-5. Form Settings. INLINE Form Page version
-6. CUSTOM Form Settings. Choose which page(s) to place your contact form. (NEW in 2.5)
+5. Wide variety of tab templates to choose from
+6. Example of a live tab form
+7. Form Settings. INLINE Form Page version
+8. One of our beautiful templates for the inline form
+9. Example of a live inline form
+10. CUSTOM Form Settings. Choose which page(s) to place your contact form. (NEW in 2.5)
+11. This is how our Facebook App looks
+12. Our beautiful mobile friendly form
+13. You can configure a follow up email
 
 == Changelog ==
 
