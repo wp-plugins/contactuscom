@@ -113,19 +113,21 @@ Below are links to answer additional questions about:
 
 Here's a look at how simple it is to customize your form:
 
-1. Plugin V2 New Features
-2. One-Step Registration. Sign up directly from our plugin
-3. Easy Login. Connect your account for future sessions
-4. Form Settings. TAB BUTTON Form version
-5. Wide variety of tab templates to choose from
-6. Example of a live tab form
-7. Form Settings. INLINE Form Page version
-8. One of our beautiful templates for the inline form
-9. Example of a live inline form
-10. CUSTOM Form Settings. Choose which page(s) to place your contact form. (NEW in 2.5)
-11. This is how our Facebook App looks
-12. Our beautiful mobile friendly form
-13. You can configure a follow up email
+1. Wide variety of tab templates to choose from
+2. Example of a live tab button
+3. Example of a live tab form window
+4. One of our beautiful templates for the inline form
+5. Example of a live inline form
+6. This is how our Facebook App looks
+7. Our beautiful mobile friendly form
+8. You can configure a follow up email
+9. Plugin V2 New Features
+10. One-Step Registration. Sign up directly from our plugin
+11. Easy Login. Connect your account for future sessions
+12. Form Settings. TAB BUTTON Form version
+13. Form Settings. INLINE Form Page version
+14. CUSTOM Form Settings. Choose which page(s) to place your contact form. (NEW in 2.5)
+
 
 == Changelog ==
 
