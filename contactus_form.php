@@ -1,32 +1,28 @@
-<?php
-/*
-  Plugin Name: ContactUs.com Contact Form Plugin
-  Plugin URI:  http://help.contactus.com/entries/23229688-Adding-the-ContactUs-com-Plugin-for-WordPress
-  Description: ContactUs.com Plugin for Wordpress.
-  Author: ContactUs.Com
-  Version: 2.5
-  Author URI: http://contactus.com/
-  License: GPLv2 or later
- */
+<?php /*
+        Plugin Name: ContactUs.com Contact Form Plugin
+        Version: 2.5
+        Plugin URI:  http://help.contactus.com/entries/23229688-Adding-the-ContactUs-com-Plugin-for-WordPress
+        Description: ContactUs.com Plugin for Wordpress.
+        Author: ContactUs.Com
+        Author URI: http://contactus.com/
+        License: GPLv2 or later
+      */
 
-/*  Copyright 2013  ContactUs.com  ( email: support@contactuscom.zendesk.com )
+    /*  
+        Copyright 2013  ContactUs.com  ( email: support@contactuscom.zendesk.com )
+        This program is free software; you can redistribute it and/or modify
+        it under the terms of the GNU General Public License, version 2, as
+        published by the Free Software Foundation.
 
-  This program is free software; you can redistribute it and/or modify
-  it under the terms of the GNU General Public License, version 2, as
-  published by the Free Software Foundation.
+        This program is distributed in the hope that it will be useful,
+        but WITHOUT ANY WARRANTY; without even the implied warranty of
+        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+        GNU General Public License for more details.
 
-  This program is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
-
-  You should have received a copy of the GNU General Public License
-  along with this program; if not, write to the Free Software
-  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
- */
-
-//CONTACTUS.COM PLUGIN STYLES CSS
-
+        You should have received a copy of the GNU General Public License
+        along with this program; if not, write to the Free Software
+        Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+   */
 
 if (!function_exists('cUs_admin_header')) {
 

@@ -1,10 +1,10 @@
-    === ContactUs.com Contact Form Plugin ===
+=== ContactUs.com Contact Form Plugin ===
 Contributors: ContactUs.Com
-Donate link:
-Tags: ContactUs.com Form, contact form, contact form plugin, contact us form, contact us button, contact us button tab, contact, contacts, feedback, form, contact tab, contact us
+Stable tag: 2.5
 Requires at least: 3.3
 Tested up to: 3.5.1
-Stable tag: 2.5
+Donate link: http://www.contactus.com
+Tags: ContactUs.com Form, contact form, contact form plugin, contact us form, contact us button, contact us button tab, contact, contacts, feedback, form, contact tab, contact us
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -138,33 +138,33 @@ Here's a look at how simple it is to customize your form:
 
 == Changelog ==
 
-= 2.5 - 21.05.2013 =
-
+= 2.5 =
 * ***NEW : CUSTOM Form Settings. Choose which page(s) to place your contact form.***
 * Bug Fix: UI compatibility issue in older WordPress versions.
+* *Launch date 21.05.2013*
 
-= 2.0.1 - 30.04.2013 =
-
+= 2.0.1 =
 * Bug Fix: Form Settings - Inline Form Page Version was not assigning a variable correctly. This has been resolved.
+* *Launch date 30.04.2013*
 
-= 2.0 - 29.04.2013 =
-
+= 2.0 =
 * NEW : One-Step Registration. Sign up directly from our plugin
 * NEW : Instant Activation. Check your email after registration
 * NEW : Easy Login. Connect your account for future sessions
 * NEW : Form Settings. Update main form settings within the plugin
+* *Launch date 29.04.2013*
 
-= 1.0b - 13.03.2013 =
+= 1.0b =
 * First version available to WordPress community
+* *Launch date 13.03.2013*
 
 == Upgrade Notice ==
 
 = 2.5 =
-NEW : CUSTOM Form Settings. Choose which page(s) to place your contact form.
-Bug Fix: UI compatibility issue in older WordPress versions.
+New version availabe, update NOW!
 
 = 2.0.1 =
-Bug Fix: Form Settings - Inline Form Page Version was not assigning a variable correctly. This has been resolved.
+Bug Fix: This has been resolved.
 
 = 2.0 =
 New cool features added to the V.2 plugin.
