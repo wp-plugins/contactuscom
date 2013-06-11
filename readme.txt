@@ -23,7 +23,6 @@ ContactUs.com offers an end-to-end contact form system for websites to capture a
 >  **Follow for new product updates from ContactUs.com**
 > 
 > * [Facebook](https://www.facebook.com/ContactUscom)
-> 
 > * [Twitter](https://twitter.com/ContactUsCom)
 >
 > * [Find tutorials on our Youtube channel](http://www.youtube.com/user/ContactUsCom)
