@@ -27,7 +27,7 @@ ContactUs.com offers an end-to-end contact form system for websites to capture a
 >
 > * [Find tutorials on our Youtube channel](http://www.youtube.com/user/ContactUsCom)
 
-You’ll have some very basic customizations available from within your plugin. In addition to those, you can manage even more customizations from inside your free ContactUs.com account, which is automatically created for you upon installing your plugin.  Also from your ContactUs.com account, you’ll be able to manage your delivery options, whether to direct form signups to an email address, receive an SMS alert, or post inquiry information to a 3rd party software like Google Docs, Zoho CRM, Constant Contact, MailChimp and others.  
+You’ll have some very basic customizations available from within your plugin. In addition to those, you can manage even more customizations from inside your free ContactUs.com account, which is automatically created for you upon installing your plugin. Also from your ContactUs.com account, you’ll be able to manage your delivery options, whether to direct form signups to an email address, receive an SMS alert, or post inquiry information to a 3rd party software like Google Docs, Zoho CRM, Constant Contact, MailChimp, Vertical Response, SendGrid, Emma, Sendy, GetResponse, SugarCRM, Hubspot and others.
 
 In addition, your ContactUs.com account will store all of your inbound contacts in our secure, cloud-based database.  From here, you’ll be able to add notes on specific inquiries and track the progress of those communications.
 
@@ -47,6 +47,8 @@ In addition, your ContactUs.com account will store all of your inbound contacts 
 * Form analytics
 * Appointment Requests
 * Lead qualification
+* 3rd party conversion tracking
+* Multiple form types (contact form, support form, appointment form, newsletter signup)
 
 The ContactUs.com form is more than a simple contact form solution. ContactUs.com Contact Form Plugin has a standard implementation that places a "Contact Us" button tab on all website pages, and opens a configurable form as a frame on top of the WordPress site. In addition, you can opt for a more traditional “inline” implementationas well.
 
