@@ -1,8 +1,8 @@
 === ContactUs.com Contact Form Plugin ===
 Contributors: ContactUs.Com
-Stable tag: 2.5
+Stable tag: 2.5.1
 Requires at least: 3.3
-Tested up to: 3.5.1
+Tested up to: 3.5.2
 Donate link: http://www.contactus.com
 Tags: ContactUs.com Form, contact form, contact form plugin, contact us form, contact us button, contact us button tab, contact, contacts, feedback, form, contact tab, contact us
 License: GPLv2 or later
@@ -148,8 +148,15 @@ Here's a look at how simple it is to customize your form:
 
 == Changelog ==
 
+= 2.5.1 =
+* ***NEW : One-step activation process.***
+* Simplified: Signup process so that initial password is auto-generated
+* Removed: Requirement for separate activation via email
+* Bug Fix: Our Button Tab javascript file is located before the body tag, the right way.
+* *Launch date 05.07.2013*
+
 = 2.5 =
-* ***NEW : CUSTOM Form Settings. Choose which page(s) to place your contact form.***
+* NEW : CUSTOM Form Settings. Choose which page(s) to place your contact form.
 * Bug Fix: UI compatibility issue in older WordPress versions.
 * *Launch date 21.05.2013*
 
@@ -169,6 +176,9 @@ Here's a look at how simple it is to customize your form:
 * *Launch date 13.03.2013*
 
 == Upgrade Notice ==
+
+= 2.5.1 =
+New version availabe, update NOW!
 
 = 2.5 =
 New version availabe, update NOW!

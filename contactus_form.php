@@ -1,6 +1,6 @@
 <?php /*
         Plugin Name: ContactUs.com Contact Form Plugin
-        Version: 2.5
+        Version: 2.5.1
         Plugin URI:  http://help.contactus.com/entries/23229688-Adding-the-ContactUs-com-Plugin-for-WordPress
         Description: ContactUs.com Plugin for Wordpress.
         Author: ContactUs.Com
@@ -40,6 +40,7 @@ if (!function_exists('cUs_admin_header')) {
             wp_register_script('jquery-ui', plugins_url('scripts/jquery-ui.js', __FILE__), array(), '1.10.3', true);
             wp_register_script('fancybox', plugins_url('scripts/fancybox/jquery.fancybox.pack.js', __FILE__), array(), '2.0.0', true);
             wp_register_script('cUs_Scripts', plugins_url('scripts/cUs_scripts.js?pluginurl='.dirname(__FILE__), __FILE__), array(), '2.0.0', true);
+            wp_register_script('sharethis', 'http://w.sharethis.com/button/buttons.js', array(), '1.0', true);
             
             wp_enqueue_style('cUs_Styles', plugins_url('style/cUs_style.css', __FILE__), false, '1');
             wp_enqueue_style('fancybox', plugins_url('scripts/fancybox/jquery.fancybox.css', __FILE__), false, '1');
@@ -49,19 +50,19 @@ if (!function_exists('cUs_admin_header')) {
             wp_enqueue_script('jquery-ui');
             wp_enqueue_script('fancybox');
             wp_enqueue_script('cUs_Scripts');
+            wp_enqueue_script('sharethis');
             
         }
     }
 
 }
 add_action('admin_enqueue_scripts', 'cUs_admin_header'); // cUs_admin_header hook
-//END CONTACTUS.COM PLUGIN STYLES CSS
 
 // Add option page in admin menu
 if (!function_exists('cUs_admin_menu')) {
 
     function cUs_admin_menu() {
-        add_menu_page('ContactUs.com Form Plugin', 'ContactUs.com', 'edit_themes', 'cUs_form_plugin', 'cUs_menu_render', plugins_url("style/images/Icon-Small_16.png", __FILE__), 101);
+        add_menu_page('ContactUs.com Form Plugin', 'Contact Form', 'edit_themes', 'cUs_form_plugin', 'cUs_menu_render', plugins_url("style/images/Icon-Small_16.png", __FILE__), 101);
     }
 
 }
@@ -99,16 +100,6 @@ function contactus_settings_validate($args) {
 
 function contactus_admin_notices() {
     settings_errors();
-}
-
-if ( is_admin() ) {
-    add_action('media_buttons', 'set_media_cus_forminsert_button', 100);
-    function set_media_cus_forminsert_button() {
-        $xHtml_mediaButton = '<a href="javascript:;" class="insertShortcode" title="'.__('Insert Contactus.com Form').'">';
-            $xHtml_mediaButton .= '<img hspace="5" src="'.plugins_url('style/images/Icon-Small_16.png', __FILE__).'" alt="'.__('Insert ContactUs.com Form').'" />';
-        $xHtml_mediaButton .= '</a>';
-        //print $xHtml_mediaButton;
-    }
 }
 
 add_action('admin_notices', 'contactus_admin_notices');
@@ -149,7 +140,7 @@ function contactUs_JS_into_head() {
     }
 }
 
-add_action('wp_head', 'contactUs_JS_into_head');
+add_action('wp_footer', 'contactUs_JS_into_head');
 
 function cus_shortcode_cleaner(){
   $aryPages = get_pages(); 
@@ -194,6 +185,8 @@ function cus_shortcode_add($inline_req_page_id){
 if (!function_exists('cUs_menu_render')) {
 
     function cUs_menu_render() {
+        
+        //delete_option( 'contactus_settings' );
         
         $options = get_option('contactus_settings');//get the values, wont work the first time
         
@@ -259,9 +252,11 @@ if (!function_exists('cUs_menu_render')) {
                 break;
 
                 case 'signup': //SIGNUP ?>
-                    <script>jQuery(document).ready(function($) { try{  jQuery( "#cUs_tabs" ).tabs({ active: 1 })  }catch(err){console.log(err);} });</script><?php
+                    <script>jQuery(document).ready(function($) { try{  jQuery( "#cUs_tabs" ).tabs({ active: 0 })  }catch(err){console.log(err);} });</script><?php
+                    
                     $cusAPIresult = createCustomer($_POST);
                     $userStatus = 'inactive';
+                    
                     $cUs_email = $_POST['remail'];
                     if($cusAPIresult) :
                         $cUs_json = json_decode($cusAPIresult);
@@ -271,10 +266,26 @@ if (!function_exists('cUs_menu_render')) {
                             case 'success':
                                 $signupMessage = '<div id="message" class="updated fade">
                                                         <p>Welcome to ContactUs.com, and thank you for your registration.</p>
-                                                        <p>First we’ll need to activate your account. We have sent a verification email to <b>"' . $cUs_email . '"</b>. Please find the email, and click on the activation link in the email.  Then, come back to this page.</p>
-                                                        <p><a class="btn orange tologin" href="javascript:;">Continue >> </a></p>
-                                                  </div>';?>
-                                    <script>jQuery(document).ready(function($) { jQuery( "#cUs_registform" ).hide() });</script><?php
+                                                        <p>We have sent your temporary password to your email account <b>"' . $cUs_email . '"</b>. Please find the email, and feel free to login into your Contactus.com account.</p>
+                                                  </div>';
+                                   
+                                $_REQUEST['contactus_settings']['tab_user']  = 1;
+                                $_REQUEST['contactus_settings']['cus_version']  = 'tab';
+                                $_REQUEST['contactus_settings']['user_autoactive']  = 1;
+                                $_REQUEST['contactus_settings']['user_status']  = $userStatus;
+                                $_REQUEST['contactus_settings']['form_key']     = $cUs_json->form_key;
+                                $_REQUEST['contactus_settings']['login_email']     = $cUs_email;
+                                update_option( 'contactus_settings', $_REQUEST['contactus_settings'] );
+                                
+                                                            ?>
+                                    <script>jQuery(document).ready(function($) { 
+                                        jQuery( "#cUs_registform" ).hide() });
+                                        
+                                        setTimeout(function(){
+                                            location.href = 'admin.php?page=cUs_form_plugin';
+                                        },4000);
+                                        
+                                    </script><?php
                                 break;
 
                             case 'error':
@@ -357,30 +368,40 @@ if (!function_exists('cUs_menu_render')) {
             endswitch;
         elseif( is_array($options) ): //ALREADY LOGGED ?>
                     <script>jQuery(document).ready(function($) { try{  jQuery( "#cUs_tabs" ).tabs({ active: 1 })  }catch(err){console.log(err);} });</script><?php
+            
             $userCode   = $options['javascript_usercode'];
+            $userAutoactive   = $options['user_autoactive'];
             $boolTab    = $options['tab_user'];
             $cUs_email  = $options['login_email'];
             $cus_version= $options['cus_version'];
             $cUs_pass   = $options['user_pass'];
             $inline_page_id = $options['inline_page_id'];
+            
+            if($userAutoactive == 1) :
+                $userStatus = 'active';
+                $loginMessage = '<div id="message" class="updated fade"><p>You are already connected with your contactUs.com Account.</p></div>';
+            else:
+                $cusAPIresult = getFormKeyAPI($cUs_email, $cUs_pass);
 
-            $cusAPIresult = getFormKeyAPI($cUs_email, $cUs_pass);
+                $cUs_json = json_decode($cusAPIresult);
+                switch ( $cUs_json->status  ) :
 
-            $cUs_json = json_decode($cusAPIresult);
-            switch ( $cUs_json->status  ) :
+                    case 'success':
+                        $loginMessage = '<div id="message" class="updated fade"><p>You are already connected with your contactUs.com Account.</p></div>';
+                        $userStatus = 'active';
+                        break;
 
-                case 'success':
-                    $loginMessage = '<div id="message" class="updated fade"><p>You are already connected with your contactUs.com Account.</p></div>';
-                    $userStatus = 'active';
-                    break;
+                    case 'error': //USER NOT ACTIVE OR USER ERROR
+                        $loginMessage = '<div class="error"><p>Ouch! unfortunately there has being an error during the application: '.$cUs_json->error.'.<br/>If you have just signed up, please make sure to check your email and activate your account before trying this step again.<br/>If you have already done that and you are still getting this error, you can also  <a href="https://www.contactus.com/client-login.php" target="_blank">click here</a> and reset your password.!</p></div>';
+                        $userStatus = 'inactive';
+                        //delete_option( 'contactus_settings' );
+                        break;
 
-                case 'error': //USER NOT ACTIVE OR USER ERROR
-                    $loginMessage = '<div class="error"><p>Ouch! unfortunately there has being an error during the application: '.$cUs_json->error.'.<br/>If you have just signed up, please make sure to check your email and activate your account before trying this step again.<br/>If you have already done that and you are still getting this error, you can also  <a href="https://www.contactus.com/client-login.php" target="_blank">click here</a> and reset your password.!</p></div>';
-                    $userStatus = 'inactive';
-                    //delete_option( 'contactus_settings' );
-                    break;
+                endswitch;
+                
+            endif;
 
-            endswitch;
+            
             
             if( strlen($userCode)):
                 $settingsMessage = '<div class="error" ><p>Please, <a href="javascript:;" class="tologin">update</a> your user account to save your settings.</p></div>';
@@ -433,26 +454,13 @@ if (!function_exists('cUs_menu_render')) {
                                         <td><input type="text" class="inputform text" placeholder="Email" name="remail" id="remail" value="<?php echo (isset($_POST['remail']) && strlen($_POST['remail']))? $_POST['remail'] :$current_user->user_email; ?>"/></td>
                                     </tr>
                                     <tr>
-                                        <th><label class="labelform" for="website1">* Website</label></th>
-                                        <td><input type="text" class="inputform text" placeholder="Website (www.example.com)" name="website" id="website1" value="<?php echo (isset($_POST['website']) && strlen($_POST['website']))? $_POST['website'] :$_SERVER['HTTP_HOST']; ?>"/></td>
+                                        <th></th><td><input id="craccbtn" class="btn orange" value="Create my account" type="submit" /></td>
                                     </tr>
                                     <tr>
-                                        <th><label class="labelform" for="pass1">* Password</label></th>
-                                        <td><input type="password" class="inputform text" name="pass1" id="pass1"></td>
-                                    </tr>
-                                    <tr>
-                                        <th><label class="labelform" for="pass2">* Confirm Password</label></th>
-                                        <td><input type="password" class="inputform text" name="pass2" id="pass2"></td>
-                                    </tr>
-                                    <tr>
-                                        <th></th><td><input id="craccbtn" class="btn orange" value="Click Here" type="submit" /></td>
-                                    </tr>
-                                    <tr>
-                                        <th></th><td>By clicking <a href="https://www.contactus.com/terms-of-service.php" target="_blank">Click Here</a>, you agree to the ContactUs.com Terms of Service.</td>
+                                        <th></th><td>By clicking <a href="https://www.contactus.com/terms-of-service.php" target="_blank">Create my account</a>, you agree to the ContactUs.com Terms of Service.</td>
                                     </tr>
                                 </table>
                                 <input type="hidden" value="signup" name="option" />
-                                <input type="hidden" name="promo_code" id="promo_code" value="<?php echo (isset($_POST['promo_code']) && strlen($_POST['promo_code']))? $_POST['promo_code'] : '' ; ?>"/>
                             </form>
                             
                         </div>
@@ -472,11 +480,11 @@ if (!function_exists('cUs_menu_render')) {
                                     </tr>
                                     <tr>
                                         <th><label class="labelform" for="user_pass">Password</label></th>
-                                        <td><input class="inputform" name="contactus_settings[user_pass]" id="user_pass" type="password" value="<?php echo (strlen($cUs_pass)) ? 'XxxXxxXxxX' : ''; ?>"></td>
+                                        <td><input class="inputform" name="contactus_settings[user_pass]" id="user_pass" type="password" value="<?php echo (strlen($cUs_pass) || $userAutoactive == 1) ? 'XxxXxxXxxX' : ''; ?>"></td>
                                     </tr>
                                     <tr><th></th>
                                         <td>
-                                            <input id="loginbtn" class="btn orange" value="<?php echo ($userStatus == 'active') ? 'Disconnect' : 'Login'; ?>" type="submit">
+                                            <input id="loginbtn" class="btn orange" value="<?php echo ($userStatus == 'active') ? 'Unlink' : 'Login'; ?>" type="submit">
                                         </td>
                                     </tr>
                                     <tr>
@@ -773,15 +781,16 @@ if (!function_exists('cUs_menu_render')) {
                     </div>
                     
                 </div>
-
+                <div class="social_share">
+                    <span class='st_facebook_hcount' displayText='Facebook' st_url="http://wordpress.org/plugins/contactuscom/" st_title="ContactUs.com Contact Form Plugin" st_summary="Add beautiful, customizable, contact forms, used to generate new web customers by adding an advanced Contact Form, powered by ContactUs.com onto your WordPress website"  st_image="https://www.contactus.com/img/ContactUs-Logo.png"></span>
+                    <span class='st_fblike_hcount' displayText='Facebook Like' st_url="https://www.facebook.com/ContactUscom" st_title="ContactUs.com Contact Form Plugin" st_summary="Add beautiful, customizable, contact forms, used to generate new web customers by adding an advanced Contact Form, powered by ContactUs.com onto your WordPress website"  st_image="https://www.contactus.com/img/ContactUs-Logo.png"></span>
+                    <span class='st_twitter_hcount' displayText='Tweet' st_url="http://wordpress.org/plugins/contactuscom/" st_title="ContactUs.com offers contact form systems for websites to capture and manage inquiries." st_summary="Add beautiful, customizable, contact forms, used to generate new web customers by adding an advanced Contact Form, powered by ContactUs.com onto your WordPress website"></span>
+                </div>
         </div>
 
         <?php
     }
-
 }
-
-
 
 /*
  * GET CONTACTUS API RESPONSE
@@ -817,16 +826,18 @@ function createCustomer($postData){
     $ch = curl_init();
     
     $strCURLOPT  = 'https://api.contactus.com/api2.php';
+    //$strCURLOPT  = 'https://test.contactus.com/api2.php';
     $strCURLOPT .= '?API_Account=AC11111f363ae737fb7c60b75dfdcbb306';
     $strCURLOPT .= '&API_Key=1111165fc715b9857909c062fd5ad7e3';
     $strCURLOPT .= '&API_Action=createSignupCustomer';
     $strCURLOPT .= '&First_Name='.trim($postData['fname']);
     $strCURLOPT .= '&Last_Name='.trim($postData['lname']);
     $strCURLOPT .= '&Email='.sanitize_email(trim($postData['remail']));
-    $strCURLOPT .= '&Password='.trim($postData['pass1']);
-    $strCURLOPT .= '&Website='.esc_url(trim($postData['website']));
+    $strCURLOPT .= '&Website='.esc_url(trim($_SERVER['HTTP_HOST']));
+    $strCURLOPT .= '&Auto_Activate=1';
     $strCURLOPT .= '&Promotion_Code=WP';
-
+    $strCURLOPT .= '&Version=wp|2.5.1';
+    
     curl_setopt($ch, CURLOPT_URL, $strCURLOPT);
     curl_setopt($ch, CURLOPT_HEADER, 0);
     curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);

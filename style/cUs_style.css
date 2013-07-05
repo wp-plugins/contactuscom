@@ -3,7 +3,7 @@
     Plugin URI:  http://help.contactus.com/entries/23229688-Adding-the-ContactUs-com-Plugin-for-WordPress
     Description: ContactUs.com Plugin for Wordpress.
     Author: ContactUs.Com
-    Version: 2.5
+    Version: 2.5.1
     Author URI: http://contactus.com/
     License: GPLv2 or later
 */
@@ -16,6 +16,7 @@ div.plugin_wrap h2{font-family: 'Droid Sans',sans-serif;font-size:23px;}
 div.plugin_wrap #cUs_tabs h2{font-family: 'Droid Sans',sans-serif;font-size:18px;}
 div.plugin_wrap p.sub-title{font-family: 'Droid Sans',sans-serif;font-size:15px;color:#000;}
 div.plugin_wrap input[type='text'], textarea{width:620px;}
+div.social_share{width:350px;text-align:right;float: left;text-align: left;margin:10px 0px;}
 pre {white-space: pre-wrap;}
 .conf_message{padding: 1px 15px;background: #ffffcc;margin:10px 0px;width:400px; }
 .ui-tabs .ui-tabs-nav li:focus, .ui-tabs .ui-tabs-nav li a:focus { outline: 0 none; }

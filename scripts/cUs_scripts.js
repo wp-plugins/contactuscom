@@ -7,6 +7,8 @@ myjq(window).error(function(e){
 
 jQuery(document).ready(function($) {
     
+    try{stLight.options({publisher: "17dedc98-fb27-4eff-b226-33e5efed8d6f", doNotHash: false, doNotCopy: false, hashAddressBar: false});}catch(err){}
+    
     var myjq = jQuery.noConflict();
     
     var fname = $( "#fname" ),
@@ -110,8 +112,12 @@ jQuery(document).ready(function($) {
             $( "#cUs_tabs" ).tabs({ active: 0 });
             event.preventDefault();
         });
-        $(".tologin, .gotologin").click(function(event) {
+        $(".gotologin").click(function(event) {
             $( "#cUs_tabs" ).tabs({ active: 0 });
+            event.preventDefault();
+        });
+        $(".tologin").click(function(event) {
+            $( "#cUs_tabs" ).tabs({ active: 1 });
             event.preventDefault();
         });
         $('.gotoreg, .gotosettingsa').click(function(event) {
