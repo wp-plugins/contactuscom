@@ -1,12 +1,14 @@
-<?php /*
-        Plugin Name: ContactUs.com Contact Form Plugin
-        Version: 2.5.1
+<?php 
+    
+    /*
+        Plugin Name: Contact Form by ContactUs.com
+        Version: 2.5.2
         Plugin URI:  http://help.contactus.com/entries/23229688-Adding-the-ContactUs-com-Plugin-for-WordPress
-        Description: ContactUs.com Plugin for Wordpress.
+        Description: Contact Form by ContactUs.com Plugin for Wordpress.
         Author: ContactUs.Com
         Author URI: http://contactus.com/
         License: GPLv2 or later
-      */
+    */
 
     /*  
         Copyright 2013  ContactUs.com  ( email: support@contactuscom.zendesk.com )
@@ -30,14 +32,13 @@ if (!function_exists('cUs_admin_header')) {
         global $current_screen;
         if ($current_screen->id == 'toplevel_page_cUs_form_plugin') {
             
-            wp_deregister_script('jquery');
-            wp_deregister_script('jquery-tools');
-            wp_deregister_script('jquerytools');
-            wp_deregister_script('jquery-ui');
-            wp_deregister_script('fancybox');
+            wp_dequeue_script('jquery');
+            wp_dequeue_script('jquery-ui-core');
+            wp_dequeue_script('jquery-ui-accordion');
+            wp_dequeue_script('jquery-ui-tabs');
+            wp_dequeue_script('jquery-ui-button');
+            wp_dequeue_script('jquery-ui-selectable');
             
-            wp_register_script('jquery', 'https://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js', array(), '2.0.0', false);
-            wp_register_script('jquery-ui', plugins_url('scripts/jquery-ui.js', __FILE__), array(), '1.10.3', true);
             wp_register_script('fancybox', plugins_url('scripts/fancybox/jquery.fancybox.pack.js', __FILE__), array(), '2.0.0', true);
             wp_register_script('cUs_Scripts', plugins_url('scripts/cUs_scripts.js?pluginurl='.dirname(__FILE__), __FILE__), array(), '2.0.0', true);
             wp_register_script('sharethis', 'http://w.sharethis.com/button/buttons.js', array(), '1.0', true);
@@ -46,8 +47,12 @@ if (!function_exists('cUs_admin_header')) {
             wp_enqueue_style('fancybox', plugins_url('scripts/fancybox/jquery.fancybox.css', __FILE__), false, '1');
             wp_enqueue_style('start', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.1/themes/start/jquery-ui.min.css');
             
-            wp_enqueue_script('jquery');
-            wp_enqueue_script('jquery-ui');
+            wp_enqueue_script('jquery'); //JQUERY WP CORE
+            wp_enqueue_script('jquery-ui-core');
+            wp_enqueue_script('jquery-ui-accordion');
+            wp_enqueue_script('jquery-ui-tabs');
+            wp_enqueue_script('jquery-ui-button');
+            wp_enqueue_script('jquery-ui-selectable');
             wp_enqueue_script('fancybox');
             wp_enqueue_script('cUs_Scripts');
             wp_enqueue_script('sharethis');
@@ -62,7 +67,7 @@ add_action('admin_enqueue_scripts', 'cUs_admin_header'); // cUs_admin_header hoo
 if (!function_exists('cUs_admin_menu')) {
 
     function cUs_admin_menu() {
-        add_menu_page('ContactUs.com Form Plugin', 'Contact Form', 'edit_themes', 'cUs_form_plugin', 'cUs_menu_render', plugins_url("style/images/Icon-Small_16.png", __FILE__), 101);
+        add_menu_page('Contact Form by ContactUs.com ', 'Contact Form', 'edit_themes', 'cUs_form_plugin', 'cUs_menu_render', plugins_url("style/images/Icon-Small_16.png", __FILE__), 101);
     }
 
 }
