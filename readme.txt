@@ -155,7 +155,7 @@ Here's a look at how simple it is to customize your form:
 * *Launch date 12.07.2013*
 
 = 2.5.1 =
-* ***NEW : One-step activation process.***
+* NEW : One-step activation process.
 * Simplified: Signup process so that initial password is auto-generated
 * Removed: Requirement for separate activation via email
 * Bug Fix: Our Button Tab javascript file is located before the body tag, the right way.
