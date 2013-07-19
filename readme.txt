@@ -1,9 +1,9 @@
 === Contact Form by ContactUs.com ===
-Contributors: ContactUs.Com
+Contributors: contactus.com
 Stable tag: 2.5.2
 Requires at least: 3.4.2
 Tested up to: 3.5.2
-Donate link: http://www.contactus.com
+Donate link:
 Tags: ContactUs.com Form, contact form, contact form plugin, contact us form, contact us button, contact us button tab, contact, contacts, feedback, form, contact tab, contact us
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html

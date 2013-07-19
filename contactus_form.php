@@ -1,30 +1,30 @@
 <?php 
     
-    /*
-        Plugin Name: Contact Form by ContactUs.com
-        Version: 2.5.2
-        Plugin URI:  http://help.contactus.com/entries/23229688-Adding-the-ContactUs-com-Plugin-for-WordPress
-        Description: Contact Form by ContactUs.com Plugin for Wordpress.
-        Author: ContactUs.Com
-        Author URI: http://contactus.com/
-        License: GPLv2 or later
-    */
+/*
+    Plugin Name: Contact Form by ContactUs.com
+    Version: 2.5.2
+    Plugin URI:  http://help.contactus.com/entries/23229688-Adding-the-ContactUs-com-Plugin-for-WordPress
+    Description: Contact Form by ContactUs.com Plugin for Wordpress.
+    Author: contactus.com
+    Author URI: http://contactus.com/
+    License: GPLv2 or later
+*/
 
-    /*  
-        Copyright 2013  ContactUs.com  ( email: support@contactuscom.zendesk.com )
-        This program is free software; you can redistribute it and/or modify
-        it under the terms of the GNU General Public License, version 2, as
-        published by the Free Software Foundation.
+/*  
+    Copyright 2013  ContactUs.com  ( email: support@contactuscom.zendesk.com )
+    This program is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License, version 2, as
+    published by the Free Software Foundation.
 
-        This program is distributed in the hope that it will be useful,
-        but WITHOUT ANY WARRANTY; without even the implied warranty of
-        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-        GNU General Public License for more details.
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
 
-        You should have received a copy of the GNU General Public License
-        along with this program; if not, write to the Free Software
-        Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-   */
+    You should have received a copy of the GNU General Public License
+    along with this program; if not, write to the Free Software
+    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+*/
 
 if (!function_exists('cUs_admin_header')) {
 
