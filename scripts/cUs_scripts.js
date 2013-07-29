@@ -149,17 +149,17 @@ jQuery(document).ready(function($) {
         });
        
     }catch(err){
-        //console.log('Please upadate you WP version.')
-    }
-    
-    
-    try{
-        $( '.examples_gallery, .ui-state-default, .page_title' ).tooltip({
-           track: true
-        }); 
-    }catch(err){
         console.log('Please upadate you WP version.')
     }
+    
+    
+//    try{
+//        $( '.examples_gallery, .ui-state-default, .page_title' ).tooltip({
+//           track: true
+//        }); 
+//    }catch(err){
+//        console.log('Please upadate you WP version.')
+//    }
     
     
     $('.form_version').change(function(){
