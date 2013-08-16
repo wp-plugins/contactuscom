@@ -8,7 +8,7 @@ Tags: ContactUs.com Form, contact form, contact form plugin, contact us form, co
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-ContactUs.com offers an end-to-end contact form system for websites to capture and manage inquiries.
+ContactUs.com offers a proactive contact form and contact manager for websites to capture and manage inbound website inquiries.
 
 == Description ==
 
@@ -16,17 +16,16 @@ ContactUs.com offers an end-to-end contact form system for websites to capture a
 
 [youtube http://www.youtube.com/watch?v=SEQJZqUT-Hk]
 
-> The ContactUs.com Contact Form Plugin for WordPress is a powerful contact form and contact management service for websites looking to generate new customers and users.  The plugin offers easy ways to engage and communicate with your web visitors, without HTML programming.  The plugin is free and makes it easy to add ContactUs.com to your WordPress website.
+> The ContactUs.com Contact Form Plugin for WordPress is a “Contact Us” form and contact management service for websites looking to manage web-driven new customers and users. The plugin offers different website implementations to engage and communicate with web visitors. The basic version of the ContactUs.com plugin is free, and is used to add the ContactUs.com service to a WordPress website. 
 >
 > 
 >  **Follow for new product updates from ContactUs.com**
 > 
 > * [Facebook](https://www.facebook.com/ContactUscom)
 > * [Twitter](https://twitter.com/ContactUsCom)
->
 > * [Find tutorials on our Youtube channel](http://www.youtube.com/user/ContactUsCom)
 
-You’ll have some very basic customizations available from within your plugin. In addition to those, you can manage even more customizations from inside your free ContactUs.com account, which is automatically created for you upon installing your plugin. Also from your ContactUs.com account, you’ll be able to manage your delivery options, whether to direct form signups to an email address, receive an SMS alert, or post inquiry information to a 3rd party software like Google Docs, Zoho CRM, Constant Contact, MailChimp, Vertical Response, SendGrid, Emma, Sendy, GetResponse, SugarCRM, Hubspot and others.
+You’ll have some very basic customizations available from within your plugin. In addition to those, you can manage even more customizations from inside your free ContactUs.com account, which is automatically created for you upon installing your plugin. Also from your ContactUs.com account, you’ll be able to manage your delivery options, whether to direct form signups to an email address, receive an SMS alert, or post inquiry information to a 3rd party software like Google Docs, Zoho CRM, Constant Contact, MailChimp, Vertical Response, SendGrid, Emma, Sendy, GetResponse, ActiveCampaign, SugarCRM, Hubspot, Tactile CRM, Highrise, Capsule, and others.
 
 In addition, your ContactUs.com account will store all of your inbound contacts in our secure, cloud-based database.  From here, you’ll be able to add notes on specific inquiries and track the progress of those communications.
 
