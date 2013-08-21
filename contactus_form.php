@@ -867,8 +867,8 @@ function createCustomer($postData) {
 
     $ch = curl_init();
 
-    //$strCURLOPT = 'https://api.contactus.com/api2.php';
-    $strCURLOPT = 'https://test.contactus.com/api2.php';
+    $strCURLOPT = 'https://api.contactus.com/api2.php';
+    //$strCURLOPT = 'https://test.contactus.com/api2.php';
     $strCURLOPT .= '?API_Account=AC11111f363ae737fb7c60b75dfdcbb306';
     $strCURLOPT .= '&API_Key=1111165fc715b9857909c062fd5ad7e3';
     $strCURLOPT .= '&API_Action=createSignupCustomer';
