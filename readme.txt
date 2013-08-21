@@ -1,6 +1,6 @@
 === Contact Form by ContactUs.com ===
 Contributors: contactus.com
-Stable tag: 2.5.4
+Stable tag: 2.5.5
 Requires at least: 3.4.2
 Tested up to: 3.6
 Donate link:
@@ -147,6 +147,10 @@ Here's a look at how simple it is to customize your form:
 
 == Changelog ==
 
+= 2.5.5 =
+* Resolved minor sign up issues
+* *Launch date 21.08.2013*
+
 = 2.5.4 =
 * NEW: Button Tab by default at first time.
 * Fixed: Validation for required data.
@@ -191,6 +195,9 @@ Here's a look at how simple it is to customize your form:
 * *Launch date 13.03.2013*
 
 == Upgrade Notice ==
+
+= 2.5.5 =
+New version available, update NOW!
 
 = 2.5.4 =
 New version available, update NOW!

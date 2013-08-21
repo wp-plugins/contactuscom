@@ -1,7 +1,7 @@
 <?php
 /*
   Plugin Name: Contact Form by ContactUs.com
-  Version: 2.5.4
+  Version: 2.5.5
   Plugin URI:  http://help.contactus.com/entries/23229688-Adding-the-ContactUs-com-Plugin-for-WordPress
   Description: Contact Form by ContactUs.com Plugin for Wordpress.
   Author: contactus.com
@@ -868,7 +868,6 @@ function createCustomer($postData) {
     $ch = curl_init();
 
     $strCURLOPT = 'https://api.contactus.com/api2.php';
-    //$strCURLOPT = 'https://test.contactus.com/api2.php';
     $strCURLOPT .= '?API_Account=AC11111f363ae737fb7c60b75dfdcbb306';
     $strCURLOPT .= '&API_Key=1111165fc715b9857909c062fd5ad7e3';
     $strCURLOPT .= '&API_Action=createSignupCustomer';
@@ -879,9 +878,7 @@ function createCustomer($postData) {
     $strCURLOPT .= '&IP_Address='.getIP();
     $strCURLOPT .= '&Auto_Activate=1';
     $strCURLOPT .= '&Promotion_Code=WP';
-    $strCURLOPT .= '&Version=wp|2.5.4';
-    
-    //echo $strCURLOPT;
+    $strCURLOPT .= '&Version=wp|2.5.5';
 
     curl_setopt($ch, CURLOPT_URL, $strCURLOPT);
     curl_setopt($ch, CURLOPT_HEADER, 0);
