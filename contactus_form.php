@@ -1,7 +1,7 @@
 <?php
 /*
   Plugin Name: Contact Form by ContactUs.com
-  Version: 2.5.3
+  Version: 2.5.4
   Plugin URI:  http://help.contactus.com/entries/23229688-Adding-the-ContactUs-com-Plugin-for-WordPress
   Description: Contact Form by ContactUs.com Plugin for Wordpress.
   Author: contactus.com
@@ -209,7 +209,7 @@ if (!function_exists('cUs_menu_render')) {
                         switch ($cUs_json->status) :
 
                             case 'success':
-                                $loginMessage = '<div id="message" class="updated fade"><p>You have successfully logged in.</p></div>';
+                                $loginMessage = '<div id="message" class="settingsMessage"><p>You have successfully logged in.</p></div>';
                                 $userStatus = 'active';
                                 $_REQUEST['contactus_settings']['tab_user'] = 1;
                                 $_REQUEST['contactus_settings']['cus_version'] = 'tab';
@@ -249,55 +249,78 @@ if (!function_exists('cUs_menu_render')) {
                 case 'signup': //SIGNUP 
                     ?>
                     <script>jQuery(document).ready(function($) { try{  jQuery( "#cUs_tabs" ).tabs({ active: 0 })  }catch(err){console.log(err);} });</script><?php
-                    $cusAPIresult = createCustomer($_POST);
+                    
                     $userStatus = 'inactive';
-
-                    $cUs_email = $_POST['remail'];
-                    if ($cusAPIresult) :
-                        $cUs_json = json_decode($cusAPIresult);
-
-                        switch ($cUs_json->status) :
-
-                            case 'success':
-                                $signupMessage = '<div id="message" class="updated fade">
-                                                        <p>Welcome to ContactUs.com, and thank you for your registration.</p>
-                                                        <p>We have sent your temporary password to your email account <b>"' . $cUs_email . '"</b>. Please find the email, and feel free to login into your Contactus.com account.</p>
-                                                  </div>';
-
-                                $_REQUEST['contactus_settings']['tab_user'] = 1;
-                                $_REQUEST['contactus_settings']['cus_version'] = 'tab';
-                                $_REQUEST['contactus_settings']['user_autoactive'] = 1;
-                                $_REQUEST['contactus_settings']['user_status'] = $userStatus;
-                                $_REQUEST['contactus_settings']['form_key'] = $cUs_json->form_key;
-                                $_REQUEST['contactus_settings']['login_email'] = $cUs_email;
-                                update_option('contactus_settings', $_REQUEST['contactus_settings']);
-                                ?>
-                                <script>jQuery(document).ready(function($) { 
-                                    jQuery( "#cUs_registform" ).hide() });
-                                                                                                                                        
-                                setTimeout(function(){
-                                    location.href = 'admin.php?page=cUs_form_plugin';
-                                },4000);
-                                                                                                                                        
-                                </script><?php
-                                break;
-
-                            case 'error':
-                                $signupMessage = '<div class="error"><p>Ouch! unfortunately there has being an error during the application: <b>"' . $cUs_json->error[0] . '"</b>. Please try again!</a></p></div>';
-                                break;
-
-                        endswitch;
+                    
+                    if( !strlen($_POST[fname]) ): 
+                        $signupMessage = '<div class="settingsErrorMessage"><p>Missing First Name, is a required field!</p></div>';?>
+                        <script>jQuery(document).ready(function($) { jQuery( "#fname" ).focus() });</script><?php
+                    elseif  ( !strlen($_POST[lname]) ):
+                        $signupMessage = '<div class="settingsErrorMessage"><p>Missing Last Name, is a required field!</p></div>';?>
+                        <script>jQuery(document).ready(function($) { jQuery( "#lname" ).focus() });</script><?php
+                    elseif  ( !strlen($_POST[remail]) ):
+                        $signupMessage = '<div class="settingsErrorMessage"><p>Missing Email, is a required field!</p></div>';?>
+                        <script>jQuery(document).ready(function($) { jQuery( "#remail" ).focus() });</script><?php
+                    elseif  ( !strlen($_POST[website1]) ):
+                        $signupMessage = '<div class="settingsErrorMessage"><p>Missing Website, a is required field!</p></div>';?>
+                        <script>jQuery(document).ready(function($) { jQuery( "#website1" ).focus() });</script><?php
                     else:
-                        $signupMessage = '<div class="error"><p>Ouch! unfortunately there has being an error during the application: <b>"Connection Refused"</b>. Please try again!</a></p></div>';
-                    endif;
-                    break;
+                    
+                        $cusAPIresult = createCustomer($_POST);
+                        
+                        $userStatus = 'inactive';
+
+                        $cUs_email = $_POST['remail'];
+                        
+                        if ($cusAPIresult) :
+                            $cUs_json = json_decode($cusAPIresult);
+
+                            switch ($cUs_json->status) :
+
+                                case 'success':
+                                    $signupMessage = '<div id="message" class="settingsMessage">
+                                                            <p>Welcome to ContactUs.com, and thank you for your registration.</p>
+                                                            <p>We have sent your temporary password to your email account <b>"' . $cUs_email . '"</b>. Please find the email, and feel free to login into your Contactus.com account.</p>
+                                                      </div>';
+
+                                    $_REQUEST['contactus_settings']['tab_user'] = 1;
+                                    $_REQUEST['contactus_settings']['cus_version'] = 'tab';
+                                    $_REQUEST['contactus_settings']['user_autoactive'] = 1;
+                                    $_REQUEST['contactus_settings']['user_status'] = $userStatus;
+                                    $_REQUEST['contactus_settings']['form_key'] = $cUs_json->form_key;
+                                    $_REQUEST['contactus_settings']['login_email'] = $cUs_email;
+                                    update_option('contactus_settings', $_REQUEST['contactus_settings']);
+                                    ?>
+                                    <script>jQuery(document).ready(function($) { 
+                                        jQuery( "#cUs_registform" ).hide() });
+
+                                    setTimeout(function(){
+                                        location.href = 'admin.php?page=cUs_form_plugin';
+                                    },4000);
+
+                                    </script><?php
+                                    break;
+
+                                case 'error':
+                                    $signupMessage = '<div class="error"><p>Ouch! unfortunately there has being an error during the application: <b>"' . $cUs_json->error[0] . '"</b>. Please try again!</a></p></div>';
+                                    break;
+
+                            endswitch;
+                        else:
+                            $signupMessage = '<div class="error"><p>Ouch! unfortunately there has being an error during the application: <b>"Connection Refused"</b>. Please try again!</a></p></div>';
+                        endif;
+                        
+                        
+                    endif;//validation
+                    
+                break;
 
                 case 'settings': //SAVING FORM SETTINGS TAB - INLINE - SELECTION 
                     ?>
                     <script>jQuery(document).ready(function($) { try{  jQuery( "#cUs_tabs" ).tabs({ active: 1 })  }catch(err){console.log(err);} });</script><?php
                     if (is_array($options)): //ALREADY LOGGED
-                        $loginMessage = '<div id="message" class="updated fade"><p>You are already connected with your contactUs.com Account.</p></div>';
-                        $settingsMessage = '<div id="message" class="updated fade"><p>Done! Your configuration has been saved correctly.</p></div>';
+                        $loginMessage = '<div id="message" class="settingsMessage"><p>You are already connected with your contactUs.com Account.</p></div>';
+                        $settingsMessage = '<div id="message" class="settingsMessage"><p>Done! Your configuration has been saved correctly.</p></div>';
                         $userStatus = 'active';
                         $inline_req_page_id = $_REQUEST['inline_page_id'];
 
@@ -373,7 +396,7 @@ if (!function_exists('cUs_menu_render')) {
 
             if ($userAutoactive == 1) :
                 $userStatus = 'active';
-                $loginMessage = '<div id="message" class="updated fade"><p>You are already connected with your contactUs.com Account.</p></div>';
+                $loginMessage = '<div id="message" class="settingsMessage"><p>You are already connected with your contactUs.com Account.</p></div>';
             else:
                 $cusAPIresult = getFormKeyAPI($cUs_email, $cUs_pass);
 
@@ -381,7 +404,7 @@ if (!function_exists('cUs_menu_render')) {
                 switch ($cUs_json->status) :
 
                     case 'success':
-                        $loginMessage = '<div id="message" class="updated fade"><p>You are already connected with your contactUs.com Account.</p></div>';
+                        $loginMessage = '<div id="message" class="settingsMessage"><p>You are already connected with your contactUs.com Account.</p></div>';
                         $userStatus = 'active';
                         break;
 
@@ -454,6 +477,10 @@ if (!function_exists('cUs_menu_render')) {
                                             <td><input type="text" class="inputform text" placeholder="Email" name="remail" id="remail" value="<?php echo (isset($_POST['remail']) && strlen($_POST['remail'])) ? $_POST['remail'] : $current_user->user_email; ?>"/></td>
                                         </tr>
                                         <tr>
+                                            <th><label class="labelform" for="website1">* Website</label></th>
+                                            <td><input type="text" class="inputform text" placeholder="Website (www.example.com)" name="website1" id="website1" value="<?php echo (isset($_POST['website']) && strlen($_POST['website']))? $_POST['website'] :$_SERVER['HTTP_HOST']; ?>"/></td>
+                                        </tr>
+                                        <tr>
                                             <th></th><td><input id="craccbtn" class="btn orange" value="Create my account" type="submit" /></td>
                                         </tr>
                                         <tr>
@@ -501,7 +528,7 @@ if (!function_exists('cUs_menu_render')) {
                             </form>
                         </div>
                     </div>
-
+                    <?php if ($userStatus == 'active'): ?>
                     <div id="tabs-3">
                         <div id="cUsMC_mcsettings">
                             <h2>Form Settings</h2>
@@ -703,6 +730,8 @@ if (!function_exists('cUs_menu_render')) {
 
                         </div>
                     </div>
+                    
+                    <?php endif; ?>
 
                     <div id="tabs-4">
                         <div id="cUsMC_mcsettings">
@@ -838,18 +867,21 @@ function createCustomer($postData) {
 
     $ch = curl_init();
 
-    $strCURLOPT = 'https://api.contactus.com/api2.php';
+    //$strCURLOPT = 'https://api.contactus.com/api2.php';
+    $strCURLOPT = 'https://test.contactus.com/api2.php';
     $strCURLOPT .= '?API_Account=AC11111f363ae737fb7c60b75dfdcbb306';
     $strCURLOPT .= '&API_Key=1111165fc715b9857909c062fd5ad7e3';
     $strCURLOPT .= '&API_Action=createSignupCustomer';
-    $strCURLOPT .= '&First_Name=' . trim( sanitize_file_name($postData['fname']) );
-    $strCURLOPT .= '&Last_Name=' . trim( sanitize_file_name( $postData['lname']) );
-    $strCURLOPT .= '&Email=' . sanitize_email(trim($postData['remail']));
-    $strCURLOPT .= '&Website=' . esc_url(trim($_SERVER['HTTP_HOST']));
+    $strCURLOPT .= '&First_Name=' . trim( $postData['fname'] );
+    $strCURLOPT .= '&Last_Name=' . trim( $postData['lname'] ) ;
+    $strCURLOPT .= '&Email=' . trim($postData['remail']);
+    $strCURLOPT .= '&Website=' . esc_url(trim($postData[website1]));
     $strCURLOPT .= '&IP_Address='.getIP();
     $strCURLOPT .= '&Auto_Activate=1';
     $strCURLOPT .= '&Promotion_Code=WP';
     $strCURLOPT .= '&Version=wp|2.5.3';
+    
+    //echo $strCURLOPT;
 
     curl_setopt($ch, CURLOPT_URL, $strCURLOPT);
     curl_setopt($ch, CURLOPT_HEADER, 0);
@@ -911,6 +943,12 @@ function getIP() {
             // Proxy IP
             $IP = $SimpleIP;
     };
+
+    if(!strlen($IP) || $IP == '127.0.0.1'):
+        $externalContent = file_get_contents('http://checkip.dyndns.com/');
+        preg_match('/Current IP Address: ([\[\]:.[0-9a-fA-F]+)</', $externalContent, $m);
+        $IP = $m[1];
+    endif;
 
     return $IP;
 }

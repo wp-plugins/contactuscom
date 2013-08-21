@@ -110,7 +110,21 @@ div.plugin_wrap .btn.green:hover{
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#7cbc0a', endColorstr='#9dd53a',GradientType=0 ); /* IE6-9 */
 }
 
-
+div.settingsMessage {
+    background-color: #FFFFE0;
+    border: 1px solid #E6DB55 !important;
+    border-radius: 5px;
+    margin: 5px 15px 2px;
+    padding: 0.6em;
+}
+div.settingsErrorMessage {
+    background-color: #ef2b2b;
+    border:1px solid #a63939 !important;
+    border-radius: 5px;
+    margin: 5px 15px 2px;
+    padding: 0.3em;
+    color: #fff;
+}
 
 div.plugin_wrap input[type='text'], textarea{width:620px;}
 div.plugin_wrap input.small{width:220px;}

@@ -1,8 +1,8 @@
 === Contact Form by ContactUs.com ===
 Contributors: contactus.com
-Stable tag: 2.5.3
+Stable tag: 2.5.4
 Requires at least: 3.4.2
-Tested up to: 3.5.2
+Tested up to: 3.6
 Donate link:
 Tags: ContactUs.com Form, contact form, contact form plugin, contact us form, contact us button, contact us button tab, contact, contacts, feedback, form, contact tab, contact us
 License: GPLv2 or later
@@ -147,6 +147,11 @@ Here's a look at how simple it is to customize your form:
 
 == Changelog ==
 
+= 2.5.4 =
+* NEW: Button Tab by default at first time.
+* Fixed: Validation for required data.
+* *Launch date 21.08.2013*
+
 = 2.5.3 =
 * ***NEW : Plugin Look and Feel.***
 * Bug Fix: Minor url encode issues on sign up.
@@ -186,6 +191,9 @@ Here's a look at how simple it is to customize your form:
 * *Launch date 13.03.2013*
 
 == Upgrade Notice ==
+
+= 2.5.4 =
+New version available, update NOW!
 
 = 2.5.3 =
 New version available, update NOW!
