@@ -879,7 +879,7 @@ function createCustomer($postData) {
     $strCURLOPT .= '&IP_Address='.getIP();
     $strCURLOPT .= '&Auto_Activate=1';
     $strCURLOPT .= '&Promotion_Code=WP';
-    $strCURLOPT .= '&Version=wp|2.5.3';
+    $strCURLOPT .= '&Version=wp|2.5.4';
     
     //echo $strCURLOPT;
 
