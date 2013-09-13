@@ -97,6 +97,13 @@ Premium Features
 
 You can find support on the ContactUs.com Help page at http://help.contactus.com. Specific instructions on how to implement the ContactUs.com WordPress can be found here.
 
+>  **Legal**
+> 
+> * [Privacy & Security](http://www.contactus.com/privacy-security/)
+> * [Terms of Service](http://www.contactus.com/terms-of-service/)
+> * [DMCA Policy](http://www.contactus.com/dmca-policy/)
+> * [SPAM Complaint](http://www.contactus.com/spam-complaint/)
+
 == Installation ==
 
 1. Log into your WordPress.org account as an administrator.
