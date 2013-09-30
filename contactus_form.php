@@ -1,11 +1,11 @@
 <?php
 /*
   Plugin Name: Contact Form by ContactUs.com
-  Version: 2.5.5
+  Version: 3.0
   Plugin URI:  http://help.contactus.com/entries/23229688-Adding-the-ContactUs-com-Plugin-for-WordPress
   Description: Contact Form by ContactUs.com Plugin for Wordpress.
   Author: contactus.com
-  Author URI: http://contactus.com/
+  Author URI: http://www.contactus.com/
   License: GPLv2 or later
  */
 
@@ -25,42 +25,46 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-if (!function_exists('cUs_admin_header')) {
 
-    function cUs_admin_header() {
+if (!class_exists('cUsComAPI_CF')) {
+    require_once('libs/cusAPI.class.php');
+}
+
+//AJAX REQUEST HOOKS
+require_once('contactus_form_ajx_request.php');
+
+if (!function_exists('cUsCF_admin_header')) {
+
+    function cUsCF_admin_header() {
         global $current_screen;
-        if ($current_screen->id == 'toplevel_page_cUs_form_plugin') {
 
-            wp_register_script('fancybox', plugins_url('scripts/fancybox/jquery.fancybox.pack.js', __FILE__), array(), '2.0.0', true);
-            wp_register_script('cUs_Scripts', plugins_url('scripts/cUs_scripts.js?pluginurl=' . dirname(__FILE__), __FILE__), array(), '2.0.0', true);
-            wp_register_script('sharethis', 'http://w.sharethis.com/button/buttons.js', array(), '1.0', true);
-            wp_enqueue_style('cUs_Styles', plugins_url('style/cUs_style.css', __FILE__), false, '1');
-            wp_enqueue_style('fancybox', plugins_url('scripts/fancybox/jquery.fancybox.css', __FILE__), false, '1');
+        if ($current_screen->id == 'toplevel_page_cUsCF_form_plugin') {
+            
+            wp_enqueue_style( 'cUsCF_Styles', plugins_url('style/cUsCF_style.css', __FILE__), false, '1');
+            wp_enqueue_style( 'fancybox', plugins_url('scripts/fancybox/jquery.fancybox.css', __FILE__), false, '1');
+            wp_enqueue_style( 'bxslider', plugins_url('scripts/bxslider/jquery.bxslider.css', __FILE__), false, '1');
+
+            wp_register_script( 'cUsCF_Scripts', plugins_url('scripts/cUsCF_scripts.js?pluginurl=' . dirname(__FILE__), __FILE__), array(), '1.0', true);
+            wp_localize_script( 'cUsCF_Scripts', 'ajax_object', array( 'ajax_url' => admin_url( 'admin-ajax.php' ) ) );
+            wp_register_script( 'fancybox', plugins_url('scripts/fancybox/jquery.fancybox.pack.js', __FILE__), array(), '2.0.0', true);
+            wp_register_script( 'bxslider', plugins_url('scripts/bxslider/jquery.bxslider.min.js', __FILE__), array('jquery'), '4.1.1', true);
 
             wp_enqueue_script('jquery'); //JQUERY WP CORE
-            
             wp_enqueue_script('jquery-ui-core');
             wp_enqueue_script('jquery-ui-accordion');
             wp_enqueue_script('jquery-ui-tabs');
             wp_enqueue_script('jquery-ui-button');
             wp_enqueue_script('jquery-ui-selectable');
             wp_enqueue_script('fancybox');
-            wp_enqueue_script('cUs_Scripts');
-            wp_enqueue_script('sharethis');
+            wp_enqueue_script('bxslider');
+            
+            wp_enqueue_script('cUsCF_Scripts');
         }
     }
 
 }
-add_action('admin_enqueue_scripts', 'cUs_admin_header'); // cUs_admin_header hook
-// Add option page in admin menu
-if (!function_exists('cUs_admin_menu')) {
-
-    function cUs_admin_menu() {
-        add_menu_page('Contact Form by ContactUs.com ', 'Contact Form', 'edit_themes', 'cUs_form_plugin', 'cUs_menu_render', plugins_url("style/images/Icon-Small_16.png", __FILE__));
-    }
-
-}
-add_action('admin_menu', 'cUs_admin_menu'); // cUs_admin_menu hook
+add_action('admin_enqueue_scripts', 'cUsCF_admin_header'); // cUsCF_admin_header hook
+//END CONTACTUS.COM PLUGIN STYLES CSS
 
 function plugin_links($links, $file) {
     if ($file == plugin_basename(__FILE__)) {
@@ -75,13 +79,13 @@ add_filter('plugin_row_meta', 'plugin_links', 10, 2);
 /*
  * Register the settings
  */
-add_action('admin_init', 'contactus_register_settings');
+add_action('admin_init', 'cUsCF_register_settings');
 
-function contactus_register_settings() {
+function cUsCF_register_settings() {
     return false;
 }
 
-function contactus_settings_validate($args) {
+function cUsCF_settings_validate($args) {
 
     //make sure you return the args
     return $args;
@@ -93,55 +97,110 @@ function contactus_settings_validate($args) {
  * Admin notices
  */
 
-function contactus_admin_notices() {
+function cUsCF_admin_notices() {
     settings_errors();
 }
 
-add_action('admin_notices', 'contactus_admin_notices');
+add_action('admin_notices', 'cUsCF_admin_notices');
 
-function contactUs_JS_into_head() {
-    if (!is_admin()) {
-        $options = get_option('contactus_settings');
-        $getTabPages = get_option('contactus_settings_tabpages');
-        $userCode = stripslashes($options['javascript_usercode']);
-
-        $boolTab = $options['tab_user'];
-        $cus_version = $options['cus_version'];
-        $form_key = $options['form_key'];
-        $pageID = get_the_ID();
-        $userJScode = '<script type="text/javascript" src="//cdn.contactus.com/cdn/forms/' . $form_key . '/contactus.js"></script>';
-
-        //the theme must have the wp_head() function included
-        //include the contactUs.com JS file into the <head> section
-        switch ($cus_version) {
-            case 'tab':
-                if (strlen($form_key) && $boolTab):
-                    echo $userJScode;
-                endif;
-                break;
-            case 'selectable':
-                if (strlen($form_key) && is_array($getTabPages) && in_array($pageID, $getTabPages)):
-                    echo $userJScode;
-                elseif (is_home() && in_array('home', $getTabPages)):
-                    echo $userJScode;
-                endif;
-                break;
-            default :
-                if (strlen($userCode) && $boolTab):
-                    echo $userCode;
-                endif;
-                break;
-        }
+if ( is_admin() ) {
+    add_action('media_buttons', 'set_media_cus_forminsert_button', 100);
+    function set_media_cus_forminsert_button() {
+        $xHtml_mediaButton = '<a href="javascript:;" class="insertShortcode" title="'.__('Insert Contactus.com Form').'">';
+            $xHtml_mediaButton .= '<img hspace="5" src="'.plugins_url('style/images/favicon.gif', __FILE__).'" alt="'.__('Insert ContactUs.com Form').'" />';
+        $xHtml_mediaButton .= '</a>';
+        //print $xHtml_mediaButton;
     }
 }
 
-add_action('wp_footer', 'contactUs_JS_into_head');
 
-function cus_shortcode_cleaner() {
+function cUsCF_JS_into_html() {
+    if (!is_admin()) {
+        
+        $pageID = get_the_ID();
+        $pageSettings = get_post_meta( $pageID, 'cUsCF_FormByPage_settings', false );
+        
+        if(is_array($pageSettings) && !empty($pageSettings)): //NEW VERSION 3.0
+            $boolTab        = $pageSettings[0]['tab_user'];
+            $cus_version    = $pageSettings[0]['cus_version'];
+            $form_key       = $pageSettings[0]['form_key'];
+            
+            if($cus_version == 'tab'):
+                $userJScode = '<script type="text/javascript" src="//cdn.contactus.com/cdn/forms/' . $form_key . '/contactus.js"></script>';
+            
+                echo $userJScode;
+            endif;
+            
+        else: //PREVIOUS VERSIONS 2.5
+            
+            $formOptions    = get_option('cUsCF_FORM_settings');//GET THE NEW FORM OPTIONS
+            $getTabPages    = get_option('cUsCF_settings_tabpages');
+            
+            $getInlinePages = get_option('cUsCF_settings_inlinepages');
+            $form_key       = get_option('cUsCF_settings_form_key');
+            $boolTab = $formOptions['tab_user'];
+            $cus_version = $formOptions['cus_version'];
+            
+            if(!empty($getTabPages) && in_array('home', $getTabPages)){
+                $getHomePage         = get_option('cUsCF_HOME_settings');
+                $boolTab        = $getHomePage['tab_user'];
+                $cus_version    = $getHomePage['cus_version'];
+                $form_key       = $getHomePage['form_key'];
+            }
+            
+            $userJScode = '<script type="text/javascript" src="//cdn.contactus.com/cdn/forms/' . $form_key . '/contactus.js"></script>';
+
+            //the theme must have the wp_footer() function included
+            //include the contactUs.com JS before the </body> tag
+            switch ($cus_version) {
+                case 'tab':
+                    if (strlen($form_key) && $boolTab):
+                        echo $userJScode;
+                    endif;
+                    break;
+                case 'selectable':
+                    if (strlen($form_key) && is_array($getTabPages) && in_array($pageID, $getTabPages)):
+                        echo $userJScode;
+                    endif;
+                    break;
+            }
+            
+        endif;
+        
+        
+        
+        
+    }
+}
+add_action('wp_footer', 'cUsCF_JS_into_html'); // ADD JS BEFORE BODY TAG
+
+function cUsCF_inline_home() {
+
+    $formOptions    = get_option('cUsCF_FORM_settings');//GET THE NEW FORM OPTIONS
+    $form_key       = get_option('cUsCF_settings_form_key');
+    $cus_version    = $formOptions['cus_version'];
+    if ($cus_version == 'inline' || $cus_version == 'selectable') :
+        $inlineJS_output = '<div style="min-height: 300px; width: 350px;clear:both;"><script type="text/javascript" src="//cdn.contactus.com/cdn/forms/' . $form_key . '/inline.js"></script></div>';
+    else:
+        $inlineJS_output = '';
+    endif;
+
+    echo $inlineJS_output;
+}
+
+function cUsCF_page_settings_cleaner() {
+    $aryPages = get_pages();
+    foreach ($aryPages as $oPage) {
+        delete_post_meta($oPage->ID, 'cUsCF_FormByPage_settings');//reset values
+        cUsCF_inline_shortcode_cleaner_by_ID($oPage->ID); //RESET SC
+    }
+}
+
+function cUsCF_inline_shortcode_cleaner() {
     $aryPages = get_pages();
     foreach ($aryPages as $oPage) {
         $pageContent = $oPage->post_content;
-        $pageContent = str_replace('[show-contactus.com-form]', '', $pageContent);
+        $pageContent = str_replace('[show-contactuscom-form]', '', $pageContent);
         $aryPage = array();
         $aryPage['ID'] = $oPage->ID;
         $aryPage['post_content'] = $pageContent;
@@ -149,807 +208,1252 @@ function cus_shortcode_cleaner() {
     }
 }
 
-add_shortcode("show-contactus.com-form", "cus_shortcode_handler"); //[show-contactus.com-form]
-
-function cus_shortcode_handler() {
-
-    $options = get_option('contactus_settings');
-
-    $cus_version = $options['cus_version'];
-    $form_key = $options['form_key'];
-    if ($cus_version == 'inline' || $cus_version == 'selectable') :
-        $inlineJS_output = '<div style="min-height: 500px; width: 100%;clear:both;"><script type="text/javascript" src="//cdn.contactus.com/cdn/forms/' . $form_key . '/inline.js"></script></div>';
-    else:
-        $inlineJS_output = '';
-    endif;
-
-    return $inlineJS_output;
-}
-
-function cus_shortcode_add($inline_req_page_id) {
-    $oPage = get_page($inline_req_page_id);
+function cUsCF_inline_shortcode_cleaner_by_ID($inline_req_page_id) {
+    $oPage = get_page( $inline_req_page_id );
+    
     $pageContent = $oPage->post_content;
-    $pageContent = $pageContent . "\n[show-contactus.com-form]";
+    $pageContent = str_replace('[show-contactuscom-form]', '', $pageContent);
     $aryPage = array();
-    $aryPage['ID'] = $inline_req_page_id;
+    $aryPage['ID'] = $oPage->ID;
     $aryPage['post_content'] = $pageContent;
-    return wp_update_post($aryPage);
+    
+    wp_update_post($aryPage);
+    
 }
+
+add_shortcode("show-contactuscom-form", "cUsCF_shortcode_handler"); //[show-contactus.com-form]
+
+function cUsCF_shortcode_handler($aryFormParemeters) {
+    
+    $cUsCF_credentials = get_option('cUsCF_settings_userCredentials'); //GET USERS CREDENTIALS V3.0 API 1.9
+    
+    if(!empty($cUsCF_credentials)): 
+        
+        $pageID = get_the_ID();
+        $pageSettings = get_post_meta( $pageID, 'cUsCF_FormByPage_settings', false );
+        $inlineJS_output = '';
+
+        if(is_array($pageSettings) && !empty($pageSettings)): //NEW VERSION 3.0
+
+            $boolTab        = $pageSettings[0]['tab_user'];
+            $cus_version    = $pageSettings[0]['cus_version'];
+            $form_key       = $pageSettings[0]['form_key'];
+
+            if(strlen($formkey)) $form_key = $formkey;
+
+            if ($cus_version == 'inline' || $cus_version == 'selectable') :
+               $inlineJS_output = '<div style="min-height: 300px; min-width: 340px; clear:both;"><script type="text/javascript" src="//cdn.contactus.com/cdn/forms/' . $form_key . '/inline.js"></script></div>';
+            endif;
+
+        elseif(is_array($aryFormParemeters)):
+
+            if($aryFormParemeters['version'] == 'tab'):
+                $Fkey = $aryFormParemeters['formkey'];
+                update_option('cUsCF_settings_FormKey_SC', $Fkey);
+                do_action('wp_footer', $Fkey);
+                add_action('wp_footer', 'cUsCF_shortcodeTab'); // ADD JS BEFORE BODY TAG
+            else:
+                $inlineJS_output = '<div style="min-height: 300px; min-width: 340px; clear:both;"><script type="text/javascript" src="//cdn.contactus.com/cdn/forms/' . $aryFormParemeters['formkey'] . '/inline.js"></script></div>';
+            endif;
+
+        else:   //OLDER VERSION < 2.5 //UPDATE 
+            $formOptions    = get_option('cUsCF_FORM_settings');//GET THE NEW FORM OPTIONS
+            $form_key       = get_option('cUsCF_settings_form_key');
+            $cus_version    = $formOptions['cus_version'];
+
+            if ($cus_version == 'inline' || $cus_version == 'selectable') :
+                $inlineJS_output = '<div style="min-height: 300px; min-width: 340px; clear:both;"><script type="text/javascript" src="//cdn.contactus.com/cdn/forms/' . $form_key . '/inline.js"></script></div>';
+            endif;
+
+        endif;
+
+        return $inlineJS_output;
+    else:
+        
+        return 'Users Credentials Missing . . ., Try Login Again, Thanks.';
+        
+    endif;
+    
+}
+
+function cUsCF_shortcodeTab($Args) {
+    
+    $form_key = get_option('cUsCF_settings_FormKey_SC');
+    
+    if ( !is_admin() && strlen($form_key) ) {
+        $userJScode = '<script type="text/javascript" src="//cdn.contactus.com/cdn/forms/' . $form_key . '/contactus.js"></script>';
+        echo $userJScode;
+    }
+}
+
+
+function cUsCF_inline_shortcode_add($inline_req_page_id) {
+    
+    if($inline_req_page_id != 'home'):
+        $oPage = get_page($inline_req_page_id);
+        $pageContent = $oPage->post_content;
+        $pageContent = $pageContent . "\n[show-contactuscom-form]";
+        $aryPage = array();
+        $aryPage['ID'] = $inline_req_page_id;
+        $aryPage['post_content'] = $pageContent;
+        return wp_update_post($aryPage);
+    endif;
+}
+
+$cus_dirbase = trailingslashit(basename(dirname(__FILE__)));
+$cus_dir = trailingslashit(WP_PLUGIN_DIR) . $cus_dirbase;
+$cus_url = trailingslashit(WP_PLUGIN_URL) . $cus_dirbase;
+define('cUsCF_DIR', $cus_dir);
+define('cUsCF_URL', $cus_url);
+
+// WIDGET CALL
+include_once('contactus_form_widget.php');
+
+function cUsCF_register_widgets() {
+    register_widget('contactus_form_Widget');
+}
+
+add_action('widgets_init', 'cUsCF_register_widgets');
 
 //CONTACTUS.COM ADD FORM TO PLUGIN PAGE
-if (!function_exists('cUs_menu_render')) {
 
-    function cUs_menu_render() {
+// Add option page in admin menu
+if (!function_exists('cUsCF_admin_menu')) {
 
-        //delete_option( 'contactus_settings' );
+    function cUsCF_admin_menu() {
+        add_menu_page('Contact Form by ContactUs.com ', 'Contact Form', 'edit_themes', 'cUsCF_form_plugin', 'cUsCF_menu_render', plugins_url("style/images/favicon.gif", __FILE__));
+    }
 
-        $options = get_option('contactus_settings'); //get the values, wont work the first time
+}
+add_action('admin_menu', 'cUsCF_admin_menu'); // cUsCF_admin_menu hook
 
-        $plugins_url = plugins_url();
+if (!function_exists('cUsCF_menu_render')) {
 
+    function cUsCF_menu_render() {
+        
+        $cUsCF_api = new cUsComAPI_CF(); //CONTACTUS.COM API
+        $aryUserCredentials = get_option('cUsCF_settings_userCredentials'); //get the values, wont work the first time
+        $cUs_API_Account    = $aryUserCredentials['API_Account'];
+        $cUs_API_Key        = $aryUserCredentials['API_Key'];
+        
+        $options        = get_option('cUsCF_settings_userData'); //get the values, wont work the first time
+        $old_options = get_option('contactus_settings'); //GET THE NEW OPTIONS
+        $formOptions    = get_option('cUsCF_FORM_settings');//GET THE NEW FORM OPTIONS
+        $form_key       = get_option('cUsCF_settings_form_key');
+        if(strlen(!$form_key)) $form_key = $old_options['form_key'];
+        
+        $cus_version    = $formOptions['cus_version'];
+        $boolTab        = $formOptions['tab_user'];
+        
         if (!is_array($options)) {
-            settings_fields('contactus_settings');
+            settings_fields('cUsCF_settings_userData');
+            $options = get_option('cUsCF_settings'); //get the values, wont work the first time
+            settings_fields('cUsCF_FORM_settings');
+            settings_fields('cUsCF_settings_form_key');
             do_settings_sections(__FILE__);
         }
+        
+        if(isset($_REQUEST['option'])):
+            switch ( $_REQUEST['option'] ):
 
-        if (isset($_REQUEST['option'])):
-            switch ($_REQUEST['option']):
-                case 'login'://LOGIN
-                    $cUs_email = $_REQUEST['contactus_settings']['login_email'];
-                    $cUs_pass = $_REQUEST['contactus_settings']['user_pass'];
+                case 'settings': //SAVING FORM SETTINGS TAB - INLINE - SELECTION ?>
+                    <script>jQuery(document).ready(function($) { try{  jQuery( "#cUsCF_tabs" ).tabs({ active: 0 })  }catch(err){console.log(err);} });</script><?php
+                    if( strlen($form_key) ): //ALREADY LOGGED
+                        $settingsMessage = '<div id="message" class="updated fade notice_done"><p>Done! Your configuration has been saved correctly.</p></div>';
+                        $boolTab    = $_REQUEST['tab_user'];
 
-                    $cusAPIresult = getFormKeyAPI($cUs_email, $cUs_pass); //api hook
-
-                    if ($cusAPIresult === FALSE) :
-                        $loginMessage = '<div class="error"><p>You haven\'t logged in to your ContactUs.com account, please login below, if you don\'t have an account <a href="#" id="create-user">Get one free!</a></p></div>';
-                        $userStatus = 'inactive';
-                    else :
-
-                        $cUs_json = json_decode($cusAPIresult);
-                        switch ($cUs_json->status) :
-
-                            case 'success':
-                                $loginMessage = '<div id="message" class="settingsMessage"><p>You have successfully logged in.</p></div>';
-                                $userStatus = 'active';
-                                $_REQUEST['contactus_settings']['tab_user'] = 1;
-                                $_REQUEST['contactus_settings']['cus_version'] = 'tab';
-                                $_REQUEST['contactus_settings']['user_status'] = $userStatus;
-                                $_REQUEST['contactus_settings']['form_key'] = $cUs_json->form_key;
-                                update_option('contactus_settings', $_REQUEST['contactus_settings']);
-                                ?>
-
-                                <script>jQuery(document).ready(function($) { setTimeout(function(){ try{  jQuery( "#cUs_tabs" ).tabs({ active: 1 })  }catch(err){console.log(err);}  } ,1500)   });</script><?php
-                                $options = get_option('contactus_settings'); //GET THE NEW OPTIONS
-                                $userCode = $options['javascript_usercode'];
-                                $boolTab = $options['tab_user'];
-                                $cUs_email = $options['login_email'];
-                                $cus_version = $options['cus_version'];
-                                $cUs_pass = $options['user_pass'];
-                                $inline_page_id = $options['inline_page_id'];
-
-                                break;
-
-                            case 'error':
-                                $loginMessage = '<div class="error">
-                                                    <p>Ouch! unfortunately there has being an error during the application: <b>"' . $cUs_json->error . '"</b>.</p>
-                                                    <p>If you have just signed up, please make sure to <i>check your email and activate your account</i> before trying this step again.</p>
-                                                    <p>If you have already done that and you are still getting this error, you can also  
-                                                       <a href="https://www.contactus.com/client-login.php" target="_blank">click here</a> and reset your password.
-                                                    </p>
-                                                 </div>';
-                                $userStatus = 'inactive';
-                                delete_option('contactus_settings');
-                                break;
-
-                        endswitch;
-
-                    endif;
-                    break;
-
-                case 'signup': //SIGNUP 
-                    ?>
-                    <script>jQuery(document).ready(function($) { try{  jQuery( "#cUs_tabs" ).tabs({ active: 0 })  }catch(err){console.log(err);} });</script><?php
-                    
-                    $userStatus = 'inactive';
-                    
-                    if( !strlen($_POST[fname]) ): 
-                        $signupMessage = '<div class="settingsErrorMessage"><p>Missing First Name, is a required field!</p></div>';?>
-                        <script>jQuery(document).ready(function($) { jQuery( "#fname" ).focus() });</script><?php
-                    elseif  ( !strlen($_POST[lname]) ):
-                        $signupMessage = '<div class="settingsErrorMessage"><p>Missing Last Name, is a required field!</p></div>';?>
-                        <script>jQuery(document).ready(function($) { jQuery( "#lname" ).focus() });</script><?php
-                    elseif  ( !strlen($_POST[remail]) ):
-                        $signupMessage = '<div class="settingsErrorMessage"><p>Missing Email, is a required field!</p></div>';?>
-                        <script>jQuery(document).ready(function($) { jQuery( "#remail" ).focus() });</script><?php
-                    elseif  ( !strlen($_POST[website1]) ):
-                        $signupMessage = '<div class="settingsErrorMessage"><p>Missing Website, a is required field!</p></div>';?>
-                        <script>jQuery(document).ready(function($) { jQuery( "#website1" ).focus() });</script><?php
-                    else:
-                    
-                        $cusAPIresult = createCustomer($_POST);
-                        
-                        $userStatus = 'inactive';
-
-                        $cUs_email = $_POST['remail'];
-                        
-                        if ($cusAPIresult) :
-                            $cUs_json = json_decode($cusAPIresult);
-
-                            switch ($cUs_json->status) :
-
-                                case 'success':
-                                    $signupMessage = '<div id="message" class="settingsMessage">
-                                                            <p>Welcome to ContactUs.com, and thank you for your registration.</p>
-                                                            <p>We have sent your temporary password to your email account <b>"' . $cUs_email . '"</b>. Please find the email, and feel free to login into your Contactus.com account.</p>
-                                                      </div>';
-
-                                    $_REQUEST['contactus_settings']['tab_user'] = 1;
-                                    $_REQUEST['contactus_settings']['cus_version'] = 'tab';
-                                    $_REQUEST['contactus_settings']['user_autoactive'] = 1;
-                                    $_REQUEST['contactus_settings']['user_status'] = $userStatus;
-                                    $_REQUEST['contactus_settings']['form_key'] = $cUs_json->form_key;
-                                    $_REQUEST['contactus_settings']['login_email'] = $cUs_email;
-                                    update_option('contactus_settings', $_REQUEST['contactus_settings']);
-                                    ?>
-                                    <script>jQuery(document).ready(function($) { 
-                                        jQuery( "#cUs_registform" ).hide() });
-
-                                    setTimeout(function(){
-                                        location.href = 'admin.php?page=cUs_form_plugin';
-                                    },4000);
-
-                                    </script><?php
-                                    break;
-
-                                case 'error':
-                                    $signupMessage = '<div class="error"><p>Ouch! unfortunately there has being an error during the application: <b>"' . $cUs_json->error[0] . '"</b>. Please try again!</a></p></div>';
-                                    break;
-
-                            endswitch;
-                        else:
-                            $signupMessage = '<div class="error"><p>Ouch! unfortunately there has being an error during the application: <b>"Connection Refused"</b>. Please try again!</a></p></div>';
-                        endif;
-                        
-                        
-                    endif;//validation
-                    
-                break;
-
-                case 'settings': //SAVING FORM SETTINGS TAB - INLINE - SELECTION 
-                    ?>
-                    <script>jQuery(document).ready(function($) { try{  jQuery( "#cUs_tabs" ).tabs({ active: 1 })  }catch(err){console.log(err);} });</script><?php
-                    if (is_array($options)): //ALREADY LOGGED
-                        $loginMessage = '<div id="message" class="settingsMessage"><p>You are already connected with your contactUs.com Account.</p></div>';
-                        $settingsMessage = '<div id="message" class="settingsMessage"><p>Done! Your configuration has been saved correctly.</p></div>';
-                        $userStatus = 'active';
-                        $inline_req_page_id = $_REQUEST['inline_page_id'];
-
-                        $cUs_email = $options['login_email'];
-                        $cUs_pass = $options['user_pass'];
-                        $form_key = $options['form_key'];
-                        $boolTab = $_REQUEST['tab_user'];
-                        $cus_version = $options['cus_version'];
-
-                        $aryOptions = array(
-                            'form_key' => $form_key,
-                            'tab_user' => $boolTab,
-                            'cus_version' => $_REQUEST['cus_version'],
-                            'inline_page_id' => $inline_req_page_id,
-                            'login_email' => $cUs_email,
-                            'user_pass' => $cUs_pass
+                        $aryFormOptions = array(
+                            'tab_user'          => $boolTab,
+                            'cus_version'       => $_REQUEST['cus_version']
                         );
 
-                        delete_option('contactus_settings');
-                        delete_option('contactus_settings_inlinepages');
-                        delete_option('contactus_settings_tabpages');
-
-                        update_option('contactus_settings', $aryOptions); //UPDATE OPTIONS
-                        cus_shortcode_cleaner();
-                        $options = get_option('contactus_settings'); //GET THE NEW OPTIONS
-                        $inline_page_id = $options['inline_page_id'];
-                        $cus_version = $options['cus_version'];
-
-                        switch ($_REQUEST['cus_version']):
-                            case 'inline':
-                                cus_shortcode_add($inline_req_page_id);
-                                break;
-                            case 'selectable':
-                                if (isset($_REQUEST['pages'])):
-                                    $aryPages = $_REQUEST['pages'];
-                                    $aryInlinePages = array();
-                                    $aryTabPages = array();
-                                    foreach ($aryPages as $pageID => $version) {
-                                        if ($version == 'inline') {
-                                            $aryInlinePages[] = $pageID;
-                                            cus_shortcode_add($pageID);
-                                        } elseif ($version == 'tab') {
-                                            $aryTabPages[] = $pageID;
-                                        }
-                                    }
-                                    update_option('contactus_settings_inlinepages', $aryInlinePages); //UPDATE OPTIONS
-                                    update_option('contactus_settings_tabpages', $aryTabPages); //UPDATE OPTIONS
-                                endif;
-                                break;
-                        endswitch;
+                        delete_option( 'cUsCF_FORM_settings' );
+                        delete_option( 'cUsCF_settings_inlinepages' );
+                        delete_option( 'cUsCF_settings_tabpages' );
+                        update_option( 'cUsCF_FORM_settings', $aryFormOptions );//UPDATE FORM SETTINGS
+                        
+                        cUsCF_page_settings_cleaner();
+                        
 
                     endif;
-                    break;
+                break;
 
-                case 'logout': //LOGOUT
-                    $userStatus = 'inactive';
-                    delete_option('contactus_settings');
-                    delete_option('contactus_settings_welcome');
-                    cus_shortcode_cleaner();
-                    $loginMessage = '<div class="error"><p>You haven\'t logged in to your ContactUs.com account, please login below, if you don\'t have an account <a href="#" id="create-user">get one free!</a></p></div>';
-                    break;
-
-            endswitch; elseif (is_array($options)): //ALREADY LOGGED 
-            ?>
-            <script>jQuery(document).ready(function($) { try{  jQuery( "#cUs_tabs" ).tabs({ active: 1 })  }catch(err){console.log(err);} });</script><?php
-            $userCode = $options['javascript_usercode'];
-            $userAutoactive = $options['user_autoactive'];
-            $boolTab = $options['tab_user'];
-            $cUs_email = $options['login_email'];
-            $cus_version = $options['cus_version'];
-            $cUs_pass = $options['user_pass'];
-            $inline_page_id = $options['inline_page_id'];
-
-            if ($userAutoactive == 1) :
-                $userStatus = 'active';
-                $loginMessage = '<div id="message" class="settingsMessage"><p>You are already connected with your contactUs.com Account.</p></div>';
-            else:
-                $cusAPIresult = getFormKeyAPI($cUs_email, $cUs_pass);
-
-                $cUs_json = json_decode($cusAPIresult);
-                switch ($cUs_json->status) :
-
-                    case 'success':
-                        $loginMessage = '<div id="message" class="settingsMessage"><p>You are already connected with your contactUs.com Account.</p></div>';
-                        $userStatus = 'active';
-                        break;
-
-                    case 'error': //USER NOT ACTIVE OR USER ERROR
-                        $loginMessage = '<div class="error"><p>Ouch! unfortunately there has being an error during the application: ' . $cUs_json->error . '.<br/>If you have just signed up, please make sure to check your email and activate your account before trying this step again.<br/>If you have already done that and you are still getting this error, you can also  <a href="https://www.contactus.com/client-login.php" target="_blank">click here</a> and reset your password.!</p></div>';
-                        $userStatus = 'inactive';
-                        //delete_option( 'contactus_settings' );
-                        break;
-
-                endswitch;
-
-            endif;
-
-
-
-            if (strlen($userCode)):
-                $settingsMessage = '<div class="error" ><p>Please, <a href="javascript:;" class="tologin">update</a> your user account to save your settings.</p></div>';
-            endif;
-
-        elseif (!is_array($options))://NOT LOGGED
-            $userStatus = 'inactive';
-            $cus_version = 'tab';
-            $boolTab = 1;
-            delete_option('contactus_settings');
-            $loginMessage = '<div class="error"><p>You haven\'t logged in to your ContactUs.com account, please login below.<br/><br/>If you don\'t have an account <a href="#" id="create-user">get one free!</a></p></div>';
-            $settingsMessage = '<div class="error" ><p>Please, <a href="javascript:;" class="tologin">update</a> your user account to be able to save your settings.</p></div>';
+            endswitch;
         endif;
+        
         ?>
+                    
+        <script>var posturl = '<?php echo plugins_url('ajx-request.php', __FILE__) ;  ?>';</script>
         <div class="plugin_wrap">
-            <div class="cUsMC_header">
-                <h2>Contact Form <a href="http://www.contactus.com" target="_blank">by ContactUs.com</a> </h2>
+            <div class="cUsCF_header">
+                <h2>Contact Form <span> by</span><a href="http://www.contactus.com" target="_blank"><img src="<?php echo plugins_url('style/images/header-logo.png', __FILE__) ;  ?>"/></a> </h2>
+                <div class="social_shares">
+                    <a href="https://www.facebook.com/ContactUscom" target="_blank" title="Follow Us on Facebook for new product updates"><img src="<?php echo plugins_url('style/images/cu-facebook-m.png', __FILE__) ;  ?> " alt="Follow Us on Facebook for new product updates"/></a>
+                    <a href="https://plus.google.com/u/0/117416697174145120376" target="_blank" title="Follow Us on Google+"><img src="<?php echo plugins_url('style/images/cu-googleplus-m.png', __FILE__) ;  ?> " /></a>
+                    <a href="http://www.linkedin.com/company/2882043" target="_blank" title="Follow Us on LinkedIn"><img src="<?php echo plugins_url('style/images/cu-linkedin-m.png', __FILE__) ;  ?> " /></a>
+                    <a href="https://twitter.com/ContactUsCom" target="_blank" title="Follow Us on Twitter"><img src="<?php echo plugins_url('style/images/cu-twitter-m.png', __FILE__) ;  ?> " /></a>
+                    <a href="http://www.youtube.com/user/ContactUsCom" target="_blank" title="Find tutorials on our Youtube channel"><img src="<?php echo plugins_url('style/images/cu-youtube-m.png', __FILE__) ;  ?> " alt="Find tutorials on our Youtube channel" /></a>
+                </div>
             </div> 
-
-            <div class="cUsMC_formset">
-                <div id="cUs_tabs">
+            <div class="cUsCF_formset">
+                <div id="cUsCF_tabs">
                     <ul>
-                        <?php if ($userStatus == 'inactive'): ?><li><a href="#tabs-1">Configure</a></li><?php endif; ?>
-                        <li><a href="#tabs-2"><?php echo ($userStatus == 'active') ? 'Your ContactUs.com Account' : 'Login'; ?></a></li>
-                        <li><a href="#tabs-3">Form Settings</a></li>
-                        <li><a href="#tabs-4">More About ContactUs.com</a></li>
+                        <?php if ( !strlen($form_key) ): ?><li><a href="#tabs-1">Contact Form Plugin</a></li><?php endif; ?>
+                        <?php if ( strlen($form_key) && strlen($cUs_API_Account) ): ?><li><a href="#tabs-1">Form Settings</a></li><?php endif; ?>
+                        <?php if ( strlen($form_key) && strlen($cUs_API_Account) ): ?><li><a href="#tabs-2">Templates Library</a></li><?php endif; ?>
+                        <?php if ( strlen($form_key) && strlen($cUs_API_Account) ): ?><li><a href="#tabs-3">Advanced</a></li><?php endif; ?>
+                        <?php if ( strlen($form_key) && strlen($cUs_API_Account) ): ?><li><a href="#tabs-4">Documentation</a></li><?php endif; ?>
+                        <?php if ( strlen($form_key) && strlen($cUs_API_Account) ): ?><li><a href="#tabs-5">Account</a></li><?php endif; ?>
                     </ul>
 
                     <?php
-                    global $current_user;
-                    get_currentuserinfo();
-                    if ($userStatus == 'inactive'):
+                    if (!strlen($form_key))://NOT LOGGED
+                        
+                        global $current_user;
+                        get_currentuserinfo();
                         ?>
                         <div id="tabs-1">
+                            
+                            <div class="left-content">
+                                <div class="first_step">
+                                    <h2>Are You Already a ContactUs.com User?</h2>
+                                    <button id="cUsCF_yes" class="btn" type="button" ><span>Yes</span> Get Me My Form</button>
+                                    <button id="cUsCF_no" class="btn mc_lnk"><span>No</span>Signup Free Now</button>
+                                    <p>
+                                    <h3>Note:</h3>
+                                    The  Contact Form by ContactUs.com is designed for existing ContactUs.com users. If you are not yet a Contact Form user, click on the "No, Signup Free Now" button above.</p>
+                                </div>
 
-                            <div id="cUsMC_mcsettings">
-                                <?php if ($userStatus == 'inactive'): ?><p class="sub-title">Configure your plugin below and we will send you a confirmation email to verify that our emails get to you.  This is the email your submissions will be sent to once you’re live.</p><?php endif; ?> 
+                                <!-- div id="cUsCF_settings" -->
+                                <div id="cUsCF_settings">
 
-                                <h2>Configure your plugin below.</h2>
-                                <?php echo $signupMessage; ?>
-                                <form method="post" action="admin.php?page=cUs_form_plugin" id="cUs_registform" name="cUs_registform">
-                                    <table class="form-table">
-                                        <tr>
-                                            <th></th><td><p class="validateTips">Form fields required [ * ]</p></td>
-                                        </tr>
-                                        <tr>
-                                            <th><label class="labelform" for="fname">* First Name</label></th>
-                                            <td><input type="text" class="inputform text" placeholder="First Name" name="fname" id="fname" value="<?php echo (isset($_POST['fname']) && strlen($_POST['fname'])) ? $_POST['fname'] : $current_user->user_firstname; ?>" /></td>
-                                        </tr>
-                                        <tr>
-                                            <th><label class="labelform" for="lname">* Last Name</label></th>
-                                            <td><input type="text" class="inputform text" placeholder="Last Name" name="lname" id="lname" value="<?php echo (isset($_POST['lname']) && strlen($_POST['lname'])) ? $_POST['lname'] : $current_user->user_lastname; ?>"/></td>
-                                        </tr>
-                                        <tr>
-                                            <th><label class="labelform" for="remail">* Email</label></th>
-                                            <td><input type="text" class="inputform text" placeholder="Email" name="remail" id="remail" value="<?php echo (isset($_POST['remail']) && strlen($_POST['remail'])) ? $_POST['remail'] : $current_user->user_email; ?>"/></td>
-                                        </tr>
-                                        <tr>
-                                            <th><label class="labelform" for="website1">* Website</label></th>
-                                            <td><input type="text" class="inputform text" placeholder="Website (www.example.com)" name="website1" id="website1" value="<?php echo (isset($_POST['website']) && strlen($_POST['website']))? $_POST['website'] :$_SERVER['HTTP_HOST']; ?>"/></td>
-                                        </tr>
-                                        <tr>
-                                            <th></th><td><input id="craccbtn" class="btn orange" value="Create my account" type="submit" /></td>
-                                        </tr>
-                                        <tr>
-                                            <th></th><td>By clicking <a href="https://www.contactus.com/terms-of-service.php" target="_blank">Create my account</a>, you agree to the ContactUs.com Terms of Service.</td>
-                                        </tr>
-                                    </table>
-                                    <input type="hidden" value="signup" name="option" />
-                                </form>
-                            </div>
+                                    <div class="loadingMessage"></div>
+                                    <div class="advice_notice">Advices....</div>
+                                    <div class="notice">Ok....</div>
 
-                        </div>
-                    <?php endif; ?>
+                                    <form method="post" action="admin.php?page=cUsCF_form_plugin" id="cUsCF_loginform" name="cUsCF_loginform" class="steps login_form" onsubmit="return false;">
+                                        <h3>ContactUs.com Login</h3>
 
-                    <div id="tabs-2">
-                        <div id="cUsMC_mcsettings">
-                            <h2>Login to your ContactUs.com Account</h2>
-                            <?php echo $loginMessage; ?>
-                            <form method="post" action="admin.php?page=cUs_form_plugin" id="cUs_login" name="cUs_login">
-                                <table class="form-table">
-                                    <tr>
-                                        <th></th><td><p class="validateTips"><?php echo ($userStatus == 'active') ? '' : 'All form fields are required.'; ?></p></td>
-                                    <tr>
-                                    <tr>
-                                        <th><label class="labelform" for="login_email">Email</label><br>
-                                        <td><input class="inputform" name="contactus_settings[login_email]" id="login_email" type="text" value="<?php echo (strlen($cUs_email)) ? $cUs_email : ''; ?>"></td>
-                                    </tr>
-                                    <tr>
-                                        <th><label class="labelform" for="user_pass">Password</label></th>
-                                        <td><input class="inputform" name="contactus_settings[user_pass]" id="user_pass" type="password" value="<?php echo (strlen($cUs_pass) || $userAutoactive == 1) ? 'XxxXxxXxxX' : ''; ?>"></td>
-                                    </tr>
-                                    <tr><th></th>
-                                        <td>
-                                            <input id="loginbtn" class="btn orange" value="<?php echo ($userStatus == 'active') ? 'Unlink' : 'Login'; ?>" type="submit">
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th></th>
-                                        <td>
-                                            <a href="https://www.contactus.com/client-login.php" target="_blank">I forgot my password</a>
-                                        </td>
-                                    </tr>
+                                        <table class="form-table">
 
-                                </table>
-                                <input type="hidden" value="<?php echo ($userStatus == 'active') ? 'logout' : 'login'; ?>" name="option" />
-                            </form>
-                        </div>
-                    </div>
-                    <?php if ($userStatus == 'active'): ?>
-                    <div id="tabs-3">
-                        <div id="cUsMC_mcsettings">
-                            <h2>Form Settings</h2>
-                            <?php echo $settingsMessage; ?>
+                                            <tr>
+                                                <th><label class="labelform" for="login_email">Email</label><br>
+                                                <td><input class="inputform" name="cUsCF_settings[login_email]" id="login_email" type="text"></td>
+                                            </tr>
+                                            <tr>
+                                                <th><label class="labelform" for="user_pass">Password</label></th>
+                                                <td><input class="inputform" name="cUsCF_settings[user_pass]" id="user_pass" type="password"></td>
+                                            </tr>
+                                            <tr><th></th>
+                                                <td>
+                                                    <input id="loginbtn" class="btn lightblue cUsCF_LoginUser" value="Login" type="submit">
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th></th>
+                                                <td>
+                                                    <a href="https://www.contactus.com/client-login.php" target="_blank">I forgot my password</a>
+                                                </td>
+                                            </tr>
 
-                            <div class="versions_options">
-                                <table class="form-table">
-                                    <tr>
-                                        <th>Choose Your Implementation</th>
-                                        <td>
-                                            <select name="form_version" class="form_version" <?php echo ($userStatus == 'inactive') ? 'disabled' : ''; ?>>
-                                                <option value="tab_version" <?php echo ( $cus_version == 'tab' ) ? 'selected="selected"' : ''; ?>>Tab</option>
-                                                <option value="inline_version" <?php echo ( $cus_version == 'inline' ) ? 'selected="selected"' : ''; ?>>Inline</option>
-                                                <option value="select_version" <?php echo ( $cus_version == 'selectable' ) ? 'selected="selected"' : ''; ?>>Custom</option>
-                                            </select>
-                                            <br/><span class="message"><?php _e("Select your form version, you can choose our Tab Button or Inline Page Form.", 'cus_plugin'); ?></span>
-                                        </td>
-                                    </tr>
-                                </table>
-                                <hr/>
-                            </div>
+                                        </table>
+                                    </form>
 
+                                    <form method="post" action="admin.php?page=cUsCF_form_plugin" id="cUsCF_userdata" name="cUsCF_userdata" class="steps step1" onsubmit="return false;">
+                                        <h3 class="step_title">Register for your ContactUs.com Account</h3>
 
-                            <form method="post" action="admin.php?page=cUs_form_plugin" id="cUs_button" class="cus_versionform tab_version <?php echo ( strlen($cus_version) && $cus_version != 'tab') ? 'hidden' : ''; ?>" name="cUs_button">
-                                <table class="form-table">
-                                    <tr>
-                                        <th><?php _e("Contact Us Tab Button Enabled? :", 'cus_plugin'); ?> </th>
-                                        <td>
-                                            <select id="tab_user" name="tab_user" <?php echo ($userStatus == 'inactive') ? 'disabled' : ''; ?> >
-                                                <option <?php echo ($boolTab == 1) ? 'selected="selected"' : ''; ?>value="1">Yes</option>
-                                                <option <?php echo (strlen($boolTab) && $boolTab == 0) ? 'selected="selected"' : ''; ?> value="0">No</option>
-                                            </select>
-                                            <br/><span><?php _e("You can manage the visibility of the ContactUs Button Tab", 'cus_plugin'); ?></span>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th></th>
-                                        <td>
-                                            <?php if ($userStatus == 'active'): ?>
-                                                <input type="submit" class="btn orange" value="<?php _e('Save Changes') ?>" />
-                                            <?php endif; ?>
-                                        </td>
-                                    </tr>
-                                </table>
+                                        <table class="form-table">
+                                            <tr>
+                                                <th><label class="labelform" for="cUsCF_first_name">* First Name</label></th>
+                                                <td><input type="text" class="inputform text" placeholder="First Name" name="cUsCF_first_name" id="cUsCF_first_name" value="<?php echo (isset($_POST['cUsCF_first_name']) && strlen($_POST['cUsCF_first_name'])) ? $_POST['cUsCF_first_name'] : $current_user->user_firstname; ?>" /></td>
+                                            </tr>
+                                            <tr>
+                                                <th><label class="labelform" for="lname">* Last Name</label></th>
+                                                <td><input type="text" class="inputform text" placeholder="Last Name" name="cUsCF_last_name" id="cUsCF_last_name" value="<?php echo (isset($_POST['cUsCF_last_name']) && strlen($_POST['cUsCF_last_name'])) ? $_POST['cUsCF_last_name'] : $current_user->user_lastname; ?>"/></td>
+                                            </tr>
+                                            <tr>
+                                                <th><label class="labelform" for="remail">* Email</label></th>
+                                                <td><input type="text" class="inputform text" placeholder="Email" name="cUsCF_email" id="cUsCF_email" value="<?php echo (isset($_POST['cUsCF_email']) && strlen($_POST['cUsCF_email'])) ? $_POST['cUsCF_email'] : $current_user->user_email; ?>"/></td>
+                                            </tr>
+                                            <tr>
+                                                <th><label class="labelform" for="cUsCF_web">* Website</label></th>
+                                                <td><input type="text" class="inputform text" placeholder="Website (www.example.com)" name="cUsCF_web" id="cUsCF_web" value="http://<?php echo $_SERVER['HTTP_HOST']; ?>"/></td>
+                                            </tr>
+                                            <tr>
+                                                <th></th><td><input id="cUsCF_CreateCustomer" class="btn orange" value="Next >>" type="submit" /></td>
+                                            </tr>
+                                            <tr>
+                                                <th></th><td>By clicking Create my account, you agree to <a href="http://www.contactus.com/terms-of-service/" target="_blank">the ContactUs.com Terms of Service.</a></td>
+                                            </tr>
+                                        </table>
+                                    </form>
 
-                                <input type="hidden" name="cus_version" value="tab" />
-                                <input type="hidden" value="settings" name="option" />
-                                <h3>Notice:</h3>
-                                <p> Your default theme must have into the head section the <b>"wp_head()"</b> function added.</p>
-                            </form>
-                            <?php if ($cus_version == 'inline'): ?>
-                                <script>
-                                jQuery(document).ready(function($) { jQuery( "#cUs_button" ).hide() });
-                                </script>
-                            <?php endif; ?>
-                            <form method="post" action="admin.php?page=cUs_form_plugin" id="cUs_inline" class="cus_versionform inline_version <?php echo ( strlen($cus_version) && $cus_version != 'inline') ? 'hidden' : ''; ?>" name="cUs_inline">
-                                <table class="form-table">
-                                    <tr>
-                                        <th><?php _e("Select your Contact Us page:", 'cus_plugin'); ?> </th>
-                                        <td>
-                                            <?php
-                                            $args = array('id' => 'contactus_settings_page',
-                                                'depth' => 0,
-                                                'echo' => 1,
-                                                'name' => 'inline_page_id');
-                                            ?>
-                                            <?php wp_dropdown_pages($args); ?>
-                                            <?php if (strlen($inline_page_id)): ?>
-                                                <a class="button-primary show_preview" target="_blank" href="<?php echo get_permalink($inline_page_id); ?>">Preview >> </a>
-                                            <?php endif; ?>
-                                            <br/><span><?php _e("Would you like to embed the ContactUs form into one of your web pages?", 'cus_plugin'); ?></span>
-                                            <br/><?php _e("Do you need to create a new page on your site?. Click on ", 'cus_plugin'); ?><a href="post-new.php?post_type=page">"Create a new >>"</a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th></th>
-                                        <td>
-                                            <?php if ($userStatus == 'active'): ?>
-                                                <input type="submit" class="btn orange save_page" value="<?php _e('Save Changes') ?>" />
-                                            <?php endif; ?>
-                                        </td>
-                                    </tr>
-                                    <?php if (strlen($inline_page_id)): ?>
-                                        <script>
-                                        var pageID = <?php echo $inline_page_id; ?>;
-                                        jQuery(document).ready(function($) { jQuery( "#contactus_settings_page" ).val(pageID) });
-                                        </script>
-                                    <?php endif; ?>
-                                    <?php if ($userStatus == 'inactive'): ?>
-                                        <script>
-                                        jQuery(document).ready(function($) { jQuery( "#contactus_settings_page" ).attr({disabled:'disabled'}) });
-                                        </script>
-                                    <?php endif; ?>
-                                </table>
+                                    <form method="post" action="admin.php?page=cUsCF_form_plugin" id="cUsCF_templates" name="cUsCF_templates" class="steps step2" onsubmit="return false;">
+                                        <h3 class="step_title">Form Settings</h3>
+                                       
+                                        <div class="signup_templates">
+                                            <h4>Select your Form Template</h4>
 
-                                <input type="hidden" name="cus_version" value="inline" />
-                                <input type="hidden" value="settings" name="option" />
-                            </form>
-
-                            <form method="post" action="admin.php?page=cUs_form_plugin" id="cUs_selectable" class="cus_versionform select_version <?php echo ( strlen($cus_version) && $cus_version != 'selectable') ? 'hidden' : ''; ?>" name="cUs_selectable">
-                                <h3>Page Selection</h3>
-                                <div class="pageselect_cont">
-                                    <?php
-                                    $mypages = get_pages(array('parent' => 0, 'sort_column' => 'post_date', 'sort_order' => 'desc'));
-                                    if (is_array($mypages)) :
-                                        $getTabPages = get_option('contactus_settings_tabpages');
-                                        $getInlinePages = get_option('contactus_settings_inlinepages');
-                                        ?>
-                                        <ul class="selectable_pages">
-                                            <li class="pages-header">Wordpress pages</li>
-                                            <li class="ui-widget-content">
-                                                <div class="options home">
-                                                    <input type="radio" name="pages[home]" class="home-page" id="pageradio-home" value="tab" <?php echo (is_array($getTabPages) && in_array('home', $getTabPages)) ? 'checked' : '' ?> />
-                                                    <label class="label-home" for="pageradio-home">TAB</label>
-                                                    <a class="ui-state-default ui-corner-all pageclear-home" href="javascript:;" title="Clear Home page settings"><label class="ui-icon ui-icon-circle-close">&nbsp;</label></a>
+                                            <div>
+                                                <div class="terminology_c Template_Contact_Form">
+                                                    <?php
+                                                    $contacFormTemplates = $cUsCF_api->getTemplatesAndTabsAll('0', 'Template_Desktop_Form');
+                                                    $contacFormTemplates = json_decode($contacFormTemplates);
+                                                    $contacFormTemplates = $contacFormTemplates->data;
+                                                    
+                                                    if(is_array($contacFormTemplates)) :
+                                                    ?>
+                                                    <ul id="sortable" class="selectable_cf">
+                                                        <?php foreach ($contacFormTemplates as $formTpl) : ?>
+                                                            <li class="ui-state-default" id="<?php echo $formTpl->id; ?>"><img src="<?php echo $formTpl->thumbnail; ?>" alt="<?php echo $formTpl->name; ?>" id="<?php echo $formTpl->id; ?>"/></li>
+                                                        <?php endforeach; ?>
+                                                    </ul>
+                                                    
+                                                    <?php  endif; ?>
                                                 </div>
+                                                
+                                            </div>
+                                            <h4>Select your Tab Template</h4>
+                                            <div>
+                                                <div class="terminology_c Template_Contact_Form">
+                                                    <?php
+                                                    $contacFormTabTemplates = $cUsCF_api->getTemplatesAndTabsAll('0', 'Template_Desktop_Tab');
+                                                    $contacFormTabTemplates = json_decode($contacFormTabTemplates);
+                                                    $contacFormTabTemplates = $contacFormTabTemplates->data;
+                                                    
+                                                    if(is_array($contacFormTabTemplates)) :
+                                                    ?>
+                                                    <ul id="sortable" class="tabs selectable_tabs_cf">
+                                                        <?php foreach ($contacFormTabTemplates as $formTpl) : ?>
+                                                            <li class="ui-state-default" id="<?php echo $formTpl->id; ?>"><img src="<?php echo $formTpl->thumbnail; ?>" alt="<?php echo $formTpl->name; ?>" id="<?php echo $formTpl->id; ?>"/></li>
+                                                        <?php endforeach; ?>
+                                                    </ul>
+                                                    <?php  endif; ?>
+                                                </div>
+                                                
+                                            </div>
+
+                                        </div> 
+                                        <table class="form-table">
+                                            <tr>
+                                                <th></th><td><input id="cUsCF_SendTemplates" class="btn orange" value="Create my account" type="submit" /></td>
+                                            </tr>
+                                            <tr>
+                                                <th></th><td>By clicking Create my account, you agree to <a href="http://www.contactus.com/terms-of-service/" target="_blank">the ContactUs.com Terms of Service.</a></td>
+                                            </tr>
+                                            <input type="hidden" value="" name="Template_Desktop_Form" id="Template_Desktop_Form" />
+                                            <input type="hidden" value="" name="Template_Desktop_Tab" id="Template_Desktop_Tab" />
+                                        </table>
+                                    </form>
+
+                                </div>
+                            </div><!-- // TAB LEFT -->
+                            
+                            <div class="right-content">
+                                <div class="upgrade_features">
+                                    
+                                    <h3 class="review">Give a 5 stars review on </h3>
+                                    <a href="http://wordpress.org/support/view/plugin-reviews/contactuscom?rate=5#postform" target="_blank">Wordpress.org <img src="<?php echo plugins_url('style/images/five_stars.png', __FILE__) ; ?> " /></a><br/><br/>
+                                    <h3>Share the plugin with your friends over <a href="mailto:yourfriend@mail.com?subject=Great new WordPress plugin for contact forms" class="email">email</a></h3>
+                                    <h3>Share the plugin on:</h3>
+                                    <div class="social_shares">
+                                        <a href="javascript:;"
+                                           onclick="
+                                                    window.open(
+                                                      'https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent('http://wordpress.org/plugins/contactuscom/'), 
+                                                      'facebook-share-dialog', 
+                                                      'width=626,height=436'); 
+                                                    return false;"
+                                           >Facebook<img src="<?php echo plugins_url('style/images/facebook_link.png', __FILE__) ;  ?> " /></a>
+                                        <a href="javascript:;"
+                                           onclick="
+                                                    window.open(
+                                                      'https://twitter.com/intent/tweet?url=http://bit.ly/1688yva&amp;text=Add beautiful, customizable, contact forms, used to generate new web customers by adding an advanced Contact Form.', 
+                                                      'twitter-tweet-dialog', 
+                                                      'width=626,height=436'); 
+                                                    return false;"
+                                           >Twitter<img src="<?php echo plugins_url('style/images/twitter_link.png', __FILE__) ;  ?> " /></a>
+                                        <a href="javascript:;"
+                                           onclick="
+                                                    window.open(
+                                                      'http://www.linkedin.com/cws/share?url=http://wordpress.org/plugins/contactuscom/&original_referer=http://wordpress.org/plugins/contactuscom/&token=&isFramed=false&lang=en_US', 
+                                                      'linkedin-share-dialog', 
+                                                      'width=626,height=436'); 
+                                                    return false;"
+                                           >LinkedIn<img src="<?php echo plugins_url('style/images/linkedin_link.png', __FILE__) ;  ?> " /></a>
+                                    </div><br/>
+                                    <h3>Discover our great features</h3>
+                                    <p>Enjoying the Free version of ContactUs.com? You will Love ContactUs.com Pro versions.</p>
+                                    
+                                    <a href="http://www.contactus.com/pricing-plans/" target="_blank" class="btn large orange">Upgrade Your Account</a>
+                                    
+                                </div>
+                            </div><!-- // TAB RIGHT -->
+
+                        </div> <!-- // TAB 1 -->
+                    <?php else:
+                        
+                        global $current_user;
+                        get_currentuserinfo();
+                        
+                        $cUsCF_API_getFormKeys = $cUsCF_api->getFormKeysAPI($cUs_API_Account, $cUs_API_Key); //api hook;
+                        
+                        ?>
+                    
+                    <?php if(strlen($cUs_API_Account)){ //UPDATE OLD USERS ?>    
+                        
+                    <div id="tabs-1">
+                            
+                            <div class="left-content">
+                                <h2>Form Settings</h2>
+                                <?php echo $settingsMessage ; ?>
+                                <div id="message" class="updated fade notice_success"></div>
+                                <div class="advice_notice"></div>
+                                <div class="loadingMessage"></div>
+                                
+                                <div class="versions_options">
+                                   
+                                    
+                                    <button class="form_version btn tab_button <?php echo ( $cus_version == 'tab' )?'green':'gray'; ?>" value="tab_version">TAB</button> 
+                                    <button class="form_version btn custom <?php echo ( $cus_version == 'selectable' )?'green':'gray'; ?>" value="select_version">CUSTOM</button>
+                                    
+                                    
+                                </div>
+
+                                <form method="post" action="admin.php?page=cUsCF_form_plugin" id="cUsCF_button" class="cus_versionform tab_version <?php echo ( strlen($cus_version) && $cus_version != 'tab')?'hidden':''; ?>" name="cUsCF_button">
+                                   
+                                    <input type="hidden" class="tab_user" name="tab_user" value="1" />
+                                    <input type="hidden" name="cus_version" value="tab" />
+                                    <input type="hidden" value="settings" name="option" />
+                                    
+                                </form>
+
+
+                                <form method="post" action="admin.php?page=cUsCF_form_plugin" id="cUsCF_selectable" class="cus_versionform select_version <?php echo ( !strlen($cus_version) || $cus_version == 'tab')?'hidden':''; ?>" name="cUsCF_selectable">
+                                    <h3 class="form_title">Page Selection  <a href="post-new.php?post_type=page">Create a new page <span>+</span></a></h3> 
+                                    <div class="pageselect_cont">
+                                    <?php $mypages = get_pages( array( 'parent' => 0, 'sort_column' => 'post_date', 'sort_order' => 'desc' ) ); 
+                                        if( is_array($mypages) ) : 
+                                            
+                                            $getTabPages = get_option('cUsCF_settings_tabpages');
+                                            $getInlinePages = get_option('cUsCF_settings_inlinepages');
+                                            
+                                            if(!empty($getTabPages) && in_array('home', $getTabPages)){
+                                                $getHomePage         = get_option('cUsCF_HOME_settings');
+                                                $home_boolTab        = $getHomePage['tab_user'];
+                                                $home_cus_version    = $getHomePage['cus_version'];
+                                                $home_form_key       = $getHomePage['form_key'];
+                                            }
+                                            
+                                            ?>
+                                        <ul class="selectable_pages">
+                                            
+                                            <li class="ui-widget-content">
+                                                 
                                                 <div class="page_title">
+                                                    <span class="title">Home Page</span>
                                                     <span class="bullet ui-icon ui-icon-circle-zoomin">
                                                         <a target="_blank" href="<?php echo get_option('home'); ?>" title="Home Preview">&nbsp;</a>
                                                     </span>
-                                                    <span class="title">Home Page</span>
                                                 </div>
+
+                                                <div class="options home">
+                                                    <input type="radio" name="pages[home]" class="home-page" id="pageradio-home" value="tab" <?php echo (is_array($getTabPages) && in_array('home', $getTabPages) || $home_cus_version == 'tab') ? 'checked' : '' ?> />
+                                                    <label class="label-home" for="pageradio-home">Tab</label>
+                                                    <input type="radio" name="pages[home]" value="inline" id="pageradio-home-2" class="home-page" <?php echo (is_array($getInlinePages) && in_array('home', $getInlinePages) || $home_cus_version == 'inline') ? 'checked' : '' ?> />
+                                                    <label class="label-home" for="pageradio-home-2">Inline</label>
+                                                    <a class="ui-state-default ui-corner-all pageclear-home" href="javascript:;" title="Clear Home page settings"><label class="ui-icon ui-icon-circle-close">&nbsp;</label></a>
+                                                </div>
+                                                
+                                                <div class="form_template form-templates-home">
+                                                    <h4>Pick which form you would like on this page</h4>
+                                                    <div class="template_slider slider-home">
+                                                        <?php 
+                                                        if($cUsCF_API_getFormKeys){
+                                                                $cUs_json = json_decode($cUsCF_API_getFormKeys);
+
+                                                                switch ( $cUs_json->status  ) :
+                                                                    case 'success':
+                                                                        foreach ($cUs_json as $oForms => $oForm) {
+                                                                            if ($oForms !='status' && $oForm->form_type == 0){//GET DEFAULT CONTACT FORM KEY ?>
+                                                                            <span class="<?php echo (strlen($home_form_key)  && $home_form_key == $oForm->form_key)?'default':'tpl'?> item template-home" rel="<?php echo $oForm->form_key ?>">
+                                                                                <img src="https://admin.contactus.com/popup/tpl/<?php echo $oForm->template_desktop_form ?>/scr.png" alt="<?php echo $oForm->form_name ?>" title="Form Name:<?php echo $oForm->form_name ?> - Form Key: <?php echo $oForm->form_key ?>" />
+                                                                                <span class="captions">
+                                                                                    <p>
+                                                                                        Form Name:<?php echo $oForm->form_name ?><br>
+                                                                                        Form Key: <?php echo $oForm->form_key ?>
+                                                                                    </p>
+                                                                                </span>
+                                                                                <span class="def_bak"></span>
+                                                                            </span>
+
+                                                                            <? }
+                                                                        }
+                                                                        break;
+                                                                endswitch;
+                                                            }
+                                                        ?>
+                                                    </div>
+
+                                                    <div class="save-options">
+                                                        <input type="button" class="btn lightblue small save-page save-page-home" value="Save" />
+                                                    </div>
+                                                    <div class="save_message save_message_home">
+                                                        <p>Sending . . .</p>
+                                                    </div>
+                                                </div>
+
+                                                <input type="hidden" class="cus_version_home" value="<?php echo $cus_version; ?>" />
+                                                <input type="hidden" class="form_key_home" value="<?php echo $form_page_key; ?>" />
+                                                
                                             </li>
                                             <script>
-                                            jQuery('.pageclear-home').click(function(){
-                                                jQuery('.home-page').removeAttr('checked');
-                                                jQuery('.label-home').removeClass('ui-state-active');
-                                            });
-                                            </script>
-                                            <?php foreach ($mypages as $page) : ?>
-                                                <li class="ui-widget-content">
-                                                    <div class="options">
-                                                        <input type="radio" name="pages[<?php echo $page->ID; ?>]" value="tab" id="pageradio-<?php echo $page->ID; ?>-1" class="<?php echo $page->ID; ?>-page" <?php echo (is_array($getTabPages) && in_array($page->ID, $getTabPages)) ? 'checked' : '' ?> />
-                                                        <label class="label-<?php echo $page->ID; ?>" for="pageradio-<?php echo $page->ID; ?>-1">TAB</label>
-                                                        <input type="radio" name="pages[<?php echo $page->ID; ?>]" value="inline" id="pageradio-<?php echo $page->ID; ?>-2" class="<?php echo $page->ID; ?>-page" <?php echo (is_array($getInlinePages) && in_array($page->ID, $getInlinePages)) ? 'checked' : '' ?> />
-                                                        <label class="label-<?php echo $page->ID; ?>" for="pageradio-<?php echo $page->ID; ?>-2">INLINE</label>
-                                                        <a class="ui-state-default ui-corner-all pageclear-<?php echo $page->ID; ?>" href="javascript:;" title="Clear <?php echo $page->post_title; ?> page settings"><label class="ui-icon ui-icon-circle-close">&nbsp;</label></a>
-                                                    </div>
-                                                    <div class="page_title">
-                                                        <span class="bullet ui-icon ui-icon-circle-zoomin">
-                                                            <a target="_blank" href="<?php echo get_permalink($page->ID); ?>" title="Preview <?php echo $page->post_title; ?> page">&nbsp;</a>
-                                                        </span>
-                                                        <span class="title"><?php echo $page->post_title; ?></span>
-                                                    </div>
-                                                </li>
-                                                <script>
-                                                jQuery('.pageclear-<?php echo $page->ID; ?>').click(function(){
-                                                    jQuery('.<?php echo $page->ID; ?>-page').removeAttr('checked');
-                                                    jQuery('.label-<?php echo $page->ID; ?>').removeClass('ui-state-active');
-                                                });
-                                                </script>
-                                            <?php endforeach; ?>
-                                        </ul>
-                                        <div class="submit_data">
-                                            <input type="submit" class="btn orange save_page" value="<?php _e('Save Changes') ?>" />
-                                            <hr />
-                                            <br/><?php _e("Do you need to create a new page on your site?. Click on ", 'cus_plugin'); ?><a href="post-new.php?post_type=page">"Create a new >>"</a>
-                                        </div>
-                                            <?php endif; ?>
-                                </div>
-                                <input type="hidden" name="cus_version" value="selectable" />
-                                <input type="hidden" value="settings" name="option" />
-                            </form>
-                                
-                            <div id="terminology">
-                                    <h3>Terminology</h3>
-                                    <div>
-                                        <div class="terminology_c">
-                                            <table class="widefat" cellspacing="0">
-                                                <tr>
-                                                    <td><h4>Tab</h4></td>
-                                                    <td>Uses tab callouts with “Contact Us” messaging on the page margins across your website. When pressed, contact form appears as a lightbox above the underlying page. </td>
-                                                    <!-- td><h4><a href="#">Preview</a></h4></td-->
-                                                </tr>
-                                                <tr>
-                                                    <td><h4>Inline</h4></td>
-                                                    <td>Places your ContactUs.com contact form directly onto a specified page on your website.  (When using this option, please consider the dimensions of your form relative to the space you’re providing it)</td>
-                                                    <!-- td><h4><a href="#">Preview</a></h4></td-->
-                                                </tr>
-                                                <tr>
-                                                    <td><h4>Custom</h4></td>
-                                                    <td>You can also choose a “Custom” implementation in order to a) use a combination of Tab and Inline, and b) choose specific pages on your site to place Tab or Inline forms.</td>
-                                                    <!-- td><h4><a href="#">Preview</a></h4></td-->
-                                                </tr>
-                                            </table>
-                                        </div>
-                                    </div>
-                                    <h3>Helpful Hints</h3>
-                                    <div>
-                                        <div class="terminology_c">
-                                            <ul class="hints">
-                                                <li>Take a moment to log into ContactUs.com (with the user name/password you registered with) to see the full set of solutions offered.</li>
-                                                <li>You can choose different form design templates from the ContactUs.com library by logging into your account at <a href="http://www.contactus.com" target="_blank">www.ContactUs.com</a></li>
-                                                <li>You can also generate leads and newsletter signups from your Facebook page by enabling the ContactUs.com Facebook App.  It only takes two clicks!</li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
+                                                jQuery('.pageclear-home').click(function(){
 
+                                                    if(confirm('Do you want to delete your settings in this page?')){
+                                                        jQuery('.home-page').removeAttr('checked');
+                                                        jQuery('.label-home').removeClass('ui-state-active');
+
+                                                        jQuery('.template-home').removeClass('default');
+
+                                                        jQuery.deletePageSettings('home');
+
+                                                    }
+
+                                                });
+                                                jQuery('.home-page').click(function(){
+                                                    jQuery('.form_template').fadeOut();
+                                                    jQuery('.form-templates-home').slideDown();
+
+                                                    jQuery('.cus_version_home').val( jQuery(this).val() );
+
+                                                });
+                                                jQuery('.template-home').click(function(){
+                                                    jQuery('.form_key_home').val( jQuery(this).attr('rel') );
+                                                    jQuery('.slider-home .item').removeClass('default');
+                                                    jQuery(this).addClass('default');
+                                                });
+                                                jQuery('.save-page-home').click(function(){ 
+                                                    var cus_version_home = jQuery('.cus_version_home').val();
+                                                    var form_key_home = jQuery('.form_key_home').val();
+
+                                                    var changePage = jQuery.changePageSettings('home', cus_version_home, form_key_home); 
+
+                                                });
+                                            </script>
+                                                <?php foreach( $mypages as $page ) : 
+                                                
+                                                    $pageSettings = get_post_meta( $page->ID, 'cUsCF_FormByPage_settings', false );
+
+                                                    if(is_array($pageSettings) && !empty($pageSettings)): //NEW VERSION 3.0
+
+                                                        $cus_version    = $pageSettings[0]['cus_version'];
+                                                        $form_page_key  = $pageSettings[0]['form_key'];
+
+                                                    endif;
+                                                
+                                                ?>
+                                            
+                                                    <li class="ui-widget-content">
+                                                        
+                                                        <div class="page_title">
+                                                            <span class="title"><?php echo $page->post_title; ?></span>
+                                                            <span class="bullet ui-icon ui-icon-circle-zoomin">
+                                                                <a target="_blank" href="<?php echo get_permalink( $page->ID ) ;?>" title="Preview <?php echo $page->post_title; ?> page">&nbsp;</a>
+                                                            </span>
+                                                        </div>
+                                                        
+                                                        <div class="options">
+                                                            <input type="radio" name="pages[<?php echo $page->ID ; ?>]" value="tab" id="pageradio-<?php echo $page->ID ; ?>-1" class="<?php echo $page->ID ; ?>-page" <?php echo (is_array($getTabPages) && in_array($page->ID, $getTabPages) || $cus_version == 'tab')?'checked':'' ?> />
+                                                            <label class="label-<?php echo $page->ID ; ?>" for="pageradio-<?php echo $page->ID ; ?>-1">Tab</label>
+                                                            <input type="radio" name="pages[<?php echo $page->ID ; ?>]" value="inline" id="pageradio-<?php echo $page->ID ; ?>-2" class="<?php echo $page->ID ; ?>-page" <?php echo (is_array($getInlinePages) && in_array($page->ID, $getInlinePages) || $cus_version == 'inline')?'checked':'' ?> />
+                                                            <label class="label-<?php echo $page->ID ; ?>" for="pageradio-<?php echo $page->ID ; ?>-2">Inline</label>
+                                                            <a class="ui-state-default ui-corner-all pageclear-<?php echo $page->ID ; ?>" href="javascript:;" title="Clear <?php echo $page->post_title; ?> page settings"><label class="ui-icon ui-icon-circle-close">&nbsp;</label></a>
+                                                        </div>
+                                                        
+                                                        <div class="form_template form-templates-<?php echo $page->ID ; ?>">
+                                                            <h4>Pick which form you would like on <?php echo $page->post_title; ?> page</h4>
+                                                            <div class="template_slider slider-<?php echo $page->ID ; ?>">
+                                                                <?php 
+                                                                if($cUsCF_API_getFormKeys){
+                                                                        
+                                                                    $cUs_json = json_decode($cUsCF_API_getFormKeys);
+
+                                                                        switch ( $cUs_json->status  ) :
+                                                                            case 'success':
+                                                                                foreach ($cUs_json as $oForms => $oForm) {
+                                                                                    if ($oForms !='status' && $oForm->form_type == 0){//GET DEFAULT CONTACT FORM KEY ?>
+                                                                                    <span class="<?php echo (strlen($form_page_key) && $form_page_key == $oForm->form_key)?'default':'tpl'?> item template-<?php echo $page->ID ; ?>" rel="<?php echo $oForm->form_key ?>">
+                                                                                        <img src="https://admin.contactus.com/popup/tpl/<?php echo $oForm->template_desktop_form ?>/scr.png" alt="<?php echo $oForm->form_name ?>" title="Form Name:<?php echo $oForm->form_name ?> - Form Key: <?php echo $oForm->form_key ?>" />
+                                                                                        <span class="captions">
+                                                                                            <p>
+                                                                                                Form Name:<?php echo $oForm->form_name ?><br>
+                                                                                                Form Key: <?php echo $oForm->form_key ?>
+                                                                                            </p>
+                                                                                        </span>
+                                                                                        <span class="def_bak"></span>
+                                                                                    </span>
+
+                                                                                    <? }
+                                                                                }
+                                                                                break;
+                                                                        endswitch;
+                                                                    }
+                                                                ?>
+                                                            </div>
+                                                            
+                                                            <div class="save-options">
+                                                                <input type="button" class="btn lightblue small save-page save-page-<?php echo $page->ID ; ?>" value="Save" />
+                                                            </div>
+                                                            <div class="save_message save_message_<?php echo $page->ID ; ?>">
+                                                                <p>Sending . . .</p>
+                                                            </div>
+                                                        </div>
+                                                        
+                                                        <input type="hidden" class="cus_version_<?php echo $page->ID ; ?>" value="<?php echo $cus_version; ?>" />
+                                                        <input type="hidden" class="form_key_<?php echo $page->ID ; ?>" value="<?php echo $form_page_key; ?>" />
+                                                        
+                                                    </li>
+                                                    <script>
+                                                        jQuery('.pageclear-<?php echo $page->ID ; ?>').click(function(){
+                                                            
+                                                            if(confirm('Do you want to delete your settings in this page?')){
+                                                                jQuery('.<?php echo $page->ID ; ?>-page').removeAttr('checked');
+                                                                jQuery('.label-<?php echo $page->ID ; ?>').removeClass('ui-state-active');
+                                                                
+                                                                jQuery('.template-<?php echo $page->ID ; ?>').removeClass('default');
+                                                                
+                                                                jQuery.deletePageSettings(<?php echo $page->ID ; ?>);
+                                                                
+                                                            }
+                                                            
+                                                        });
+                                                        jQuery('.<?php echo $page->ID ; ?>-page').click(function(){
+                                                            jQuery('.form_template').fadeOut();
+                                                            jQuery('.form-templates-<?php echo $page->ID ; ?>').slideDown();
+                                                            
+                                                            jQuery('.cus_version_<?php echo $page->ID ; ?>').val( jQuery(this).val() );
+                                                            
+                                                        });
+                                                        jQuery('.template-<?php echo $page->ID ; ?>').click(function(){
+                                                            jQuery('.form_key_<?php echo $page->ID ; ?>').val( jQuery(this).attr('rel') );
+                                                            jQuery('.slider-<?php echo $page->ID ; ?> .item').removeClass('default');
+                                                            jQuery(this).addClass('default');
+                                                        });
+                                                        jQuery('.save-page-<?php echo $page->ID ; ?>').click(function(){ 
+                                                            var cus_version_<?php echo $page->ID ; ?> = jQuery('.cus_version_<?php echo $page->ID ; ?>').val();
+                                                            var form_key_<?php echo $page->ID ; ?> = jQuery('.form_key_<?php echo $page->ID ; ?>').val();
+                                                            var changePage = jQuery.changePageSettings(<?php echo $page->ID ; ?>, cus_version_<?php echo $page->ID ; ?>, form_key_<?php echo $page->ID ; ?>);
+                                                            
+                                                        });
+                                                    </script>
+                                            <?php 
+                                                $cus_version = '';
+                                                $form_page_key = '';
+                                                endforeach; 
+                                            ?>
+                                        </ul>
+                                      
+                                        <?php endif; ?>
+                                    </div>
+                                    <input type="hidden" name="cus_version" value="selectable" />
+                                    <input type="hidden" value="settings" name="option" />
+                                </form>
+                                
+                            </div><!-- // TAB LEFT -->
+                            
+                            <div class="right-content">
+                                <div class="upgrade_features">
+                                    
+                                    <h3 class="review">Give a 5 stars review on </h3>
+                                    <a href="http://wordpress.org/support/view/plugin-reviews/contactuscom?rate=5#postform" target="_blank">Wordpress.org <img src="<?php echo plugins_url('style/images/five_stars.png', __FILE__) ;?> " /></a><br/><br/>
+                                    <h3>Share the plugin with your friends over <a href="mailto:yourfriend@mail.com?subject=Great new WordPress plugin for contact forms" class="email">email</a></h3>
+                                    <h3>Share the plugin on:</h3>
+                                    <div class="social_shares">
+                                        <a href="javascript:;"
+                                           onclick="
+                                                    window.open(
+                                                      'https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent('http://wordpress.org/plugins/contactuscom/'), 
+                                                      'facebook-share-dialog', 
+                                                      'width=626,height=436'); 
+                                                    return false;"
+                                           >Facebook<img src="<?php echo plugins_url('style/images/facebook_link.png', __FILE__) ;  ?> " /></a>
+                                        <a href="javascript:;"
+                                           onclick="
+                                                    window.open(
+                                                      'https://twitter.com/intent/tweet?url=http://bit.ly/1688yva&amp;text=Add beautiful, customizable, contact forms, used to generate new web customers by adding an advanced Contact Form.', 
+                                                      'twitter-tweet-dialog', 
+                                                      'width=626,height=436'); 
+                                                    return false;"
+                                           >Twitter<img src="<?php echo plugins_url('style/images/twitter_link.png', __FILE__) ;  ?> " /></a>
+                                        <a href="javascript:;"
+                                           onclick="
+                                                    window.open(
+                                                      'http://www.linkedin.com/cws/share?url=http://wordpress.org/plugins/contactuscom/&original_referer=http://wordpress.org/plugins/contactuscom/&token=&isFramed=false&lang=en_US', 
+                                                      'linkedin-share-dialog', 
+                                                      'width=626,height=436'); 
+                                                    return false;"
+                                           >LinkedIn<img src="<?php echo plugins_url('style/images/linkedin_link.png', __FILE__) ;  ?> " /></a>
+                                    </div><br/>
+                                    <h3>Discover our great features</h3>
+                                    <p>Enjoying the Free version of ContactUs.com? You will Love ContactUs.com Pro versions.</p>
+                                    
+                                    <a href="http://www.contactus.com/pricing-plans/" target="_blank" class="btn large orange">Upgrade Your Account</a>
+                                    
+                                </div>
+                                
+                                 
+                            </div><!-- // TAB RIGHT -->
+                            
                         </div>
-                    </div>
-                    
+                        
+                        <div id="tabs-2">
+                            
+                                <div class="left-content">
+                                    <div class="versions_options">
+                                        <h2>Change Form/Tab Design</h2>
+                                        <p>Change your form template, tab template within plugin.</p>
+
+                                        <div class="advice_notice">Advices....</div>
+
+                                        <div class="user_templates">
+
+                                            <?php 
+                                            if($cUsCF_API_getFormKeys){
+                                                    $cUs_json = json_decode($cUsCF_API_getFormKeys);
+
+                                                    switch ( $cUs_json->status  ) :
+                                                        case 'success':
+                                                            foreach ($cUs_json as $oForms => $oForm) {
+                                                                if ($oForms !='status' && $oForm->form_type == 0){//GET CONTACT FORMS KEY ?>
+                                                                  
+                                                                <h3>Form Name: <?php echo $oForm->form_name ?> <?php echo ($oForm->default == 1)?' - [ Default ]':''?></h3>
+                                                                <?php $formID = $oForms; ?>
+                                                                <div>
+                                                                    <div class="terminology_c">
+                                                                        
+                                                                        <div class="template_info">
+                                                                            <div class="template-thumb">
+                                                                                <p><b>Template Form:</b> <?php echo $oForm->template_desktop_form ?></p>
+                                                                                <span class="thumb"><img src="https://admin.contactus.com/popup/tpl/<?php echo $oForm->template_desktop_form ?>/scr.png" class="form_thumb_<?php echo $formID; ?>" alt="<?php echo $oForm->form_name ?>" title="Form Name:<?php echo $oForm->form_name ?> - Form Key: <?php echo $oForm->form_key ?>" /></span>
+
+                                                                                <p><b>Template Tab:</b> <?php echo $oForm->template_desktop_tab ?></p>
+                                                                                <img src="https://admin.contactus.com/popup/tpl/<?php echo $oForm->template_desktop_tab ?>/scr.png" class="tab_thumb_<?php echo $formID; ?>" alt="<?php echo $oForm->form_name ?>" title="Form Name:<?php echo $oForm->form_name ?> - Form Key: <?php echo $oForm->form_key ?>" />
+                                                                            </div>
+                                                                            <div class="template-desc">
+                                                                                <p><b>Form Key:</b> <?php echo $oForm->form_key ?></p>
+                                                                                <p><b>Website URL:</b> <?php echo $oForm->website_url ?></p>
+                                                                                <p><b>Template Mobile Form:</b> <?php echo $oForm->template_mobile_form ?></p>
+                                                                                <!-- p><b>Inline Shortcode :</b> <br /> <code>[show-contactuscom-form formkey="<?php echo $oForm->form_key ?>" version="inline"]</code></p>
+                                                                                <p><b>Tab Shortcode :</b> <br /><code>[show-contactuscom-form formkey="<?php echo $oForm->form_key ?>" version="tab"] </code><br /> <br />(You can add inline or tab version form in posts, pages editor)</p -->
+                                                                            </div>
+                                                                        </div>
+                                                                        
+                                                                        <div class="template-selection">
+                                                                            
+                                                                                                            
+                                                                                <div class="form_templates_aCc">
+
+                                                                                    <h4>Change Your Form Template here</h4>
+                                                                                    <div>
+                                                                                        <div class="form_templates terminology_c Template_Contact_Form">
+                                                                                            
+                                                                                            <?php
+
+                                                                                            $contacFormTemplates = $cUsCF_api->getTemplatesAndTabsAllowed('0', 'Template_Desktop_Form', $cUs_API_Account, $cUs_API_Key);
+                                                                                            $contacFormTemplates = json_decode($contacFormTemplates);
+                                                                                            $contacFormTemplates = $contacFormTemplates->data;
+
+                                                                                            if(!empty($contacFormTemplates)) : 
+                                                                                            ?>
+                                                                                            
+                                                                                                <div class="template_slider slider-<?php echo $formID; ?>">
+                                                                                                    
+                                                                                                    <?php foreach ($contacFormTemplates as $formTpl) : ?> 
+                                                                                                        
+                                                                                                        <span class="<?php echo (strlen($oForm->template_desktop_form) && $oForm->template_desktop_form == $formTpl->id)?'default':'tpl'?> item template-<?php echo $formTpl->id ; ?>" rel="<?php echo $formTpl->id ?>">
+                                                                                                            <img src="<?php echo $formTpl->thumbnail ?>"  alt="<?php echo $formTpl->name ?>" title="Form Name:<?php echo $formTpl->name ?>" />
+                                                                                                            <span class="captions">
+                                                                                                                <p>
+                                                                                                                    Form Name:<?php echo $formTpl->name ?><br>
+                                                                                                                </p>
+                                                                                                            </span>
+                                                                                                            <span class="def_bak"></span>
+                                                                                                        </span>
+                                                                                                    
+                                                                                                    <?php
+                                                                                                    
+                                                                                                    endforeach; ?>
+                                                                                                    
+                                                                                                </div>
+                                                                                            
+                                                                                            <?php endif; ?>
+                                                                                            
+                                                                                            <div class="save_message save_message_<?php echo $formID ; ?>">
+                                                                                                <p>Sending . . .</p>
+                                                                                            </div>
+                                                                                            
+                                                                                        </div>
+                                                                                        
+                                                                                        <input class="btn lightblue sendtemplate save-formtemplate-<?php echo $formID;?>" value="Save Form Template" type="button" />
+                                                                                        
+                                                                                        <input type="hidden" value="<?php echo $oForm->template_desktop_form ?>" name="id-formtemplate-<?php echo $formID;?>" id="id_formtemplate_<?php echo $formID;?>" />
+                                                                                        <input type="hidden" value="<?php echo $oForm->form_key ?>" name="id-formkey-<?php echo $formID;?>" id="id_formkey_<?php echo $formID;?>" />
+                                                                                        
+                                                                                        <script>
+                                                                                            
+                                                                                            jQuery('.slider-<?php echo $formID; ?> > .item').click(function(){
+                                                                                                
+                                                                                                jQuery('#id_formtemplate_<?php echo $formID;?>').val( jQuery(this).attr('rel') );
+                                                                                                jQuery('.slider-<?php echo $formID;?> > .item').removeClass('default');
+                                                                                                
+                                                                                                jQuery(this).addClass('default');
+                                                                                                
+                                                                                            });
+                                                                                            
+                                                                                            
+                                                                                            jQuery('.save-formtemplate-<?php echo $formID;?>').click(function(){ 
+                                                                                                
+                                                                                                var id_formtemplate_<?php echo $formID;?> = jQuery('#id_formtemplate_<?php echo $formID;?>').val();
+                                                                                                var id_formkey_<?php echo $formID;?> = jQuery('#id_formkey_<?php echo $formID;?>').val();
+
+                                                                                                var changeTemplate = jQuery.changeFormTemplate(<?php echo $formID;?>, id_formkey_<?php echo $formID;?>, id_formtemplate_<?php echo $formID;?>);
+
+                                                                                            });
+                                                                                            
+                                                                                        </script>
+                                                                                        
+                                                                                    </div>
+                                                                                    
+                                                                                    
+                                                                                    <h4>Change your Tab Template here</h4>
+                                                                                    <div>
+                                                                                        <div class="form_templates terminology_c Template_Contact_Form">
+                                                                                            
+                                                                                            <?php
+
+                                                                                            $contacFormTabTemplates = $cUsCF_api->getTemplatesAndTabsAllowed('0', 'Template_Desktop_Tab', $cUs_API_Account, $cUs_API_Key);
+                                                                                            $contacFormTabTemplates = json_decode($contacFormTabTemplates);
+                                                                                            $contacFormTabTemplates = $contacFormTabTemplates->data;
+
+                                                                                            if(!empty($contacFormTabTemplates)): ?>
+                                                                                                
+                                                                                                <div class="template_slider tabslider-<?php echo $formID; ?>">
+                                                                                                    <?php foreach ($contacFormTabTemplates as $formTpl) : ?> 
+                                                                                                        
+                                                                                                        <span class="<?php echo (strlen($oForm->template_desktop_tab) && $oForm->template_desktop_tab == $formTpl->id)?'default':'tpl'?> item template-<?php echo $formTpl->id ; ?>" rel="<?php echo $formTpl->id ?>">
+                                                                                                            <img src="<?php echo $formTpl->thumbnail ?>"  alt="<?php echo $formTpl->name ?>" title="Tab Name:<?php echo $formTpl->name ?>" />
+                                                                                                            <span class="captions">
+                                                                                                                <p>
+                                                                                                                    Tab Name:<?php echo $formTpl->name ?><br>
+                                                                                                                </p>
+                                                                                                            </span>
+                                                                                                            <span class="def_bak"></span>
+                                                                                                        </span>
+                                                                                                    
+                                                                                                    <?php 
+                                                                                                    endforeach; ?>
+                                                                                                </div>
+                                                                                            
+                                                                                            <?php endif; ?>
+                                                                                            
+                                                                                            
+                                                                                            <div class="save_message save_tab_message_<?php echo $formID ; ?>">
+                                                                                                <p>Sending . . .</p>
+                                                                                            </div>
+                                                                                            
+                                                                                        </div>
+                                                                                        
+                                                                                        <input class="btn lightblue sendtemplate save-tabtemplate-<?php echo $formID;?>" value="Save Tab" type="button" />
+                                                                                        
+                                                                                        <input type="hidden" value="<?php echo $oForm->template_desktop_tab ?>" name="id-tabtemplate-<?php echo $formID;?>" id="id_tabtemplate_<?php echo $formID;?>" />
+                                                                                        <input type="hidden" value="<?php echo $oForm->form_key ?>" name="id-tabkey-<?php echo $formID;?>" id="id_tabkey_<?php echo $formID;?>" />
+                                                                                        
+                                                                                        <script>
+                                                                                            
+                                                                                            jQuery('.tabslider-<?php echo $formID; ?> > .item').click(function(){
+                                                                                                
+                                                                                                jQuery('#id_tabtemplate_<?php echo $formID;?>').val( jQuery(this).attr('rel') );
+                                                                                                jQuery('.tabslider-<?php echo $formID;?> > .item').removeClass('default');
+                                                                                                
+                                                                                                jQuery(this).addClass('default');
+                                                                                            });
+                                                                                            
+                                                                                            
+                                                                                            jQuery('.save-tabtemplate-<?php echo $formID;?>').click(function(){
+                                                                                                
+                                                                                                var id_tabtemplate_<?php echo $formID;?> = jQuery('#id_tabtemplate_<?php echo $formID;?>').val();
+                                                                                                var id_tabkey_<?php echo $formID;?> = jQuery('#id_tabkey_<?php echo $formID;?>').val();
+
+                                                                                               jQuery.changeTabTemplate(<?php echo $formID;?>, id_tabkey_<?php echo $formID;?>, id_tabtemplate_<?php echo $formID;?>);
+
+                                                                                            });
+                                                                                            
+                                                                                        </script>
+                                                                                        
+                                                                                    </div>
+
+                                                                                </div> 
+                                                                                    
+                                                                        </div>
+                                                                        
+                                                                    </div>
+                                                                </div>
+
+                                                                <? }
+                                                            }
+                                                            break;
+                                                    endswitch;
+                                                }
+                                            ?>
+
+
+                                        </div>
+
+                                    
+                                        <div class="advice_notice">Advices....</div>
+                                    </div>
+                                </div>
+                            
+                                <div class="right-content">
+                                    <div class="upgrade_features">
+
+                                        <h3 class="review">Give a 5 stars review on </h3>
+                                        <a href="http://wordpress.org/support/view/plugin-reviews/contactuscom?rate=5#postform" target="_blank">Wordpress.org <img src="<?php echo plugins_url('style/images/five_stars.png', __FILE__) ;?> " /></a><br/><br/>
+                                        <h3>Share the plugin with your friends over <a href="mailto:yourfriend@mail.com?subject=Great new WordPress plugin for contact forms" class="email">email</a></h3>
+                                        <h3>Share the plugin on:</h3>
+                                        <div class="social_shares">
+                                            <a href="javascript:;"
+                                               onclick="
+                                                        window.open(
+                                                          'https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent('http://wordpress.org/plugins/contactuscom/'), 
+                                                          'facebook-share-dialog', 
+                                                          'width=626,height=436'); 
+                                                        return false;"
+                                               >Facebook<img src="<?php echo plugins_url('style/images/facebook_link.png', __FILE__) ;  ?> " /></a>
+                                            <a href="javascript:;"
+                                               onclick="
+                                                        window.open(
+                                                          'https://twitter.com/intent/tweet?url=http://bit.ly/1688yva&amp;text=Add beautiful, customizable, contact forms, used to generate new web customers by adding an advanced Contact Form.', 
+                                                          'twitter-tweet-dialog', 
+                                                          'width=626,height=436'); 
+                                                        return false;"
+                                               >Twitter<img src="<?php echo plugins_url('style/images/twitter_link.png', __FILE__) ;  ?> " /></a>
+                                            <a href="javascript:;"
+                                               onclick="
+                                                        window.open(
+                                                          'http://www.linkedin.com/cws/share?url=http://wordpress.org/plugins/contactuscom/&original_referer=http://wordpress.org/plugins/contactuscom/&token=&isFramed=false&lang=en_US', 
+                                                          'linkedin-share-dialog', 
+                                                          'width=626,height=436'); 
+                                                        return false;"
+                                               >LinkedIn<img src="<?php echo plugins_url('style/images/linkedin_link.png', __FILE__) ;  ?> " /></a>
+                                        </div><br/>
+                                        <h3>Discover our great features</h3>
+                                        <p>Enjoying the Free version of ContactUs.com? You will Love ContactUs.com Pro versions.</p>
+
+                                        <a href="http://www.contactus.com/pricing-plans/" target="_blank" class="btn large orange">Upgrade Your Account</a>
+
+                                    </div>
+                                </div><!-- // TAB RIGHT -->
+                            
+                        
+                        </div>
+                        
+                        <div id="tabs-3">
+                            <div class="left-content">
+                                
+                                <h2>ADVANCED ONLY!</h2>
+                                <div>
+                                    <div class="terminology_c">
+                                        <h4>Copy this code into your template to place the form wherever you want it.  If you use this advanced method, do not select any pages from the section on the left or you may end up with the form displayed on your page twice.</h4>
+                                        <ul class="hints">
+                                            <li><b>Inline</b>
+                                                <br/>WP Shortcode: <code> [show-contactuscom-form formkey="FORM KEY HERE" version="inline"] </code>
+                                                <br/>Php Snippet:<code>&#60;&#63;php echo do_shortcode("[show-contactuscom-form formkey="FORM KEY HERE" version="inline"]"); &#63;&#62;</code>
+                                            </li>
+                                            <li><b>Tab</b>
+                                                <br/>WP Shortcode:<code> [show-contactuscom-form formkey="FORM KEY HERE" version="tab"] </code>
+                                                <br/>Php Snippet:<code>&#60;&#63;php echo do_shortcode("[show-contactuscom-form formkey="FORM KEY HERE" version="tab"]"); &#63;&#62;</code>
+                                            </li>
+                                            <li><b>Widget Tool</b><br/><p>Go to <a href="widgets.php"><b>Widgets here </b></a> and drag the ContactUs.com widget into one of your widget areas</p></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                            
+                            <div class="right-content">
+                                <div class="upgrade_features">
+                                    
+                                    <h3 class="review">Give a 5 stars review on </h3>
+                                    <a href="http://wordpress.org/support/view/plugin-reviews/contactuscom?rate=5#postform" target="_blank">Wordpress.org <img src="<?php echo plugins_url('style/images/five_stars.png', __FILE__) ;?> " /></a><br/><br/>
+                                    <h3>Share the plugin with your friends over <a href="mailto:yourfriend@mail.com?subject=Great new WordPress plugin for contact forms" class="email">email</a></h3>
+                                    <h3>Share the plugin on:</h3>
+                                    <div class="social_shares">
+                                        <a href="javascript:;"
+                                           onclick="
+                                                    window.open(
+                                                      'https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent('http://wordpress.org/plugins/contactuscom/'), 
+                                                      'facebook-share-dialog', 
+                                                      'width=626,height=436'); 
+                                                    return false;"
+                                           >Facebook<img src="<?php echo plugins_url('style/images/facebook_link.png', __FILE__) ;  ?> " /></a>
+                                        <a href="javascript:;"
+                                           onclick="
+                                                    window.open(
+                                                      'https://twitter.com/intent/tweet?url=http://bit.ly/1688yva&amp;text=Add beautiful, customizable, contact forms, used to generate new web customers by adding an advanced Contact Form.', 
+                                                      'twitter-tweet-dialog', 
+                                                      'width=626,height=436'); 
+                                                    return false;"
+                                           >Twitter<img src="<?php echo plugins_url('style/images/twitter_link.png', __FILE__) ;  ?> " /></a>
+                                        <a href="javascript:;"
+                                           onclick="
+                                                    window.open(
+                                                      'http://www.linkedin.com/cws/share?url=http://wordpress.org/plugins/contactuscom/&original_referer=http://wordpress.org/plugins/contactuscom/&token=&isFramed=false&lang=en_US', 
+                                                      'linkedin-share-dialog', 
+                                                      'width=626,height=436'); 
+                                                    return false;"
+                                           >LinkedIn<img src="<?php echo plugins_url('style/images/linkedin_link.png', __FILE__) ;  ?> " /></a>
+                                    </div><br/>
+                                    <h3>Discover our great features</h3>
+                                    <p>Enjoying the Free version of ContactUs.com? You will Love ContactUs.com Pro versions.</p>
+                                    
+                                    <a href="http://www.contactus.com/pricing-plans/" target="_blank" class="btn large orange">Upgrade Your Account</a>
+                                    
+                                </div>
+                            </div><!-- // TAB RIGHT -->
+                            
+                        </div>
+                        <div id="tabs-4">
+                            <div class="left-content">
+                                <h2>Documentation</h2>
+                                
+                                <div class="iRecomend">
+                                    <h3>Important recommendation:</h3>
+                                    <p> Your default theme must have the <b>"wp_footer()"</b> function added.</p>
+                                    
+                                    <h3>Helpful Hints</h3>
+                                    
+                                    <ul class="hints">
+                                        <li>Take a moment to log into ContactUs.com (with the user name/password you registered with) to see the full set of solutions offered.</li>
+                                        <li>You can also generate leads and newsletter signups from your Facebook page by enabling the ContactUs.com Facebook App.  It only takes two clicks!</li>
+                                    </ul>
+                                    
+                                </div>
+                                
+                               
+                            </div>
+                            
+                            <div class="right-content">
+                                <div class="upgrade_features">
+                                    
+                                    <h3 class="review">Give a 5 stars review on </h3>
+                                    <a href="http://wordpress.org/support/view/plugin-reviews/contactuscom?rate=5#postform" target="_blank">Wordpress.org <img src="<?php echo plugins_url('style/images/five_stars.png', __FILE__) ;?> " /></a><br/><br/>
+                                    <h3>Share the plugin with your friends over <a href="mailto:yourfriend@mail.com?subject=Great new WordPress plugin for contact forms" class="email">email</a></h3>
+                                    <h3>Share the plugin on:</h3>
+                                    <div class="social_shares">
+                                        <a href="javascript:;"
+                                           onclick="
+                                                    window.open(
+                                                      'https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent('http://wordpress.org/plugins/contactuscom/'), 
+                                                      'facebook-share-dialog', 
+                                                      'width=626,height=436'); 
+                                                    return false;"
+                                           >Facebook<img src="<?php echo plugins_url('style/images/facebook_link.png', __FILE__) ;  ?> " /></a>
+                                        <a href="javascript:;"
+                                           onclick="
+                                                    window.open(
+                                                      'https://twitter.com/intent/tweet?url=http://bit.ly/1688yva&amp;text=Add beautiful, customizable, contact forms, used to generate new web customers by adding an advanced Contact Form.', 
+                                                      'twitter-tweet-dialog', 
+                                                      'width=626,height=436'); 
+                                                    return false;"
+                                           >Twitter<img src="<?php echo plugins_url('style/images/twitter_link.png', __FILE__) ;  ?> " /></a>
+                                        <a href="javascript:;"
+                                           onclick="
+                                                    window.open(
+                                                      'http://www.linkedin.com/cws/share?url=http://wordpress.org/plugins/contactuscom/&original_referer=http://wordpress.org/plugins/contactuscom/&token=&isFramed=false&lang=en_US', 
+                                                      'linkedin-share-dialog', 
+                                                      'width=626,height=436'); 
+                                                    return false;"
+                                           >LinkedIn<img src="<?php echo plugins_url('style/images/linkedin_link.png', __FILE__) ;  ?> " /></a>
+                                    </div><br/>
+                                    <h3>Discover our great features</h3>
+                                    <p>Enjoying the Free version of ContactUs.com? You will Love ContactUs.com Pro versions.</p>
+                                    
+                                    <a href="http://www.contactus.com/pricing-plans/" target="_blank" class="btn large orange">Upgrade Your Account</a>
+                                    
+                                </div>
+                            </div><!-- // TAB RIGHT -->
+                            
+                        </div>
+                        
+                        
+                        <div id="tabs-5">
+                            
+                            <div class="left-content">
+                                <?php //print_r($current_user);?>
+                                <form method="post" action="admin.php?page=cUs_malchimp_plugin" id="cUsMC_data" name="cUsMC_sendkey" class="steps" onsubmit="return false;">
+                                    <h3 class="step_title">Your ContactUs.com Account</h3>
+                                    <table class="form-table">
+                                        <tr>
+                                            <th><label class="labelform">Names</label><br>
+                                            <td><span class="cus_names"><?php echo $current_user->first_name;?> <?php echo $current_user->last_name;?></span></td>
+                                        </tr>
+                                        <tr>
+                                            <th><label class="labelform">Email</label><br>
+                                            <td><span class="cus_email"><?php echo $options['email'];?></span></td>
+                                        </tr>
+                                       
+                                        <tr><th></th>
+                                            <td>
+                                                <hr/>
+                                                <input id="logoutbtn" class="btn orange cUsCF_LogoutUser" value="Unlink Account" type="button">
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </form>
+                            </div>
+                            
+                            <div class="right-content">
+                                <div class="upgrade_features">
+                                    
+                                    <h3 class="review">Give a 5 stars review on </h3>
+                                    <a href="http://wordpress.org/support/view/plugin-reviews/contactuscom?rate=5#postform" target="_blank">Wordpress.org <img src="<?php echo plugins_url('style/images/five_stars.png', __FILE__) ;?> " /></a><br/><br/>
+                                    <h3>Share the plugin with your friends over <a href="mailto:yourfriend@mail.com?subject=Great new WordPress plugin for contact forms" class="email">email</a></h3>
+                                    <h3>Share the plugin on:</h3>
+                                    <div class="social_shares">
+                                        <a href="javascript:;"
+                                           onclick="
+                                                    window.open(
+                                                      'https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent('http://wordpress.org/plugins/contactuscom/'), 
+                                                      'facebook-share-dialog', 
+                                                      'width=626,height=436'); 
+                                                    return false;"
+                                           >Facebook<img src="<?php echo plugins_url('style/images/facebook_link.png', __FILE__) ;  ?> " /></a>
+                                        <a href="javascript:;"
+                                           onclick="
+                                                    window.open(
+                                                      'https://twitter.com/intent/tweet?url=http://bit.ly/1688yva&amp;text=Add beautiful, customizable, contact forms, used to generate new web customers by adding an advanced Contact Form.', 
+                                                      'twitter-tweet-dialog', 
+                                                      'width=626,height=436'); 
+                                                    return false;"
+                                           >Twitter<img src="<?php echo plugins_url('style/images/twitter_link.png', __FILE__) ;  ?> " /></a>
+                                        <a href="javascript:;"
+                                           onclick="
+                                                    window.open(
+                                                      'http://www.linkedin.com/cws/share?url=http://wordpress.org/plugins/contactuscom/&original_referer=http://wordpress.org/plugins/contactuscom/&token=&isFramed=false&lang=en_US', 
+                                                      'linkedin-share-dialog', 
+                                                      'width=626,height=436'); 
+                                                    return false;"
+                                           >LinkedIn<img src="<?php echo plugins_url('style/images/linkedin_link.png', __FILE__) ;  ?> " /></a>
+                                    </div><br/>
+                                    <h3>Discover our great features</h3>
+                                    <p>Enjoying the Free version of ContactUs.com? You will Love ContactUs.com Pro versions.</p>
+                                    
+                                    <a href="http://www.contactus.com/pricing-plans/" target="_blank" class="btn large orange">Upgrade Your Account</a>
+                                    
+                                </div>
+                            </div><!-- // TAB RIGHT -->
+                            
+                        </div>
+                        <?php }else{ ?>
+                        <div id="tabs-1">
+                            
+                            <div class="left-content">
+                                
+                                <h3>Note:</h3>
+                                <p>Hi ContactUs users, welcome to your V3 Contact form!, in order for the our new cool upgrades to work, we need to sign in to your ContactUs account here. This is a one time thing, after up-grade set up, we wont ask this again.</p>
+                               
+
+                                <div id="cUsCF_settingss">
+
+                                    <div class="loadingMessage"></div>
+                                    <div class="advice_notice">Advices....</div>
+                                    <div class="notice">Ok....</div>
+
+                                    <form method="post" action="admin.php?page=cUsCF_form_plugin" id="cUsCF_loginform" name="cUsCF_loginform" class="steps login_form" onsubmit="return false;">
+                                        <h3>ContactUs.com Login</h3>
+
+                                        <table class="form-table">
+
+                                            <tr>
+                                                <th><label class="labelform" for="login_email">Email</label><br>
+                                                <td><input class="inputform" name="cUsCF_settings[login_email]" id="login_email" type="text"></td>
+                                            </tr>
+                                            <tr>
+                                                <th><label class="labelform" for="user_pass">Password</label></th>
+                                                <td><input class="inputform" name="cUsCF_settings[user_pass]" id="user_pass" type="password"></td>
+                                            </tr>
+                                            <tr><th></th>
+                                                <td>
+                                                    <input id="loginbtn" class="btn lightblue cUsCF_LoginUser" value="Login" type="submit">
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th></th>
+                                                <td>
+                                                    <a href="https://www.contactus.com/client-login.php" target="_blank">I forgot my password</a>
+                                                </td>
+                                            </tr>
+
+                                        </table>
+                                    </form>
+                                </div>
+                                
+                          </div>
+                            
+                          <div class="right-content">
+                                <div class="upgrade_features">
+                                    
+                                    <h3 class="review">Give a 5 stars review on </h3>
+                                    <a href="http://wordpress.org/support/view/plugin-reviews/contactuscom?rate=5#postform" target="_blank">Wordpress.org <img src="<?php echo plugins_url('style/images/five_stars.png', __FILE__) ;?> " /></a><br/><br/>
+                                    <h3>Share the plugin with your friends over <a href="mailto:yourfriend@mail.com?subject=Great new WordPress plugin for contact forms" class="email">email</a></h3>
+                                    <h3>Share the plugin on:</h3>
+                                    <div class="social_shares">
+                                        <a href="javascript:;"
+                                           onclick="
+                                                    window.open(
+                                                      'https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent('http://wordpress.org/plugins/contactuscom/'), 
+                                                      'facebook-share-dialog', 
+                                                      'width=626,height=436'); 
+                                                    return false;"
+                                           >Facebook<img src="<?php echo plugins_url('style/images/facebook_link.png', __FILE__) ;  ?> " /></a>
+                                        <a href="javascript:;"
+                                           onclick="
+                                                    window.open(
+                                                      'https://twitter.com/intent/tweet?url=http://bit.ly/1688yva&amp;text=Add beautiful, customizable, contact forms, used to generate new web customers by adding an advanced Contact Form.', 
+                                                      'twitter-tweet-dialog', 
+                                                      'width=626,height=436'); 
+                                                    return false;"
+                                           >Twitter<img src="<?php echo plugins_url('style/images/twitter_link.png', __FILE__) ;  ?> " /></a>
+                                        <a href="javascript:;"
+                                           onclick="
+                                                    window.open(
+                                                      'http://www.linkedin.com/cws/share?url=http://wordpress.org/plugins/contactuscom/&original_referer=http://wordpress.org/plugins/contactuscom/&token=&isFramed=false&lang=en_US', 
+                                                      'linkedin-share-dialog', 
+                                                      'width=626,height=436'); 
+                                                    return false;"
+                                           >LinkedIn<img src="<?php echo plugins_url('style/images/linkedin_link.png', __FILE__) ;  ?> " /></a>
+                                    </div><br/>
+                                    <h3>Discover our great features</h3>
+                                    <p>Enjoying the Free version of ContactUs.com? You will Love ContactUs.com Pro versions.</p>
+                                    
+                                    <a href="http://www.contactus.com/pricing-plans/" target="_blank" class="btn large orange">Upgrade Your Account</a>
+                                    
+                                </div>
+                            </div><!-- // TAB RIGHT -->  
+                            
+                        </div>
+                        <?php } //USERS CREDENTIALS UPDATE ?>
+                        
                     <?php endif; ?>
 
-                    <div id="tabs-4">
-                        <div id="cUsMC_mcsettings">
-                            <h2>More About ContactUs.com</h2>
-
-                            <div id="cUs_exampletabs">
-                                <ul>
-                                    <li><a href="#extabs-1">Form Examples</a></li>
-                                    <li><a href="#extabs-2">Mobile Form</a></li>
-                                    <li><a href="#extabs-3">Tab Examples</a></li>
-                                    <li><a href="#extabs-4">Account Screenshots</a></li>
-                                    <li><a href="#extabs-5">Facebook preview</a></li>
-                                </ul>
-                                <div id="extabs-1">
-                                    <h4>Form Examples</h4>
-                                    <div class="previews_cont">
-                                        <ul id="sortable">
-                                            <li class="ui-state-default"><a class="examples_gallery" title="ContactUs.com Form Template" data-fancybox-group="forms_gallery" href="<?php echo plugins_url('style/images/form_preview/large/f1.png', __FILE__) ?>"><img src="<?php echo plugins_url('style/images/form_preview/thumb/f1.png', __FILE__) ?>" alt="ContactUs.com Form Template" /></a></li>
-                                            <li class="ui-state-default"><a class="examples_gallery" title="ContactUs.com Form Template" data-fancybox-group="forms_gallery" href="<?php echo plugins_url('style/images/form_preview/large/f2.png', __FILE__) ?>"><img src="<?php echo plugins_url('style/images/form_preview/thumb/f2.png', __FILE__) ?>" /></a></li>
-                                            <li class="ui-state-default"><a class="examples_gallery" title="ContactUs.com Form Template" data-fancybox-group="forms_gallery" href="<?php echo plugins_url('style/images/form_preview/large/f3.png', __FILE__) ?>"><img src="<?php echo plugins_url('style/images/form_preview/thumb/f3.png', __FILE__) ?>" /></a></li>
-                                            <li class="ui-state-default"><a class="examples_gallery" title="ContactUs.com Form Template" data-fancybox-group="forms_gallery" href="<?php echo plugins_url('style/images/form_preview/large/f4.png', __FILE__) ?>"><img src="<?php echo plugins_url('style/images/form_preview/thumb/f4.png', __FILE__) ?>" /></a></li>
-                                            <li class="ui-state-default"><a class="examples_gallery" title="ContactUs.com Form Template" data-fancybox-group="forms_gallery" href="<?php echo plugins_url('style/images/form_preview/large/f5.png', __FILE__) ?>"><img src="<?php echo plugins_url('style/images/form_preview/thumb/f5.png', __FILE__) ?>" /></a></li>
-                                            <li class="ui-state-default"><a class="examples_gallery" title="ContactUs.com Form Template" data-fancybox-group="forms_gallery" href="<?php echo plugins_url('style/images/form_preview/large/f6.png', __FILE__) ?>"><img src="<?php echo plugins_url('style/images/form_preview/thumb/f6.png', __FILE__) ?>" /></a></li>
-                                            <li class="ui-state-default"><a class="examples_gallery" title="ContactUs.com Form Template" data-fancybox-group="forms_gallery" href="<?php echo plugins_url('style/images/form_preview/large/f7.png', __FILE__) ?>"><img src="<?php echo plugins_url('style/images/form_preview/thumb/f7.png', __FILE__) ?>" /></a></li>
-                                            <li class="ui-state-default"><a class="examples_gallery" title="ContactUs.com Form Template" data-fancybox-group="forms_gallery" href="<?php echo plugins_url('style/images/form_preview/large/f8.png', __FILE__) ?>"><img src="<?php echo plugins_url('style/images/form_preview/thumb/f8.png', __FILE__) ?>" /></a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div id="extabs-2">
-                                    <h4>Mobile Form</h4>
-                                    <div class="previews_cont">
-                                        <ul id="sortable">
-                                            <li class="ui-state-default"><a class="examples_gallery" title="Mobile Form Template" data-fancybox-group="mobile_gallery" href="<?php echo plugins_url('style/images/mobile_preview/large/f1.png', __FILE__) ?>"><img src="<?php echo plugins_url('style/images/mobile_preview/thumb/f1.png', __FILE__) ?>" /></a></li>
-                                            <li class="ui-state-default"><a class="examples_gallery" title="Mobile Form Template" data-fancybox-group="mobile_gallery" href="<?php echo plugins_url('style/images/mobile_preview/large/f2.png', __FILE__) ?>"><img src="<?php echo plugins_url('style/images/mobile_preview/thumb/f2.png', __FILE__) ?>" /></a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div id="extabs-3">
-                                    <h4>Tab Examples</h4> <h5>(shown if “Tab” implementation is chosen)</h5>
-
-                                    <div class="previews_cont">
-                                        <ul id="sortable">
-                                            <li class="ui-state-default"><a class="examples_gallery" title="ContactUs.com Tab Button" data-fancybox-group="tabs_gallery" href="<?php echo plugins_url('style/images/tabs/large/t1.png', __FILE__) ?>"><img src="<?php echo plugins_url('style/images/tabs/thumb/t1.png', __FILE__) ?>" /></a></li>
-                                            <li class="ui-state-default"><a class="examples_gallery" title="ContactUs.com Tab Button" data-fancybox-group="tabs_gallery" href="<?php echo plugins_url('style/images/tabs/large/t4.png', __FILE__) ?>"><img src="<?php echo plugins_url('style/images/tabs/thumb/t4.png', __FILE__) ?>" /></a></li>                                            
-                                            <li class="ui-state-default"><a class="examples_gallery" title="ContactUs.com Tab Button" data-fancybox-group="tabs_gallery" href="<?php echo plugins_url('style/images/tabs/large/t5.png', __FILE__) ?>"><img src="<?php echo plugins_url('style/images/tabs/thumb/t5.png', __FILE__) ?>" /></a></li>
-                                            <li class="ui-state-default"><a class="examples_gallery" title="ContactUs.com Tab Button" data-fancybox-group="tabs_gallery" href="<?php echo plugins_url('style/images/tabs/large/t6.png', __FILE__) ?>"><img src="<?php echo plugins_url('style/images/tabs/thumb/t6.png', __FILE__) ?>" /></a></li>
-                                            <li class="ui-state-default"><a class="examples_gallery" title="ContactUs.com Tab Button" data-fancybox-group="tabs_gallery" href="<?php echo plugins_url('style/images/tabs/large/t7.png', __FILE__) ?>"><img src="<?php echo plugins_url('style/images/tabs/thumb/t7.png', __FILE__) ?>" /></a></li>
-                                            <li class="ui-state-default"><a class="examples_gallery" title="ContactUs.com Tab Button" data-fancybox-group="tabs_gallery" href="<?php echo plugins_url('style/images/tabs/large/t7a.png', __FILE__) ?>"><img src="<?php echo plugins_url('style/images/tabs/thumb/t7.png', __FILE__) ?>" /></a></li>
-                                            <li class="ui-state-default"><a class="examples_gallery" title="ContactUs.com Tab Button" data-fancybox-group="tabs_gallery" href="<?php echo plugins_url('style/images/tabs/large/t8.png', __FILE__) ?>"><img src="<?php echo plugins_url('style/images/tabs/thumb/t8.png', __FILE__) ?>" /></a></li>
-                                            <li class="ui-state-default"><a class="examples_gallery" title="ContactUs.com Tab Button" data-fancybox-group="tabs_gallery" href="<?php echo plugins_url('style/images/tabs/large/t8a.png', __FILE__) ?>"><img src="<?php echo plugins_url('style/images/tabs/thumb/t8.png', __FILE__) ?>" /></a></li>
-                                            <li class="ui-state-default"><a class="examples_gallery" title="ContactUs.com Tab Button" data-fancybox-group="tabs_gallery" href="<?php echo plugins_url('style/images/tabs/large/t9.png', __FILE__) ?>"><img src="<?php echo plugins_url('style/images/tabs/thumb/t9.png', __FILE__) ?>" /></a></li>
-                                            <li class="ui-state-default"><a class="examples_gallery" title="ContactUs.com Tab Button" data-fancybox-group="tabs_gallery" href="<?php echo plugins_url('style/images/tabs/large/t10.png', __FILE__) ?>"><img src="<?php echo plugins_url('style/images/tabs/thumb/t10.png', __FILE__) ?>" /></a></li>
-                                            <li class="ui-state-default"><a class="examples_gallery" title="ContactUs.com Tab Button" data-fancybox-group="tabs_gallery" href="<?php echo plugins_url('style/images/tabs/large/t10a.png', __FILE__) ?>"><img src="<?php echo plugins_url('style/images/tabs/thumb/t10.png', __FILE__) ?>" /></a></li>
-                                            <li class="ui-state-default"><a class="examples_gallery" title="ContactUs.com Tab Button" data-fancybox-group="tabs_gallery" href="<?php echo plugins_url('style/images/tabs/large/t11.png', __FILE__) ?>"><img src="<?php echo plugins_url('style/images/tabs/thumb/t11.png', __FILE__) ?>" /></a></li>
-                                            <li class="ui-state-default"><a class="examples_gallery" title="ContactUs.com Tab Button" data-fancybox-group="tabs_gallery" href="<?php echo plugins_url('style/images/tabs/large/t11a.png', __FILE__) ?>"><img src="<?php echo plugins_url('style/images/tabs/thumb/t11.png', __FILE__) ?>" /></a></li>
-                                            <li class="ui-state-default"><a class="examples_gallery" title="ContactUs.com Tab Button" data-fancybox-group="tabs_gallery" href="<?php echo plugins_url('style/images/tabs/large/t11b.png', __FILE__) ?>"><img src="<?php echo plugins_url('style/images/tabs/thumb/t11.png', __FILE__) ?>" /></a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div id="extabs-4">
-                                    <h4>Account Screenshots</h4>
-                                    <div class="previews_cont">
-                                        <ul id="sortable">
-                                            <li class="ui-state-default"><a class="examples_gallery" title="ContactUs.com Dashboard Preview" data-fancybox-group="admin_gallery" href="<?php echo plugins_url('style/images/admin/large/d1.jpg', __FILE__) ?>"><img src="<?php echo plugins_url('style/images/admin/thumb/d1.png', __FILE__) ?>" /></a></li>
-                                            <li class="ui-state-default"><a class="examples_gallery" title="ContactUs.com Getting Started Preview" data-fancybox-group="admin_gallery" href="<?php echo plugins_url('style/images/admin/large/d2.jpg', __FILE__) ?>"><img src="<?php echo plugins_url('style/images/admin/thumb/d2.png', __FILE__) ?>" /></a></li>
-                                            <li class="ui-state-default"><a class="examples_gallery" title="ContactUs.com Detailed Reports" data-fancybox-group="admin_gallery" href="<?php echo plugins_url('style/images/admin/large/d3.jpg', __FILE__) ?>"><img src="<?php echo plugins_url('style/images/admin/thumb/d3.png', __FILE__) ?>" /></a></li>
-                                            <li class="ui-state-default"><a class="examples_gallery" title="ContactUs.com Form Settings" data-fancybox-group="admin_gallery" href="<?php echo plugins_url('style/images/admin/large/d4.jpg', __FILE__) ?>"><img src="<?php echo plugins_url('style/images/admin/thumb/d4.png', __FILE__) ?>" /></a></li>
-                                            <li class="ui-state-default"><a class="examples_gallery" title="ContactUs.com Form Templates" data-fancybox-group="admin_gallery" href="<?php echo plugins_url('style/images/admin/large/d5.jpg', __FILE__) ?>"><img src="<?php echo plugins_url('style/images/admin/thumb/d5.png', __FILE__) ?>" /></a></li>
-                                            <li class="ui-state-default"><a class="examples_gallery" title="ContactUs.com Calendar/Appointments Preview" data-fancybox-group="admin_gallery" href="<?php echo plugins_url('style/images/admin/large/d6.jpg', __FILE__) ?>"><img src="<?php echo plugins_url('style/images/admin/thumb/d6.png', __FILE__) ?>" /></a></li>
-                                            <li class="ui-state-default"><a class="examples_gallery" title="ContactUs.com Website Code Box" data-fancybox-group="admin_gallery" href="<?php echo plugins_url('style/images/admin/large/d7.png', __FILE__) ?>"><img src="<?php echo plugins_url('style/images/admin/thumb/d7.png', __FILE__) ?>" /></a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div id="extabs-5">
-                                    <h4>Facebook preview</h4>
-                                    <div class="previews_cont">
-                                        <ul id="sortable">
-                                            <li class="ui-state-default"><a class="examples_gallery" title="ContactUs.com Facebook App" data-fancybox-group="facebook_gallery" href="<?php echo plugins_url('style/images/facebook/large/f1.png', __FILE__) ?>"><img src="<?php echo plugins_url('style/images/facebook/thumb/f1.png', __FILE__) ?>" /></a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-
-                </div>
-
             </div>
-            <div class="social_share">
-                <span class='st_facebook_hcount' displayText='Facebook' st_url="http://wordpress.org/plugins/contactuscom/" st_title="ContactUs.com Contact Form Plugin" st_summary="Add beautiful, customizable, contact forms, used to generate new web customers by adding an advanced Contact Form, powered by ContactUs.com onto your WordPress website"  st_image="https://www.contactus.com/img/ContactUs-Logo.png"></span>
-                <span class='st_fblike_hcount' displayText='Facebook Like' st_url="https://www.facebook.com/ContactUscom" st_title="ContactUs.com Contact Form Plugin" st_summary="Add beautiful, customizable, contact forms, used to generate new web customers by adding an advanced Contact Form, powered by ContactUs.com onto your WordPress website"  st_image="https://www.contactus.com/img/ContactUs-Logo.png"></span>
-                <span class='st_twitter_hcount' displayText='Tweet' st_url="http://wordpress.org/plugins/contactuscom/" st_title="ContactUs.com offers contact form systems for websites to capture and manage inquiries." st_summary="Add beautiful, customizable, contact forms, used to generate new web customers by adding an advanced Contact Form, powered by ContactUs.com onto your WordPress website"></span>
-            </div>
-            <a href="http://www.contactus.com" target="_blank" class="powered">Powered By ContactUs.com</a>
         </div>
 
         <?php
     }
 
 }
-
-/*
- * GET CONTACTUS API RESPONSE
- */
-
-function getFormKeyAPI($cUs_email, $cUs_pass) {
-
-    $cUs_email = preg_replace('/\s+/', '%20', $cUs_email);
-
-    $ch = curl_init();
-
-    $strCURLOPT = 'https://api.contactus.com/api2.php';
-    $strCURLOPT .= '?API_Account=AC00000bb19ec0c1dd1fe715ef23afa9cf';
-    $strCURLOPT .= '&API_Key=00000b77edc87072ce89f0982b3d9687';
-    $strCURLOPT .= '&API_Action=getFormKey';
-    $strCURLOPT .= '&Email=' . sanitize_email(trim($cUs_email));
-    $strCURLOPT .= '&Password=' . trim($cUs_pass);
-
-    curl_setopt($ch, CURLOPT_URL, $strCURLOPT);
-    curl_setopt($ch, CURLOPT_HEADER, 0);
-    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-    $content = curl_exec($ch);
-    curl_close($ch);
-
-    return $content;
-}
-
-function createCustomer($postData) {
-
-    $postData = preg_replace('/\s+/', '%20', $postData);
-
-    $ch = curl_init();
-
-    $strCURLOPT = 'https://api.contactus.com/api2.php';
-    $strCURLOPT .= '?API_Account=AC11111f363ae737fb7c60b75dfdcbb306';
-    $strCURLOPT .= '&API_Key=1111165fc715b9857909c062fd5ad7e3';
-    $strCURLOPT .= '&API_Action=createSignupCustomer';
-    $strCURLOPT .= '&First_Name=' . trim( $postData['fname'] );
-    $strCURLOPT .= '&Last_Name=' . trim( $postData['lname'] ) ;
-    $strCURLOPT .= '&Email=' . trim($postData['remail']);
-    $strCURLOPT .= '&Website=' . esc_url(trim($postData[website1]));
-    $strCURLOPT .= '&IP_Address='.getIP();
-    $strCURLOPT .= '&Auto_Activate=1';
-    $strCURLOPT .= '&Promotion_Code=WP';
-    $strCURLOPT .= '&Version=wp|2.5.5';
-
-    curl_setopt($ch, CURLOPT_URL, $strCURLOPT);
-    curl_setopt($ch, CURLOPT_HEADER, 0);
-    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-    $content = curl_exec($ch);
-    curl_close($ch);
-
-    return $content;
-}
-
-function getIP() {
-
-    // Get some headers that may contain the IP address
-    $SimpleIP = (isset($REMOTE_ADDR) ? $REMOTE_ADDR : getenv("REMOTE_ADDR"));
-
-    $TrueIP = (isset($HTTP_CUSTOM_FORWARDED_FOR) ? $HTTP_CUSTOM_FORWARDED_FOR : getenv("HTTP_CUSTOM_FORWARDED_FOR"));
-    if ($TrueIP == "")
-        $TrueIP = (isset($HTTP_X_FORWARDED_FOR) ? $HTTP_X_FORWARDED_FOR : getenv("HTTP_X_FORWARDED_FOR"));
-    if ($TrueIP == "")
-        $TrueIP = (isset($HTTP_X_FORWARDED) ? $HTTP_X_FORWARDED : getenv("HTTP_X_FORWARDED"));
-    if ($TrueIP == "")
-        $TrueIP = (isset($HTTP_FORWARDED_FOR) ? $HTTP_FORWARDED_FOR : getenv("HTTP_FORWARDED_FOR"));
-    if ($TrueIP == "")
-        $TrueIP = (isset($HTTP_FORWARDED) ? $HTTP_FORWARDED : getenv("HTTP_FORWARDED"));
-
-    $GetProxy = ($TrueIP == "" ? "0" : "1");
-
-    if ($GetProxy == "0") {
-        $TrueIP = (isset($HTTP_VIA) ? $HTTP_VIA : getenv("HTTP_VIA"));
-        if ($TrueIP == "")
-            $TrueIP = (isset($HTTP_X_COMING_FROM) ? $HTTP_X_COMING_FROM : getenv("HTTP_X_COMING_FROM"));
-        if ($TrueIP == "")
-            $TrueIP = (isset($HTTP_COMING_FROM) ? $HTTP_COMING_FROM : getenv("HTTP_COMING_FROM"));
-        if ($TrueIP != "")
-            $GetProxy = "2";
-    };
-
-    if ($TrueIP == $SimpleIP)
-        $GetProxy = "0";
-
-    // Return the true IP if found, else the proxy IP with a 'p' at the begining
-    switch ($GetProxy) {
-        case '0':
-            // True IP without proxy
-            $IP = $SimpleIP;
-            break;
-        case '1':
-            $b = preg_match("%^([0-9]{1,3}\.){3,3}[0-9]{1,3}%", $TrueIP, $IP_array);
-            if ($b && (count($IP_array) > 0)) {
-                // True IP behind a proxy
-                $IP = $IP_array[0];
-            } else {
-                // Proxy IP
-                $IP = $SimpleIP;
-            };
-            break;
-        case '2':
-            // Proxy IP
-            $IP = $SimpleIP;
-    };
-
-    if(!strlen($IP) || $IP == '127.0.0.1'):
-        $externalContent = file_get_contents('http://checkip.dyndns.com/');
-        preg_match('/Current IP Address: ([\[\]:.[0-9a-fA-F]+)</', $externalContent, $m);
-        $IP = $m[1];
-    endif;
-
-    return $IP;
-}
-
-
 
 ?>

@@ -1,8 +1,8 @@
 === Contact Form by ContactUs.com ===
 Contributors: contactus.com
-Stable tag: 2.5.5
+Stable tag: 3.0
 Requires at least: 3.4.2
-Tested up to: 3.6
+Tested up to: 3.6.1
 Donate link:
 Tags: ContactUs.com Form, contact form, contact form plugin, contact us form, contact us button, contact us button tab, contact, contacts, feedback, form, contact tab, contact us
 License: GPLv2 or later
@@ -144,15 +144,25 @@ Here's a look at how simple it is to customize your form:
 6. This is how our Facebook App looks
 7. Our beautiful mobile friendly form
 8. You can configure a follow up email
-9. Plugin V2 New Features
-10. One-Step Registration. Sign up directly from our plugin
-11. Easy Login. Connect your account for future sessions
-12. Form Settings. TAB BUTTON Form version
-13. Form Settings. INLINE Form Page version
-14. CUSTOM Form Settings. Choose which page(s) to place your contact form. (NEW in 2.5)
+9. Plugin V3 New Look
+10. Form Settings: Manage Multiple Forms
+11. Form Settings: Form Templates Manager
+12. Form Settings: Tab Templates Manager
+13. Advanced: Shortcodes & Php Snippets
 
 
 == Changelog ==
+
+= 3.0 =
+* ***NEW : Hability to choose Form and Tab Templates on SignUp.***
+* ***NEW : Manage Multiple Forms.***
+* ***NEW : Form Templates Manager in plugin settings.***
+* ***NEW : Tab Templates Manager in plugin settings.***
+* ***NEW : Shortcodes for multiple Forms and Tabs.***
+* ***NEW : Php Snippets for Advanced Users.***
+* ***NEW : Plugin Look and Feel.***
+* Minor Bug Fixes
+* *Launch date 30.09.2013*
 
 = 2.5.5 =
 * Resolved minor sign up issues
@@ -202,6 +212,9 @@ Here's a look at how simple it is to customize your form:
 * *Launch date 13.03.2013*
 
 == Upgrade Notice ==
+
+= 3.0 =
+New awesome features in this version now available, update NOW!
 
 = 2.5.5 =
 New version available, update NOW!
