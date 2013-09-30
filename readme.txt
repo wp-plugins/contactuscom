@@ -154,7 +154,7 @@ Here's a look at how simple it is to customize your form:
 == Changelog ==
 
 = 3.0 =
-* ***NEW : Hability to choose Form and Tab Templates on SignUp.***
+* ***NEW : Ability to choose Form and Tab Templates on SignUp.***
 * ***NEW : Manage Multiple Forms.***
 * ***NEW : Form Templates Manager in plugin settings.***
 * ***NEW : Tab Templates Manager in plugin settings.***
