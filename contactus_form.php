@@ -344,7 +344,9 @@ if (!function_exists('cUs_menu_render')) {
                         delete_option('contactus_settings_tabpages');
 
                         update_option('contactus_settings', $aryOptions); //UPDATE OPTIONS
+                        
                         cus_shortcode_cleaner();
+                        
                         $options = get_option('contactus_settings'); //GET THE NEW OPTIONS
                         $inline_page_id = $options['inline_page_id'];
                         $cus_version = $options['cus_version'];
