@@ -154,13 +154,13 @@ Here's a look at how simple it is to customize your form:
 == Changelog ==
 
 = 3.0 =
-* ***NEW : Ability to choose Form and Tab Templates on SignUp.***
-* ***NEW : Manage Multiple Forms.***
-* ***NEW : Form Templates Manager in plugin settings.***
-* ***NEW : Tab Templates Manager in plugin settings.***
-* ***NEW : Shortcodes for multiple Forms and Tabs.***
-* ***NEW : Php Snippets for Advanced Users.***
-* ***NEW : Plugin Look and Feel.***
+* ***NEW : Ability to choose Form and Tab Templates on SignUp***
+* ***NEW : Manage Multiple Forms***
+* ***NEW : Form Templates Manager in plugin settings***
+* ***NEW : Tab Templates Manager in plugin settings***
+* ***NEW : Shortcodes for multiple Forms and Tabs***
+* ***NEW : Php Snippets for Advanced Users***
+* ***NEW : Plugin Look and Feel***
 * Minor Bug Fixes
 * *Launch date 30.09.2013*
 
@@ -169,35 +169,35 @@ Here's a look at how simple it is to customize your form:
 * *Launch date 21.08.2013*
 
 = 2.5.4 =
-* NEW: Button Tab by default at first time.
-* Fixed: Validation for required data.
+* NEW: Button Tab by default at first time
+* Fixed: Validation for required data
 * *Launch date 21.08.2013*
 
 = 2.5.3 =
-* ***NEW : Plugin Look and Feel.***
-* Bug Fix: Minor url encode issues on sign up.
+* ***NEW : Plugin Look and Feel***
+* Bug Fix: Minor url encode issues on sign up
 * *Launch date 29.07.2013*
 
 = 2.5.2 =
-* ***NEW : Most form templates are now responsive design (with minimums and maximums for best appearance).***
-* Bug Fix: Minor javascript issues.
-* Udated: Using wp core jQuery UI.
+* ***NEW : Most form templates are now responsive design (with minimums and maximums for best appearance)***
+* Bug Fix: Minor javascript issues
+* Udated: Using wp core jQuery UI
 * *Launch date 12.07.2013*
 
 = 2.5.1 =
-* NEW : One-step activation process.
+* NEW : One-step activation process
 * Simplified: Signup process so that initial password is auto-generated
 * Removed: Requirement for separate activation via email
-* Bug Fix: Our Button Tab javascript file is located before the body tag, the right way.
+* Bug Fix: Our Button Tab javascript file is located before the body tag, the right way
 * *Launch date 05.07.2013*
 
 = 2.5 =
-* NEW : CUSTOM Form Settings. Choose which page(s) to place your contact form.
-* Bug Fix: UI compatibility issue in older WordPress versions.
+* NEW : CUSTOM Form Settings. Choose which page(s) to place your contact form
+* Bug Fix: UI compatibility issue in older WordPress versions
 * *Launch date 21.05.2013*
 
 = 2.0.1 =
-* Bug Fix: Form Settings - Inline Form Page Version was not assigning a variable correctly. This has been resolved.
+* Bug Fix: Form Settings - Inline Form Page Version was not assigning a variable correctly. This has been resolved
 * *Launch date 30.04.2013*
 
 = 2.0 =
