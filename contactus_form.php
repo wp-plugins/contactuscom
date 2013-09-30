@@ -941,13 +941,15 @@ function getIP() {
             $IP = $SimpleIP;
     };
 
-    if(!strlen($IP) || $IP == '127.0.0.1'):
+    if (filter_var($IP, FILTER_VALIDATE_IP) && $IP != '127.0.0.1') {
+            $vIP = $IP;
+    } else {
         $externalContent = file_get_contents('http://checkip.dyndns.com/');
         preg_match('/Current IP Address: ([\[\]:.[0-9a-fA-F]+)</', $externalContent, $m);
-        $IP = $m[1];
-    endif;
+        $vIP = $m[1];
+    }
 
-    return $IP;
+    return $vIP;
 }
 
 
