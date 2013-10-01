@@ -151,7 +151,6 @@ Here's a look at how simple it is to customize your form:
 13. Form Settings. INLINE Form Page version
 14. CUSTOM Form Settings. Choose which page(s) to place your contact form. (NEW in 2.5)
 
-
 == Changelog ==
 
 = 2.5.5 =
