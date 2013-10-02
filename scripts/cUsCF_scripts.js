@@ -29,11 +29,14 @@ cUsCF_myjq(document).ready(function($) {
             maxSlides: 4,
             moveSlides:1,
             infiniteLoop:false,
+            preloadImages:'all',    
             //captions:true,
             pager:false,
             slideMargin: 5
         });
         
+        
+        cUsCF_myjq( '.bx-loading' ).hide();
         
         cUsCF_myjq( '.options' ).buttonset();
         

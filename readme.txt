@@ -14,8 +14,6 @@ ContactUs.com offers a proactive contact form and contact manager for websites t
 
 **Add beautiful, customizable, contact forms, used to generate new web customers by adding an advanced Contact Form, powered by ContactUs.com onto your WordPress website.**
 
-[youtube http://www.youtube.com/watch?v=SEQJZqUT-Hk]
-
 > The ContactUs.com Contact Form Plugin for WordPress is a “Contact Us” form and contact management service for websites looking to manage web-driven new customers and users. The plugin offers different website implementations to engage and communicate with web visitors. The basic version of the ContactUs.com plugin is free, and is used to add the ContactUs.com service to a WordPress website. 
 >
 > 
@@ -162,7 +160,7 @@ Here's a look at how simple it is to customize your form:
 * ***NEW : Php Snippets for Advanced Users***
 * ***NEW : Plugin Look and Feel***
 * Minor Bug Fixes
-* *Launch date 30.09.2013*
+* *Launch date 02.10.2013*
 
 = 2.5.5 =
 * Resolved minor sign up issues

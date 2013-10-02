@@ -29,6 +29,7 @@ class cUsComAPI_CF {
 
         $ch = curl_init();
 
+        //$strCURLOPT  = 'http://test.contactus.com/api2.php';
         $strCURLOPT  = 'http://admin.contactus.com/api2.php';
         $strCURLOPT .= '?API_Account=AC11111f363ae737fb7c60b75dfdcbb306';
         $strCURLOPT .= '&API_Key=1111165fc715b9857909c062fd5ad7e3';
@@ -59,6 +60,7 @@ class cUsComAPI_CF {
             $ch = curl_init();
 
             $strCURLOPT  = 'http://admin.contactus.com/api2.php';
+            //$strCURLOPT  = 'http://test.contactus.com/api2.php';
             $strCURLOPT .= '?API_Account=AC11111f363ae737fb7c60b75dfdcbb306';
             $strCURLOPT .= '&API_Key=1111165fc715b9857909c062fd5ad7e3';
             $strCURLOPT .= '&API_Action=createSignupCustomer';
@@ -73,6 +75,8 @@ class cUsComAPI_CF {
             $strCURLOPT .= '&API_Credentials=1';
             $strCURLOPT .= '&Promotion_Code=WP';
             $strCURLOPT .= '&Version=wp|3.0';
+            
+            //echo $strCURLOPT;
 
             curl_setopt($ch, CURLOPT_URL, $strCURLOPT);
             curl_setopt($ch, CURLOPT_HEADER, 0);
@@ -94,6 +98,7 @@ class cUsComAPI_CF {
         $ch = curl_init();
 
         $strCURLOPT  = 'http://admin.contactus.com/api2.php';
+        //$strCURLOPT  = 'http://test.contactus.com/api2.php';
         $strCURLOPT .= '?API_Account=AC11111f363ae737fb7c60b75dfdcbb306';
         $strCURLOPT .= '&API_Key=1111165fc715b9857909c062fd5ad7e3';
         $strCURLOPT .= '&API_Action=verifyCustomerEmail';
@@ -116,6 +121,7 @@ class cUsComAPI_CF {
         $ch = curl_init();
 
         $strCURLOPT  = 'http://admin.contactus.com/api2.php';
+        //$strCURLOPT  = 'http://test.contactus.com/api2.php';
         $strCURLOPT .= '?API_Account=AC11111f363ae737fb7c60b75dfdcbb306';
         $strCURLOPT .= '&API_Key=1111165fc715b9857909c062fd5ad7e3';
         $strCURLOPT .= '&API_Action=getTemplatesAndTabsAll';
@@ -132,6 +138,15 @@ class cUsComAPI_CF {
         return $content;
     }
     
+    public function getTemplatesAndTabsFree(){
+        
+        $contacFormTemplates = $cUsCF_api->getTemplatesAndTabsAll('0', 'Template_Desktop_Form');
+        $contacFormTemplates = json_decode($contacFormTemplates);
+        $contacFormTemplates = $contacFormTemplates->data;
+
+        return $contacFormTemplates;
+    }
+    
     public function getTemplatesAndTabsAllowed($formType, $selType, $cUs_API_Account, $cUs_API_Key){
         
         if(!strlen($formType) || !strlen($selType) || !strlen($cUs_API_Account) || !strlen($cUs_API_Key)) return false;
@@ -139,6 +154,7 @@ class cUsComAPI_CF {
         $ch = curl_init();
 
         $strCURLOPT  = 'http://admin.contactus.com/api2.php';
+        //$strCURLOPT  = 'http://test.contactus.com/api2.php';
         $strCURLOPT .= '?API_Account='.trim($cUs_API_Account);
         $strCURLOPT .= '&API_Key='.trim($cUs_API_Key);
         $strCURLOPT .= '&API_Action=getTemplatesAndTabsAllowed';
@@ -162,6 +178,7 @@ class cUsComAPI_CF {
         $ch = curl_init();
 
         $strCURLOPT  = 'http://admin.contactus.com/api2.php';
+        //$strCURLOPT  = 'http://test.contactus.com/api2.php';
         $strCURLOPT .= '?API_Account='.trim($cUs_API_Account);
         $strCURLOPT .= '&API_Key='.trim($cUs_API_Key);
         $strCURLOPT .= '&API_Action=getFormKeys';
@@ -183,6 +200,7 @@ class cUsComAPI_CF {
         $ch = curl_init();
 
         $strCURLOPT  = 'http://admin.contactus.com/api2.php';
+        //$strCURLOPT  = 'http://test.contactus.com/api2.php';
         $strCURLOPT .= '?API_Account=AC00000bb19ec0c1dd1fe715ef23afa9cf';
         $strCURLOPT .= '&API_Key=00000bb19ec0c1dd1fe715ef23afa9cf';
         $strCURLOPT .= '&API_Action=getFormKey';
@@ -206,6 +224,7 @@ class cUsComAPI_CF {
         $ch = curl_init();
 
         $strCURLOPT  = 'http://admin.contactus.com/api2.php';
+        //$strCURLOPT  = 'http://test.contactus.com/api2.php';
         $strCURLOPT .= '?API_Account='.trim($postData['API_Account']);
         $strCURLOPT .= '&API_Key='.trim($postData['API_Key']);
         $strCURLOPT .= '&API_Action=updateFormSettings';
@@ -234,6 +253,7 @@ class cUsComAPI_CF {
         $ch = curl_init();
 
         $strCURLOPT  = 'http://admin.contactus.com/api2.php';
+        //$strCURLOPT  = 'http://test.contactus.com/api2.php';
         $strCURLOPT .= '?API_Account=AC00000bb19ec0c1dd1fe715ef23afa9cf';
         $strCURLOPT .= '&API_Key=00000bb19ec0c1dd1fe715ef23afa9cf';
         $strCURLOPT .= '&API_Action=updateDeliveryOptions';
@@ -324,7 +344,9 @@ class cUsComAPI_CF {
         delete_option( 'cUsCF_FORM_settings' );
         delete_option( 'cUsCF_settings_step1' );
         delete_option( 'cUsCF_settings_form_key' );
+        delete_option( 'contactus_settings_inlinepages' );
         delete_option( 'cUsCF_settings_inlinepages' );
+        delete_option( 'contactus_settings_tabpages' );
         delete_option( 'cUsCF_settings_tabpages' );
         delete_option( 'cUsCF_settings_userCredentials' );
         

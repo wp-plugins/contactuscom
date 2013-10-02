@@ -38,16 +38,16 @@ if (!function_exists('cUsCF_admin_header')) {
     function cUsCF_admin_header() {
         global $current_screen;
 
-        if ($current_screen->id == 'toplevel_page_cUsCF_form_plugin') {
+        if ($current_screen->id == 'toplevel_page_cUs_form_plugin') {
             
             wp_enqueue_style( 'cUsCF_Styles', plugins_url('style/cUsCF_style.css', __FILE__), false, '1');
             wp_enqueue_style( 'fancybox', plugins_url('scripts/fancybox/jquery.fancybox.css', __FILE__), false, '1');
             wp_enqueue_style( 'bxslider', plugins_url('scripts/bxslider/jquery.bxslider.css', __FILE__), false, '1');
 
-            wp_register_script( 'cUsCF_Scripts', plugins_url('scripts/cUsCF_scripts.js?pluginurl=' . dirname(__FILE__), __FILE__), array(), '1.0', true);
+            wp_register_script( 'cUsCF_Scripts', plugins_url('scripts/cUsCF_scripts.js?pluginurl=' . dirname(__FILE__), __FILE__), array('jquery'), '1.0', true);
             wp_localize_script( 'cUsCF_Scripts', 'ajax_object', array( 'ajax_url' => admin_url( 'admin-ajax.php' ) ) );
-            wp_register_script( 'fancybox', plugins_url('scripts/fancybox/jquery.fancybox.pack.js', __FILE__), array(), '2.0.0', true);
-            wp_register_script( 'bxslider', plugins_url('scripts/bxslider/jquery.bxslider.min.js', __FILE__), array('jquery'), '4.1.1', true);
+            wp_register_script( 'fancybox', plugins_url('scripts/fancybox/jquery.fancybox.pack.js', __FILE__), array('jquery'), '2.0.0', true);
+            wp_register_script( 'bxslider', plugins_url('scripts/bxslider/jquery.bxslider.js', __FILE__), array('jquery'), '4.1.1', true);
 
             wp_enqueue_script('jquery'); //JQUERY WP CORE
             wp_enqueue_script('jquery-ui-core');
@@ -121,11 +121,13 @@ function cUsCF_JS_into_html() {
         $pageSettings = get_post_meta( $pageID, 'cUsCF_FormByPage_settings', false );
         
         if(is_array($pageSettings) && !empty($pageSettings)): //NEW VERSION 3.0
+            
             $boolTab        = $pageSettings[0]['tab_user'];
             $cus_version    = $pageSettings[0]['cus_version'];
             $form_key       = $pageSettings[0]['form_key'];
             
             if($cus_version == 'tab'):
+                
                 $userJScode = '<script type="text/javascript" src="//cdn.contactus.com/cdn/forms/' . $form_key . '/contactus.js"></script>';
             
                 echo $userJScode;
@@ -200,7 +202,7 @@ function cUsCF_inline_shortcode_cleaner() {
     $aryPages = get_pages();
     foreach ($aryPages as $oPage) {
         $pageContent = $oPage->post_content;
-        $pageContent = str_replace('[show-contactuscom-form]', '', $pageContent);
+        $pageContent = str_replace('[show-contactus.com-form]', '', $pageContent);
         $aryPage = array();
         $aryPage['ID'] = $oPage->ID;
         $aryPage['post_content'] = $pageContent;
@@ -212,7 +214,7 @@ function cUsCF_inline_shortcode_cleaner_by_ID($inline_req_page_id) {
     $oPage = get_page( $inline_req_page_id );
     
     $pageContent = $oPage->post_content;
-    $pageContent = str_replace('[show-contactuscom-form]', '', $pageContent);
+    $pageContent = str_replace('[show-contactus.com-form]', '', $pageContent);
     $aryPage = array();
     $aryPage['ID'] = $oPage->ID;
     $aryPage['post_content'] = $pageContent;
@@ -221,7 +223,7 @@ function cUsCF_inline_shortcode_cleaner_by_ID($inline_req_page_id) {
     
 }
 
-add_shortcode("show-contactuscom-form", "cUsCF_shortcode_handler"); //[show-contactus.com-form]
+add_shortcode("show-contactus.com-form", "cUsCF_shortcode_handler"); //[show-contactus.com-form]
 
 function cUsCF_shortcode_handler($aryFormParemeters) {
     
@@ -270,7 +272,7 @@ function cUsCF_shortcode_handler($aryFormParemeters) {
         return $inlineJS_output;
     else:
         
-        return 'Users Credentials Missing . . ., Try Login Again, Thanks.';
+        return '<p>Contact Form by ContactUs.com user Credentials Missing . . . <br/>Please Login Again <a href="'.get_admin_url().'admin.php?page=cUs_form_plugin" target="_blank">here</a>, Thank You.</p>';
         
     endif;
     
@@ -292,7 +294,7 @@ function cUsCF_inline_shortcode_add($inline_req_page_id) {
     if($inline_req_page_id != 'home'):
         $oPage = get_page($inline_req_page_id);
         $pageContent = $oPage->post_content;
-        $pageContent = $pageContent . "\n[show-contactuscom-form]";
+        $pageContent = $pageContent . "\n[show-contactus.com-form]";
         $aryPage = array();
         $aryPage['ID'] = $inline_req_page_id;
         $aryPage['post_content'] = $pageContent;
@@ -321,7 +323,7 @@ add_action('widgets_init', 'cUsCF_register_widgets');
 if (!function_exists('cUsCF_admin_menu')) {
 
     function cUsCF_admin_menu() {
-        add_menu_page('Contact Form by ContactUs.com ', 'Contact Form', 'edit_themes', 'cUsCF_form_plugin', 'cUsCF_menu_render', plugins_url("style/images/favicon.gif", __FILE__));
+        add_menu_page('Contact Form by ContactUs.com ', 'Contact Form', 'edit_themes', 'cUs_form_plugin', 'cUsCF_menu_render', plugins_url("style/images/favicon.gif", __FILE__));
     }
 
 }
@@ -337,13 +339,16 @@ if (!function_exists('cUsCF_menu_render')) {
         $cUs_API_Key        = $aryUserCredentials['API_Key'];
         
         $options        = get_option('cUsCF_settings_userData'); //get the values, wont work the first time
-        $old_options = get_option('contactus_settings'); //GET THE NEW OPTIONS
+        $old_options    = get_option('contactus_settings'); //GET THE OLD OPTIONS
         $formOptions    = get_option('cUsCF_FORM_settings');//GET THE NEW FORM OPTIONS
-        $form_key       = get_option('cUsCF_settings_form_key');
-        if(strlen(!$form_key)) $form_key = $old_options['form_key'];
         
+        $form_key       = get_option('cUsCF_settings_form_key');
         $cus_version    = $formOptions['cus_version'];
         $boolTab        = $formOptions['tab_user'];
+        
+        if(strlen(!$form_key)) $form_key = $old_options['form_key'];
+        if(strlen(!$cus_version)) $cus_version = $old_options['cus_version'];
+        if(strlen(!$boolTab)) $boolTab = $old_options['tab_user'];
         
         if (!is_array($options)) {
             settings_fields('cUsCF_settings_userData');
@@ -415,6 +420,7 @@ if (!function_exists('cUsCF_menu_render')) {
                         <div id="tabs-1">
                             
                             <div class="left-content">
+                                
                                 <div class="first_step">
                                     <h2>Are You Already a ContactUs.com User?</h2>
                                     <button id="cUsCF_yes" class="btn" type="button" ><span>Yes</span> Get Me My Form</button>
@@ -423,15 +429,14 @@ if (!function_exists('cUsCF_menu_render')) {
                                     <h3>Note:</h3>
                                     The  Contact Form by ContactUs.com is designed for existing ContactUs.com users. If you are not yet a Contact Form user, click on the "No, Signup Free Now" button above.</p>
                                 </div>
-
-                                <!-- div id="cUsCF_settings" -->
+                                
                                 <div id="cUsCF_settings">
 
                                     <div class="loadingMessage"></div>
                                     <div class="advice_notice">Advices....</div>
                                     <div class="notice">Ok....</div>
 
-                                    <form method="post" action="admin.php?page=cUsCF_form_plugin" id="cUsCF_loginform" name="cUsCF_loginform" class="steps login_form" onsubmit="return false;">
+                                    <form method="post" action="admin.php?page=cUs_form_plugin" id="cUsCF_loginform" name="cUsCF_loginform" class="steps login_form" onsubmit="return false;">
                                         <h3>ContactUs.com Login</h3>
 
                                         <table class="form-table">
@@ -459,7 +464,7 @@ if (!function_exists('cUsCF_menu_render')) {
                                         </table>
                                     </form>
 
-                                    <form method="post" action="admin.php?page=cUsCF_form_plugin" id="cUsCF_userdata" name="cUsCF_userdata" class="steps step1" onsubmit="return false;">
+                                    <form method="post" action="admin.php?page=cUs_form_plugin" id="cUsCF_userdata" name="cUsCF_userdata" class="steps step1" onsubmit="return false;">
                                         <h3 class="step_title">Register for your ContactUs.com Account</h3>
 
                                         <table class="form-table">
@@ -477,7 +482,7 @@ if (!function_exists('cUsCF_menu_render')) {
                                             </tr>
                                             <tr>
                                                 <th><label class="labelform" for="cUsCF_web">* Website</label></th>
-                                                <td><input type="text" class="inputform text" placeholder="Website (www.example.com)" name="cUsCF_web" id="cUsCF_web" value="http://<?php echo $_SERVER['HTTP_HOST']; ?>"/></td>
+                                                <td><input type="text" class="inputform text" placeholder="Website (http://www.example.com)" name="cUsCF_web" id="cUsCF_web" value="http://<?php echo $_SERVER['HTTP_HOST']; ?>"/></td>
                                             </tr>
                                             <tr>
                                                 <th></th><td><input id="cUsCF_CreateCustomer" class="btn orange" value="Next >>" type="submit" /></td>
@@ -488,7 +493,7 @@ if (!function_exists('cUsCF_menu_render')) {
                                         </table>
                                     </form>
 
-                                    <form method="post" action="admin.php?page=cUsCF_form_plugin" id="cUsCF_templates" name="cUsCF_templates" class="steps step2" onsubmit="return false;">
+                                    <form method="post" action="admin.php?page=cUs_form_plugin" id="cUsCF_templates" name="cUsCF_templates" class="steps step2" onsubmit="return false;">
                                         <h3 class="step_title">Form Settings</h3>
                                        
                                         <div class="signup_templates">
@@ -497,19 +502,37 @@ if (!function_exists('cUsCF_menu_render')) {
                                             <div>
                                                 <div class="terminology_c Template_Contact_Form">
                                                     <?php
+                                                    
                                                     $contacFormTemplates = $cUsCF_api->getTemplatesAndTabsAll('0', 'Template_Desktop_Form');
                                                     $contacFormTemplates = json_decode($contacFormTemplates);
                                                     $contacFormTemplates = $contacFormTemplates->data;
                                                     
                                                     if(is_array($contacFormTemplates)) :
+                                                        
                                                     ?>
                                                     <ul id="sortable" class="selectable_cf">
-                                                        <?php foreach ($contacFormTemplates as $formTpl) : ?>
-                                                            <li class="ui-state-default" id="<?php echo $formTpl->id; ?>"><img src="<?php echo $formTpl->thumbnail; ?>" alt="<?php echo $formTpl->name; ?>" id="<?php echo $formTpl->id; ?>"/></li>
-                                                        <?php endforeach; ?>
+                                                        <?php 
+                                                        
+                                                        foreach ($contacFormTemplates as $formTpl) : 
+                                                            
+                                                            $aryAllowed = array('template1', 'template2', 'template3', 'template4', 'template5', 'template6', 'template7');
+                                                            
+                                                            if(in_array($formTpl->id, $aryAllowed)) :
+                                                            
+                                                            ?>
+                                                                <li class="ui-state-default" id="<?php echo $formTpl->id; ?>"><img src="<?php echo $formTpl->thumbnail; ?>" alt="<?php echo $formTpl->name; ?>" id="<?php echo $formTpl->id; ?>"/></li>
+                                                        
+                                                            <?php
+                                                            
+                                                            endif;
+                                                            
+                                                        endforeach; 
+                                                        
+                                                        ?>
                                                     </ul>
                                                     
                                                     <?php  endif; ?>
+                                                    
                                                 </div>
                                                 
                                             </div>
@@ -620,7 +643,7 @@ if (!function_exists('cUsCF_menu_render')) {
                                     
                                 </div>
 
-                                <form method="post" action="admin.php?page=cUsCF_form_plugin" id="cUsCF_button" class="cus_versionform tab_version <?php echo ( strlen($cus_version) && $cus_version != 'tab')?'hidden':''; ?>" name="cUsCF_button">
+                                <form method="post" action="admin.php?page=cUs_form_plugin" id="cUsCF_button" class="cus_versionform tab_version <?php echo ( strlen($cus_version) && $cus_version != 'tab')?'hidden':''; ?>" name="cUsCF_button">
                                    
                                     <input type="hidden" class="tab_user" name="tab_user" value="1" />
                                     <input type="hidden" name="cus_version" value="tab" />
@@ -629,14 +652,16 @@ if (!function_exists('cUsCF_menu_render')) {
                                 </form>
 
 
-                                <form method="post" action="admin.php?page=cUsCF_form_plugin" id="cUsCF_selectable" class="cus_versionform select_version <?php echo ( !strlen($cus_version) || $cus_version == 'tab')?'hidden':''; ?>" name="cUsCF_selectable">
+                                <form method="post" action="admin.php?page=cUs_form_plugin" id="cUsCF_selectable" class="cus_versionform select_version <?php echo ( !strlen($cus_version) || $cus_version == 'tab')?'hidden':''; ?>" name="cUsCF_selectable">
                                     <h3 class="form_title">Page Selection  <a href="post-new.php?post_type=page">Create a new page <span>+</span></a></h3> 
                                     <div class="pageselect_cont">
                                     <?php $mypages = get_pages( array( 'parent' => 0, 'sort_column' => 'post_date', 'sort_order' => 'desc' ) ); 
                                         if( is_array($mypages) ) : 
                                             
                                             $getTabPages = get_option('cUsCF_settings_tabpages');
+                                            //print_r($getTabPages);
                                             $getInlinePages = get_option('cUsCF_settings_inlinepages');
+                                            //print_r($getInlinePages);
                                             
                                             if(!empty($getTabPages) && in_array('home', $getTabPages)){
                                                 $getHomePage         = get_option('cUsCF_HOME_settings');
@@ -910,8 +935,9 @@ if (!function_exists('cUsCF_menu_render')) {
                         <div id="tabs-2">
                             
                                 <div class="left-content">
+                                    <h2>Change Form/Tab Design</h2>
                                     <div class="versions_options">
-                                        <h2>Change Form/Tab Design</h2>
+                                        
                                         <p>Change your form template, tab template within plugin.</p>
 
                                         <div class="advice_notice">Advices....</div>
@@ -944,8 +970,8 @@ if (!function_exists('cUsCF_menu_render')) {
                                                                                 <p><b>Form Key:</b> <?php echo $oForm->form_key ?></p>
                                                                                 <p><b>Website URL:</b> <?php echo $oForm->website_url ?></p>
                                                                                 <p><b>Template Mobile Form:</b> <?php echo $oForm->template_mobile_form ?></p>
-                                                                                <!-- p><b>Inline Shortcode :</b> <br /> <code>[show-contactuscom-form formkey="<?php echo $oForm->form_key ?>" version="inline"]</code></p>
-                                                                                <p><b>Tab Shortcode :</b> <br /><code>[show-contactuscom-form formkey="<?php echo $oForm->form_key ?>" version="tab"] </code><br /> <br />(You can add inline or tab version form in posts, pages editor)</p -->
+                                                                                <!-- p><b>Inline Shortcode :</b> <br /> <code>[show-contactus.com-form formkey="<?php echo $oForm->form_key ?>" version="inline"]</code></p>
+                                                                                <p><b>Tab Shortcode :</b> <br /><code>[show-contactus.com-form formkey="<?php echo $oForm->form_key ?>" version="tab"] </code><br /> <br />(You can add inline or tab version form in posts, pages editor)</p -->
                                                                             </div>
                                                                         </div>
                                                                         
@@ -1165,15 +1191,16 @@ if (!function_exists('cUsCF_menu_render')) {
                                 <h2>ADVANCED ONLY!</h2>
                                 <div>
                                     <div class="terminology_c">
-                                        <h4>Copy this code into your template to place the form wherever you want it.  If you use this advanced method, do not select any pages from the section on the left or you may end up with the form displayed on your page twice.</h4>
+                                        <h4>Copy this code into your template, post, page to place the form wherever you want it.  If you use this advanced method, do not select any pages from the page section on the form settings or you may end up with the form displayed on your page twice.</h4>
+                                        <hr/>
                                         <ul class="hints">
                                             <li><b>Inline</b>
-                                                <br/>WP Shortcode: <code> [show-contactuscom-form formkey="FORM KEY HERE" version="inline"] </code>
-                                                <br/>Php Snippet:<code>&#60;&#63;php echo do_shortcode("[show-contactuscom-form formkey="FORM KEY HERE" version="inline"]"); &#63;&#62;</code>
+                                                <br/>WP Shortcode: <code> [show-contactus.com-form formkey="FORM KEY HERE" version="inline"] </code>
+                                                <br/>Php Snippet:<code>&#60;&#63;php echo do_shortcode("[show-contactus.com-form formkey="FORM KEY HERE" version="inline"]"); &#63;&#62;</code>
                                             </li>
                                             <li><b>Tab</b>
-                                                <br/>WP Shortcode:<code> [show-contactuscom-form formkey="FORM KEY HERE" version="tab"] </code>
-                                                <br/>Php Snippet:<code>&#60;&#63;php echo do_shortcode("[show-contactuscom-form formkey="FORM KEY HERE" version="tab"]"); &#63;&#62;</code>
+                                                <br/>WP Shortcode:<code> [show-contactus.com-form formkey="FORM KEY HERE" version="tab"] </code>
+                                                <br/>Php Snippet:<code>&#60;&#63;php echo do_shortcode("[show-contactus.com-form formkey="FORM KEY HERE" version="tab"]"); &#63;&#62;</code>
                                             </li>
                                             <li><b>Widget Tool</b><br/><p>Go to <a href="widgets.php"><b>Widgets here </b></a> and drag the ContactUs.com widget into one of your widget areas</p></li>
                                         </ul>
@@ -1229,8 +1256,7 @@ if (!function_exists('cUsCF_menu_render')) {
                                 <h2>Documentation</h2>
                                 
                                 <div class="iRecomend">
-                                    <h3>Important recommendation:</h3>
-                                    <p> Your default theme must have the <b>"wp_footer()"</b> function added.</p>
+                                    
                                     
                                     <h3>Helpful Hints</h3>
                                     
@@ -1238,6 +1264,9 @@ if (!function_exists('cUsCF_menu_render')) {
                                         <li>Take a moment to log into ContactUs.com (with the user name/password you registered with) to see the full set of solutions offered.</li>
                                         <li>You can also generate leads and newsletter signups from your Facebook page by enabling the ContactUs.com Facebook App.  It only takes two clicks!</li>
                                     </ul>
+                                    <hr />
+                                    <h3>Important recommendation:</h3>
+                                    <p> Your default theme must have the <b>"wp_footer()"</b> function added.</p>
                                     
                                 </div>
                                 
@@ -1291,27 +1320,31 @@ if (!function_exists('cUsCF_menu_render')) {
                         <div id="tabs-5">
                             
                             <div class="left-content">
-                                <?php //print_r($current_user);?>
-                                <form method="post" action="admin.php?page=cUs_malchimp_plugin" id="cUsMC_data" name="cUsMC_sendkey" class="steps" onsubmit="return false;">
-                                    <h3 class="step_title">Your ContactUs.com Account</h3>
-                                    <table class="form-table">
-                                        <tr>
-                                            <th><label class="labelform">Names</label><br>
-                                            <td><span class="cus_names"><?php echo $current_user->first_name;?> <?php echo $current_user->last_name;?></span></td>
-                                        </tr>
-                                        <tr>
-                                            <th><label class="labelform">Email</label><br>
-                                            <td><span class="cus_email"><?php echo $options['email'];?></span></td>
-                                        </tr>
-                                       
-                                        <tr><th></th>
-                                            <td>
-                                                <hr/>
-                                                <input id="logoutbtn" class="btn orange cUsCF_LogoutUser" value="Unlink Account" type="button">
-                                            </td>
-                                        </tr>
-                                    </table>
-                                </form>
+                                <h2>Your ContactUs.com Account</h2>
+                                
+                                <div class="iRecomend">
+                                    <form method="post" action="admin.php?page=cUs_malchimp_plugin" id="cUsMC_data" name="cUsMC_sendkey" class="steps" onsubmit="return false;">
+                                        
+                                        <table class="form-table">
+                                            <tr>
+                                                <th><label class="labelform">Names</label><br>
+                                                <td><span class="cus_names"><?php echo $current_user->first_name;?> <?php echo $current_user->last_name;?></span></td>
+                                            </tr>
+                                            <tr>
+                                                <th><label class="labelform">Email</label><br>
+                                                <td><span class="cus_email"><?php echo $options['email'];?></span></td>
+                                            </tr>
+
+                                            <tr><th></th>
+                                                <td>
+                                                    <hr/>
+                                                    <input id="logoutbtn" class="btn orange cUsCF_LogoutUser" value="Unlink Account" type="button">
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </form>
+                                </div>
+                                
                             </div>
                             
                             <div class="right-content">
@@ -1362,7 +1395,7 @@ if (!function_exists('cUsCF_menu_render')) {
                             <div class="left-content">
                                 
                                 <h3>Note:</h3>
-                                <p>Hi ContactUs users, welcome to your V3 Contact form!, in order for the our new cool upgrades to work, we need to sign in to your ContactUs account here. This is a one time thing, after up-grade set up, we wont ask this again.</p>
+                                <p>Hi ContactUs users, welcome to your V3.0 Contact Form Plugin!, in order for the our new cool upgrades to work, we need to sign in to your ContactUs account here. This is a one time thing, after up-grade set up, we wont ask this again.</p>
                                
 
                                 <div id="cUsCF_settingss">
@@ -1371,7 +1404,7 @@ if (!function_exists('cUsCF_menu_render')) {
                                     <div class="advice_notice">Advices....</div>
                                     <div class="notice">Ok....</div>
 
-                                    <form method="post" action="admin.php?page=cUsCF_form_plugin" id="cUsCF_loginform" name="cUsCF_loginform" class="steps login_form" onsubmit="return false;">
+                                    <form method="post" action="admin.php?page=cUs_form_plugin" id="cUsCF_loginform" name="cUsCF_loginform" class="steps login_form" onsubmit="return false;">
                                         <h3>ContactUs.com Login</h3>
 
                                         <table class="form-table">
