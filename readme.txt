@@ -1,8 +1,8 @@
 === Contact Form by ContactUs.com ===
 Contributors: contactus.com
-Stable tag: 2.5.5
+Stable tag: 3.0
 Requires at least: 3.4.2
-Tested up to: 3.6
+Tested up to: 3.6.1
 Donate link:
 Tags: ContactUs.com Form, contact form, contact form plugin, contact us form, contact us button, contact us button tab, contact, contacts, feedback, form, contact tab, contact us
 License: GPLv2 or later
@@ -13,8 +13,6 @@ ContactUs.com offers a proactive contact form and contact manager for websites t
 == Description ==
 
 **Add beautiful, customizable, contact forms, used to generate new web customers by adding an advanced Contact Form, powered by ContactUs.com onto your WordPress website.**
-
-[youtube http://www.youtube.com/watch?v=SEQJZqUT-Hk]
 
 > The ContactUs.com Contact Form Plugin for WordPress is a “Contact Us” form and contact management service for websites looking to manage web-driven new customers and users. The plugin offers different website implementations to engage and communicate with web visitors. The basic version of the ContactUs.com plugin is free, and is used to add the ContactUs.com service to a WordPress website. 
 >
@@ -144,49 +142,60 @@ Here's a look at how simple it is to customize your form:
 6. This is how our Facebook App looks
 7. Our beautiful mobile friendly form
 8. You can configure a follow up email
-9. Plugin V2 New Features
-10. One-Step Registration. Sign up directly from our plugin
-11. Easy Login. Connect your account for future sessions
-12. Form Settings. TAB BUTTON Form version
-13. Form Settings. INLINE Form Page version
-14. CUSTOM Form Settings. Choose which page(s) to place your contact form. (NEW in 2.5)
+9. Plugin V3 New Look
+10. Form Settings: Manage Multiple Forms
+11. Form Settings: Form Templates Manager
+12. Form Settings: Tab Templates Manager
+13. Advanced: Shortcodes & Php Snippets
+
 
 == Changelog ==
+
+= 3.0 =
+* ***NEW : Ability to choose Form and Tab Templates on SignUp***
+* ***NEW : Manage Multiple Forms***
+* ***NEW : Form Templates Manager in plugin settings***
+* ***NEW : Tab Templates Manager in plugin settings***
+* ***NEW : Shortcodes for multiple Forms and Tabs***
+* ***NEW : Php Snippets for Advanced Users***
+* ***NEW : Plugin Look and Feel***
+* Minor Bug Fixes
+* *Launch date 02.10.2013*
 
 = 2.5.5 =
 * Resolved minor sign up issues
 * *Launch date 21.08.2013*
 
 = 2.5.4 =
-* NEW: Button Tab by default at first time.
-* Fixed: Validation for required data.
+* NEW: Button Tab by default at first time
+* Fixed: Validation for required data
 * *Launch date 21.08.2013*
 
 = 2.5.3 =
-* ***NEW : Plugin Look and Feel.***
-* Bug Fix: Minor url encode issues on sign up.
+* ***NEW : Plugin Look and Feel***
+* Bug Fix: Minor url encode issues on sign up
 * *Launch date 29.07.2013*
 
 = 2.5.2 =
-* ***NEW : Most form templates are now responsive design (with minimums and maximums for best appearance).***
-* Bug Fix: Minor javascript issues.
-* Udated: Using wp core jQuery UI.
+* ***NEW : Most form templates are now responsive design (with minimums and maximums for best appearance)***
+* Bug Fix: Minor javascript issues
+* Udated: Using wp core jQuery UI
 * *Launch date 12.07.2013*
 
 = 2.5.1 =
-* NEW : One-step activation process.
+* NEW : One-step activation process
 * Simplified: Signup process so that initial password is auto-generated
 * Removed: Requirement for separate activation via email
-* Bug Fix: Our Button Tab javascript file is located before the body tag, the right way.
+* Bug Fix: Our Button Tab javascript file is located before the body tag, the right way
 * *Launch date 05.07.2013*
 
 = 2.5 =
-* NEW : CUSTOM Form Settings. Choose which page(s) to place your contact form.
-* Bug Fix: UI compatibility issue in older WordPress versions.
+* NEW : CUSTOM Form Settings. Choose which page(s) to place your contact form
+* Bug Fix: UI compatibility issue in older WordPress versions
 * *Launch date 21.05.2013*
 
 = 2.0.1 =
-* Bug Fix: Form Settings - Inline Form Page Version was not assigning a variable correctly. This has been resolved.
+* Bug Fix: Form Settings - Inline Form Page Version was not assigning a variable correctly. This has been resolved
 * *Launch date 30.04.2013*
 
 = 2.0 =
@@ -201,6 +210,9 @@ Here's a look at how simple it is to customize your form:
 * *Launch date 13.03.2013*
 
 == Upgrade Notice ==
+
+= 3.0 =
+New awesome features in this version now available, update NOW!
 
 = 2.5.5 =
 New version available, update NOW!
