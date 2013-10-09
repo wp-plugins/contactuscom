@@ -97,6 +97,8 @@ Premium Features
 
 You can find support on the ContactUs.com Help page at http://help.contactus.com. Specific instructions on how to implement the ContactUs.com WordPress can be found here.
 
+![image](http://d34ayty5mxc4no.cloudfront.net/wp-content/themes/cu/assets/img/contactus-logo.png)
+
 >  **Legal**
 > 
 > * [Privacy & Security](http://www.contactus.com/privacy-security/)
