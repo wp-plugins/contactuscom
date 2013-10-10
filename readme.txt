@@ -16,12 +16,12 @@ Flexible and fast contact forms. We’re WordPress evangelists, spam fighters, a
 
 [vimeo http://vimeo.com/76561638]
 
+When you download and install our plugin, you’ll be prompted to create an account, which will give you free access to our integrated contact management app hosted by ContactUs.com. Our web app also has additional customization options for admins, and we’re always adding new features to make your lead generation and contact management efforts easier and more effective.
 
-> When you download and install our plugin, you’ll be prompted to create an account, which will give you free access to our integrated contact management app hosted by ContactUs.com. Our web app also has additional customization options for admins, and we’re always adding new features to make your lead generation and contact management efforts easier and more effective.
->
 >  **User Support**
 >
 > We try to provide the best user support we can for our users.
+>  
 >  
 > * View some of our Frequently-Asked Questions on ContactUs.com [here](http://www.contactus.com/frequently-asked-questions/)
 > * View our user support forum [here](http://help.contactus.com/home)
@@ -40,8 +40,11 @@ The most popular implementation of the plugin places a callout tab overlay onto 
 
 **Examples of Short Codes below**
 
-* Specific Inline Form Shortcode: [show-contactus.com-form formkey="FORM KEY HERE" version="inline"]
-* Specific Tab Form Shortcode  [show-contactus.com-form formkey="FORM KEY HERE" version="tab"]
+* Specific Inline Form Shortcode: 
+[show-contactus.com-form formkey="FORM KEY HERE" version="inline"]
+
+* Specific Tab Form Shortcode  
+[show-contactus.com-form formkey="FORM KEY HERE" version="tab"]
 
 **Users can select different contact form and callout tab templates from within the plugin.** You can manage even more customizations from inside your free ContactUs.com account, which is automatically created for you upon installing your plugin and registering your account. Lastly, from your ContactUs.com account, you’ll be able to manage your delivery options, whether to direct form signups to an email address, receive an SMS alert, or post inquiry information to a 3rd party software tools like MailChimp, Zoho, Hubspot and Google Docs.
 
@@ -80,7 +83,7 @@ From within your free ContactUs.com account that is integrated with your plugin,
 * Extend your contact form to Facebook with our Facebook app
 * Include social media links and icons
 
-**Finally, powerful contact management tools: **your integrated ContactUs.com account provides
+**Finally, powerful contact management tools: **your integrated ContactUs.com account provides**
 
 * Track contact form submissions inside of your secure, cloud-based contact management database
 * Take notes on individual submissions
