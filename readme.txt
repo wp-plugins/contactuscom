@@ -18,15 +18,13 @@ Flexible and fast contact forms. We’re WordPress evangelists, spam fighters, a
 
 When you download and install our plugin, you’ll be prompted to create an account, which will give you free access to our integrated contact management app hosted by ContactUs.com. Our web app also has additional customization options for admins, and we’re always adding new features to make your lead generation and contact management efforts easier and more effective.
 
->  **User Support**
->
-> We try to provide the best user support we can for our users.
+>  **User Support: ** we try to provide the best user support we can for our users 
 >  
->  
-> * View some of our Frequently-Asked Questions on ContactUs.com [here](http://www.contactus.com/frequently-asked-questions/)
-> * View our user support forum [here](http://help.contactus.com/home)
-> * Submit a support ticket [here](http://www.youtube.com/user/ContactUsCom)
-> * [Find tutorials on our YouTube channel](http://www.youtube.com/user/ContactUsCom)
+> * View some of our Frequently-Asked Questions on ContactUs.com [here](http://www.contactus.com/frequently-asked-questions/) 
+> * View our user support forum [here](http://help.contactus.com/home) 
+> * Submit a support ticket [here](http://www.youtube.com/user/ContactUsCom) 
+> * [Find tutorials on our YouTube channel](http://www.youtube.com/user/ContactUsCom) 
+
 
 **Flexible and Have Clients Across the World**
 
