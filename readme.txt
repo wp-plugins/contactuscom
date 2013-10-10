@@ -24,7 +24,7 @@ When you download and install our plugin, you’ll be prompted to create an acco
 >
 > * View some of our Frequently-Asked Questions on ContactUs.com [here](http://www.contactus.com/frequently-asked-questions/).
 > * View our user support forum [here](http://help.contactus.com/home).
-> * Submit a support ticket [here](http://www.youtube.com/user/ContactUsCom).
+> * Submit a support ticket [here](http://help.contactus.com/anonymous_requests/new).
 > * [Find tutorials on our YouTube channel](http://www.youtube.com/user/ContactUsCom). 
 
 
