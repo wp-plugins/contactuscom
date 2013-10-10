@@ -16,12 +16,12 @@ Flexible and fast contact forms. We’re WordPress evangelists, spam fighters, a
 
 [vimeo http://vimeo.com/76561638]
 
+When you download and install our plugin, you’ll be prompted to create an account, which will give you free access to our integrated contact management app hosted by ContactUs.com. Our web app also has additional customization options for admins, and we’re always adding new features to make your lead generation and contact management efforts easier and more effective.
 
-> When you download and install our plugin, you’ll be prompted to create an account, which will give you free access to our integrated contact management app hosted by ContactUs.com. Our web app also has additional customization options for admins, and we’re always adding new features to make your lead generation and contact management efforts easier and more effective.
->
 >  **User Support**
 >
 > We try to provide the best user support we can for our users.
+>  
 >  
 > * View some of our Frequently-Asked Questions on ContactUs.com [here](http://www.contactus.com/frequently-asked-questions/)
 > * View our user support forum [here](http://help.contactus.com/home)
@@ -30,7 +30,9 @@ Flexible and fast contact forms. We’re WordPress evangelists, spam fighters, a
 
 **Flexible and Have Clients Across the World**
 
-The contact form plugin can be used for multiple uses such as: simple “Contact Us” form, Support form, Quote form, Demo request form, Newsletter form, “Advertise with Us” form, Customer Feedback form, Request a Consultation form, and a Suggestion form. Contact forms powered by the plugin are currently used by lawyers, doctors, wedding vendors, real estate agents, home contractors, online stores, offline retail, insurance agents, web software companies, independent consultants, marketing agencies, advertising agencies, PR agencies, tour operators, florists, writers, designers, tutors, bands and musicians, accountants, financial planners, church groups, non-profits, blogs, web publishers, and many different types of websites.
+The contact form plugin can be used for multiple uses such as: simple “Contact Us” form, Support form, Quote form, Demo request form, Newsletter form, “Advertise with Us” form, Customer Feedback form, Request a Consultation form, and a Suggestion form. 
+
+Contact forms powered by the plugin are currently used by lawyers, doctors, wedding vendors, real estate agents, home contractors, online stores, offline retail, insurance agents, web software companies, independent consultants, marketing agencies, advertising agencies, PR agencies, tour operators, florists, writers, designers, tutors, bands and musicians, accountants, financial planners, church groups, non-profits, blogs, web publishers, and many different types of websites.
 
 **Our Floating Tab and Quick Install Shortcodes**
 
@@ -38,7 +40,11 @@ The most popular implementation of the plugin places a callout tab overlay onto 
 
 **Examples of Short Codes below**
 
-* Specific Inline Form Shortcode: [show-contactus.com-form formkey="FORM KEY HERE" version="inline"]* Specific Tab Form Shortcode  [show-contactus.com-form formkey="FORM KEY HERE" version="tab"]
+* Specific Inline Form Shortcode: 
+[show-contactus.com-form formkey="FORM KEY HERE" version="inline"]
+
+* Specific Tab Form Shortcode  
+[show-contactus.com-form formkey="FORM KEY HERE" version="tab"]
 
 **Users can select different contact form and callout tab templates from within the plugin.** You can manage even more customizations from inside your free ContactUs.com account, which is automatically created for you upon installing your plugin and registering your account. Lastly, from your ContactUs.com account, you’ll be able to manage your delivery options, whether to direct form signups to an email address, receive an SMS alert, or post inquiry information to a 3rd party software tools like MailChimp, Zoho, Hubspot and Google Docs.
 
@@ -46,7 +52,15 @@ The most popular implementation of the plugin places a callout tab overlay onto 
 
 The Contact Form Plugin offers these options within the plugin:
 
-* Contact Form with choice of contact form designs* Callout Tab with choice of callout tab – text and color ** Name, Email and Message fields* Different implementation paths (callout tab + form, inline form)* Include the ability to place a short code* Choice of which website pages and posts to include the contact form* Instant notification emails upon contact form submission* Autoresponder email with default text ** Confirmation page with default text *
+* Contact Form with choice of contact form designs
+* Callout Tab with choice of callout tab – text and color *
+* Name, Email and Message fields
+* Different implementation paths (callout tab + form, inline form)
+* Include the ability to place a short code
+* Choice of which website pages and posts to include the contact form
+* Instant notification emails upon contact form submission
+* Autoresponder email with default text *
+* Confirmation page with default text *
 
 Note: The asterisk (*) Signifies that this feature can be further customized (outside of the plugin) from within your free [ContactUs.com account](http://www.contactus.com/login/)
 
@@ -54,11 +68,29 @@ Note: The asterisk (*) Signifies that this feature can be further customized (ou
 
 From within your free ContactUs.com account that is integrated with your plugin, you’ll be able to further customize your form with advanced functionality:
 
-* Choose the placement of the callout tab within a page (right, left, top, bottom or each corner)* Customize tooltip text that appears upon hovering over the callout tab* Create or upload a custom tab (so you can use alternative text besides “Contact Us”)* Run A/B optimization experiments of callout tabs and form templates* Modify text in the email auto responder* Modify text in the confirmation page* Modify headline and call-to-action* Modify the button text* Add CAPTCHA protection* Add your Google Analytics code onto the contact form and confirmation page* Post for submission data to 3rd party tools you already use, such as Google Docs, Zoho CRM, Constant Contact, MailChimp, Vertical Response, SendGrid, Emma, Sendy, GetResponse, ActiveCampaign, SugarCRM, Hubspot, Tactile CRM, Highrise, Capsule, and others (see http://www.contactus.com/3rd-party-software-integrations/ for a list of supported tools)* Modify your mobile settings to automatically show a mobile-optimized contact form to mobile visitors* Extend your contact form to Facebook with our Facebook app* Include social media links and icons
+* Choose the placement of the callout tab within a page (right, left, top, bottom or each corner)
+* Customize tooltip text that appears upon hovering over the callout tab
+* Create or upload a custom tab (so you can use alternative text besides “Contact Us”)
+* Run A/B optimization experiments of callout tabs and form templates
+* Modify text in the email auto responder
+* Modify text in the confirmation page
+* Modify headline and call-to-action
+* Modify the button text
+* Add CAPTCHA protection
+* Add your Google Analytics code onto the contact form and confirmation page
+* Post for submission data to 3rd party tools you already use, such as Google Docs, Zoho CRM, Constant Contact, MailChimp, Vertical Response, SendGrid, Emma, Sendy, GetResponse, ActiveCampaign, SugarCRM, Hubspot, Tactile CRM, Highrise, Capsule, and others (see http://www.contactus.com/3rd-party-software-integrations/ for a list of supported tools)
+* Modify your mobile settings to automatically show a mobile-optimized contact form to mobile visitors
+* Extend your contact form to Facebook with our Facebook app
+* Include social media links and icons
 
-**Finally, powerful contact management tools: **your integrated ContactUs.com account provides
+**Finally, powerful contact management tools: **your integrated ContactUs.com account provides**
 
-* Track contact form submissions inside of your secure, cloud-based contact management database* Take notes on individual submissions* View overall submission stats (form views, submissions, segmentation by devices)* Gain detailed contact form analytics on each submission (referral source, pages visited, time on site, new/existing visitor)* Add our lead qualification API* Receive retargeting alerts when previous contacts have come back to your website
+* Track contact form submissions inside of your secure, cloud-based contact management database
+* Take notes on individual submissions
+* View overall submission stats (form views, submissions, segmentation by devices)
+* Gain detailed contact form analytics on each submission (referral source, pages visited, time on site, new/existing visitor)
+* Add our lead qualification API
+* Receive retargeting alerts when previous contacts have come back to your website
 
 >  **Legal**
 > 
@@ -69,7 +101,9 @@ From within your free ContactUs.com account that is integrated with your plugin,
 
 Follow for new product updates from ContactUs.com:
 
-* [Blog](http://www.contactus.com/blog/)* [Facebook](https://www.facebook.com/ContactUscom)* [Twitter](https://twitter.com/ContactUsCom)
+* [Blog](http://www.contactus.com/blog/)
+* [Facebook](https://www.facebook.com/ContactUscom)
+* [Twitter](https://twitter.com/ContactUsCom)
 
 
 == Installation ==
