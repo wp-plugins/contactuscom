@@ -4,7 +4,7 @@ Stable tag: 3.0
 Requires at least: 3.4.2
 Tested up to: 3.6.1
 Donate link:
-Tags: contact, contact form, contact form plugin, contact tab, contact us, contact us button, contact us button tab, contact us form, contacts, ContactUs.com Form, feedback form, contact form to email, customer support form, quote request form
+Tags: contact, contact form, contact form plugin, contact form to email, contact tab, contact us, contact us button, contact form button, contact form CAPTCHA, easy contact form, contact form builder, contact form integration, demo request form, contact us button tab, contact us form, contact page, contact us page, contacts, contact form autoresponder, ContactUs.com Form, customer support form, feedback form, contact manager, contact form database, contact form shortcode, contact form short code, customizable contact form, quote request form
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
