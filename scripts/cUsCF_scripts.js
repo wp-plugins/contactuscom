@@ -309,6 +309,10 @@ cUsCF_myjq(document).ready(function($) {
                cUsCF_myjq('.advice_notice').html('Password is a required field!').slideToggle().delay(2000).fadeOut(2000);
                cUsCF_myjq('#cUsCF_password').focus();
                cUsCF_myjq('.loadingMessage').fadeOut();
+           }else if(cUsCF_pass.length < 8){
+               cUsCF_myjq('.advice_notice').html('Password must be 8 characters or more!').slideToggle().delay(2000).fadeOut(2000);
+               cUsCF_myjq('#cUsCF_password').focus();
+               cUsCF_myjq('.loadingMessage').fadeOut();
            }else if(cUsCF_pass2 != cUsCF_pass){
                cUsCF_myjq('.advice_notice').html('Confirm Password not match!').slideToggle().delay(2000).fadeOut(2000);
                cUsCF_myjq('#cUsCF_password_r').focus();
@@ -755,63 +759,6 @@ cUsCF_myjq(document).ready(function($) {
         
     });
     
-//    cUsCF_myjq('.form_version').click(function(){
-//        var value = cUsCF_myjq(this).val();
-//        
-//        switch(value){
-//            case 'select_version':
-//                cUsCF_myjq('.tab_button').addClass('gray').removeClass('green');
-//                cUsCF_myjq('.custom').addClass('green').removeClass('disabled');
-//                
-//                cUsCF_myjq('.loadingMessage').show();
-//                cUsCF_myjq.ajax({ type: "POST", url: ajax_object.ajax_url, data: {action:'cUsCF_saveCustomSettings',cus_version:'selectable',tab_user:0},
-//                    success: function(data) {
-//                        cUsCF_myjq('.loadingMessage').fadeOut();
-//                        cUsCF_myjq('.notice_success').html('<p>Custom settings saved . . .</p>').fadeIn().delay(2000).fadeOut(2000);
-//                        //location.reload();
-//                    },
-//                    async: false
-//                });
-//                
-//                break;
-//            case 'tab_version':
-//                cUsCF_myjq('.custom').addClass('gray').removeClass('green');
-//                cUsCF_myjq('.tab_button').removeClass('gray').addClass('green');
-//                
-//                cUsCF_myjq('.loadingMessage').show();
-//                cUsCF_myjq.ajax({ type: "POST", url: ajax_object.ajax_url, data: {action:'cUsCF_saveCustomSettings',cus_version:'tab',tab_user:1},
-//                    success: function(data) {
-//                        cUsCF_myjq('.loadingMessage').fadeOut();
-//                        cUsCF_myjq('.notice_success').html('<p>Tab settings saved . . .</p><p>Your default Contact Form will appear in all your website.</p>').fadeIn().delay(5000).fadeOut(2000);
-//                        //location.reload();
-//                    },
-//                    async: false
-//                });
-//                
-//                break;
-//        }
-//        
-//        cUsCF_myjq('.cus_versionform').fadeOut();
-//        cUsCF_myjq('.' + value).fadeToggle();
-//    });
-   
-    
-//    cUsCF_myjq('.tab_button').click(function(){
-//        //var value = cUsCF_myjq(this).val();
-//        //cUsCF_myjq('.tab_user').val(value);
-//        cUsCF_myjq('.loadingMessage').show();
-//       
-//        setTimeout(function(){
-//            cUsCF_myjq('#cUsCF_button').submit();
-//        },1500);
-//        
-//    });
-//    
-//    cUsCF_myjq('.custom').click(function(){
-//       
-//        
-//    });
-    
     cUsCF_myjq('.btab_enabled').click(function(){
         var value = cUsCF_myjq(this).val();
         cUsCF_myjq('.tab_user').val(value);
@@ -842,14 +789,6 @@ cUsCF_myjq(document).ready(function($) {
         cUsCF_myjq('#cUsCF_settings').slideDown('slow');
         cUsCF_myjq('#cUsCF_userdata').delay(600).fadeIn();
     });
-    
-//    $('.examples_gallery').fancybox({
-//        helpers: {
-//            title : {
-//                type : 'float'
-//            }
-//        }
-//    });
     
     $('.form_template, .step2, #cUsCF_settings').css("display","none");
     
