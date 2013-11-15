@@ -165,7 +165,7 @@ Here's a look at how simple it is to customize your form:
 * NEW : Plugin Documentation page
 * NEW : Quick video tutorials
 * Bug Fix: Looking for a dafault form when previous users login
-* Bug Fix: Form settings -> page selection: default from is now preselected 
+* Bug Fix: Form settings -> page selection: default form is now preselected 
 * Other Minor Bug Fixes
 * *Launch date 15.11.2013*
 
