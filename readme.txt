@@ -18,6 +18,17 @@ Flexible and fast contact forms. We’re WordPress evangelists, spam fighters, a
 
 When you download and install our plugin, you’ll be prompted to create an account, which will give you free access to our integrated contact management app hosted by ContactUs.com. Our web app also has additional customization options for admins, and we’re always adding new features to make your lead generation and contact management efforts easier and more effective.
 
+**Examples of Short Codes below**
+
+* Default Inline Form Shortcode: 
+[show-contactus.com-form]
+
+* Specific Inline Form Shortcode: 
+[show-contactus.com-form formkey="FORM KEY HERE" version="inline"]
+
+* Specific Tab Form Shortcode  
+[show-contactus.com-form formkey="FORM KEY HERE" version="tab"]
+
 > **User Support:**
 >
 > We try to provide the best user support we can for our users
@@ -37,14 +48,6 @@ Contact forms powered by the plugin are currently used by lawyers, doctors, wedd
 **Our Floating Tab and Quick Install Shortcodes**
 
 The most popular implementation of the plugin places a callout tab overlay onto the margins of your website so that it’s visible on every page. The callout tab, using “Contact Us” as the default text (although there are options for additional text), opens up the hosted contact form created by this plugin. (More about our callout tabs [here](http://www.contactus.com/callout-tabs/) ). Additionally, webmasters can decide to place the contact form “inline” directly onto specified pages of your website. Lastly, WordPress developers can also place shortcodes on specific pages and posts to call the contact form.
-
-**Examples of Short Codes below**
-
-* Specific Inline Form Shortcode: 
-[show-contactus.com-form formkey="FORM KEY HERE" version="inline"]
-
-* Specific Tab Form Shortcode  
-[show-contactus.com-form formkey="FORM KEY HERE" version="tab"]
 
 **Users can select different contact form and callout tab templates from within the plugin.** You can manage even more customizations from inside your free ContactUs.com account, which is automatically created for you upon installing your plugin and registering your account. Lastly, from your ContactUs.com account, you’ll be able to manage your delivery options, whether to direct form signups to an email address, receive an SMS alert, or post inquiry information to a 3rd party software tools like MailChimp, Zoho, Hubspot and Google Docs.
 
