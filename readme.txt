@@ -8,7 +8,7 @@ Tags: contact, contact form, contact form plugin, contact form to email, contact
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Flexible and fast contact forms. We’re WordPress evangelists, spam fighters, and have tons of customization options for admins.
+Contact for for Wordpress. We’re WordPress evangelists, spam fighters, and have tons of customization options for admins.
 
 == Description ==
 
