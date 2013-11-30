@@ -1,14 +1,14 @@
 === Contact Form by ContactUs ===
 Contributors: contactus.com
-Stable tag: 3.1
+Stable tag: 3.1.1
 Requires at least: 3.4.2
 Tested up to: 3.7.1
 Donate link:
-Tags: contact form, contact, contact form plugin, contact form to email, contact tab, contact us, contact us button, contact form button, contact form CAPTCHA, easy contact form, contact form builder, contact form integration, demo request form, contact us button tab, contact us form, contact page, contact us page, contacts, contact form autoresponder, ContactUs.com Form, customer support form, feedback form, contact manager, contact form database, contact form shortcode, contact form short code, customizable contact form, quote request form
+Tags: contact, contact form, contact form plugin, contact form to email, contact tab, contact us, contact us button, contact form button, contact form CAPTCHA, easy contact form, contact form builder, contact form integration, demo request form, contact us button tab, contact us form, contact page, contact us page, contacts, contact form autoresponder, ContactUs.com Form, customer support form, feedback form, contact manager, contact form database, contact form shortcode, contact form short code, customizable contact form, quote request form
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Flexible and fast contact forms. We’re WordPress evangelists, spam fighters, and have tons of customization options to build a supercharged contact from..
+Contact for for Wordpress. We’re WordPress evangelists, spam fighters, and have tons of customization options for admins.
 
 == Description ==
 
@@ -159,6 +159,10 @@ Here's a look at how simple it is to customize your form:
 
 == Changelog ==
 
+= 3.1.1 =
+* Changed PopUp library, now using ColorBox
+* *Launch date 29.11.2013*
+
 = 3.1 =
 * NEW : Ability to configure 3rd party delivery options
 * NEW : Go to my Form Control Panel button
@@ -229,6 +233,9 @@ Here's a look at how simple it is to customize your form:
 * *Launch date 13.03.2013*
 
 == Upgrade Notice ==
+
+= 3.1.1 =
+New version available, update NOW!
 
 = 3.1 =
 New awesome features in this version now available, update NOW!
