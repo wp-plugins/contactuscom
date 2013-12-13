@@ -79,7 +79,7 @@ class cUsComAPI_CF {
             curl_setopt($ch, CURLOPT_HTTPHEADER, 
             array(
               'X-ContactUs-Request-URL: '.$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI'],
-              'X-ContactUs-Signature: ctct|2.0b1|'.$this->getIP(),
+              'X-ContactUs-Signature: wp|3.2|'.$this->getIP(),
             ));
             $content = curl_exec($ch);
             curl_close($ch);
