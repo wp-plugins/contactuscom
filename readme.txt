@@ -160,13 +160,13 @@ Here's a look at how simple it is to customize your form:
 == Changelog ==
 
 = 3.2 =
-*NEW :Added Go to Third Party Integrations button
-*NEW :Added Go to Dashboard button
-*NEW :Added Go to Configure Form button
-*NEW :Added Go to Configure Tab button
-*NEW :Added Go to Detailed Reports button
-*NEW :Added API Integration Upgrade
-*Renamed Tabs: Form Placement tab and Form Settings tab.
+* NEW : Added Go to Third Party Integrations button
+* NEW : Added Go to Dashboard button
+* NEW : Added Go to Configure Form button
+* NEW : Added Go to Configure Tab button
+* NEW : Added Go to Detailed Reports button
+* NEW : Added API Integration Upgrade
+* Renamed Tabs: Form Placement tab and Form Settings tab.
 * *Launch date 13.12.2013*
 
 = 3.1.1 =
