@@ -143,18 +143,14 @@ Below are links to answer additional questions about:
 Here's a look at how simple it is to customize your form:
 
 1. Wide variety of tab templates to choose from
-2. This is how our Facebook App looks
-3. Our beautiful mobile friendly form
+2. Example of a live tab button
+3. Example of a live tab form window
 4. You can configure a follow up email
-5. Plugin V3 New Look
-6. Form Settings: Manage Multiple Forms
-7. Form Settings: Form Templates Manager
-8. Form Settings: Tab Templates Manager
-9. Advanced: Shortcodes & Php Snippets 
-10. Example of a live tab button
-11. Example of a live tab form window
-12. One of our beautiful templates for the inline form
-13. Example of a live inline form
+5. This is how our Facebook App looks
+6. Dashboard view of contact analytics and lead statistics
+7. Form Settings and Third Party Integrations
+8. Form Settings & Dashboard Buttons
+9. Advanced: Shortcodes & Php Snippets
 
 
 == Changelog ==
