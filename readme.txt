@@ -109,7 +109,6 @@ Follow for new product updates from ContactUs.com:
 * [Facebook](https://www.facebook.com/ContactUscom)
 * [Twitter](https://twitter.com/ContactUsCom)
 
-
 == Installation ==
 
 1. Log into your WordPress.org account as an administrator.
@@ -138,10 +137,6 @@ Below are links to answer additional questions about:
 
 == Screenshots ==
 
-**Customizing Your Contact Form**
-
-Here's a look at how simple it is to customize your form:
-
 1. Wide variety of tab templates to choose from
 2. Example of a live tab button
 3. Example of a live tab form window
@@ -151,7 +146,6 @@ Here's a look at how simple it is to customize your form:
 7. Form Settings and Third Party Integrations
 8. Form Settings & Dashboard Buttons
 9. Advanced: Shortcodes & Php Snippets
-
 
 == Changelog ==
 
