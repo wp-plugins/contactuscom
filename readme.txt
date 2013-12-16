@@ -4,7 +4,7 @@ Stable tag: 3.2
 Requires at least: 3.4.2
 Tested up to: 3.8
 Donate link:
-Tags: contact form, contact, contact form plugin, contact form to email, contact tab, contact us, contact us button, contact form button, contact form CAPTCHA, easy contact form, contact form builder, contact form integration, demo request form, contact us button tab, contact us form, contact page, contact us page, contacts, contact form autoresponder, ContactUs.com Form, customer support form, feedback form, contact manager, contact form database, contact form shortcode, contact form short code, customizable contact form, quote request form, widget,
+Tags: contact form, contact, contact form plugin, contact form to email, contact tab, contact us, contact us button, contact form button, contact form CAPTCHA, easy contact form, contact form builder, contact form integration, demo request form, contact us button tab, contact us form, contact page, contact us page, contacts, contact form autoresponder, ContactUs.com Form, customer support form, feedback form, contact manager, contact form database, contact form shortcode, contact form short code, customizable contact form, quote request form, widget
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -109,7 +109,6 @@ Follow for new product updates from ContactUs.com:
 * [Facebook](https://www.facebook.com/ContactUscom)
 * [Twitter](https://twitter.com/ContactUsCom)
 
-
 == Installation ==
 
 1. Log into your WordPress.org account as an administrator.
@@ -138,10 +137,6 @@ Below are links to answer additional questions about:
 
 == Screenshots ==
 
-**Customizing Your Contact Form**
-
-Here's a look at how simple it is to customize your form:
-
 1. Wide variety of tab templates to choose from
 2. Example of a live tab button
 3. Example of a live tab form window
@@ -151,7 +146,6 @@ Here's a look at how simple it is to customize your form:
 7. Form Settings and Third Party Integrations
 8. Form Settings & Dashboard Buttons
 9. Advanced: Shortcodes & Php Snippets
-
 
 == Changelog ==
 
