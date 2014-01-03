@@ -19,7 +19,7 @@ In short, we'll supercharge your contact form and make it easy to manage the sub
 
 When you download and install our plugin, you’ll be prompted to create an account, which will give you free access to our integrated contact management app hosted by ContactUs.com. Our web app also has additional customization options for admins who are creating a contact form, and we’re always adding new features to make your lead generation and contact management efforts easier and more effective.
 
-## WP Shortcode implementation ##
+**WP Shortcode implementation**
 
 - **Default Inline Contact Form Shortcode:** 
 >[show-contactus.com-form]
@@ -44,20 +44,15 @@ Note: ContactUs.com has a simple html snippet that does not require a plugin, yo
 > * Submit a support ticket [here](http://help.contactus.com/anonymous_requests/new). If you have any contact form questions we're here to help!
 > * [Find tutorials on our YouTube channel](http://www.youtube.com/user/ContactUsCom). 
 
-
 **Multiple Form Type Management**
-
 ContactUs.com provides all sorts of conversion optimized, high performance forms. Up until version 3.4, the Contact Form by ContactUs.com plugin would only manage Contact Forms, but now the plugin can manage all of the great form types ContactUs.com has to offer.  Easy Appointments form, fast Donation form and high conversion Newsletter Signup forms are all now available through quick setup wizards and short codes. 
 
-
 **Flexible Contact Forms with Clients Across the World**
-
 The contact form plugin can be used for multiple uses such as: simple “Contact Us” contact form, Support contact form, a Price Quote Contact Form, Demo Request contact form, Newsletter signup form, “Advertise with Us” contact form, a Customer Feedback contact form, Request a Consultation  contact form, and a Suggestion form. 
 
 Contact forms powered by the plugin are currently used by lawyers, doctors, wedding vendors, real estate agents, home contractors, online stores, offline retail, insurance agents, web software companies, independent consultants, marketing agencies, advertising agencies, PR agencies, tour operators, florists, writers, designers, tutors, bands and musicians, accountants, financial planners, church groups, non-profits, blogs, web publishers, and many different types of websites.
 
 **Our Floating Tab and Quick Install Shortcodes**
-
 The most popular implementation of the contact form plugin places a callout tab overlay onto the margins of your website so that it’s visible on every page. The callout contact form tab, using “Contact Us” as the default text (although there are options for additional text), opens up the hosted contact form created by this plugin. (More about our contact form callout tabs [here](http://www.contactus.com/callout-tabs/) ). Additionally, webmasters can decide to place their contact form “inline” directly onto specified pages of your website. Lastly, WordPress developers can also place shortcodes on specific pages and posts to call the contact form.
 
 **Users can select different contact form and callout tab templates from within the plugin.** You can manage even more customizations for you contact form from inside your free ContactUs.com account, which is automatically created for you upon installing your plugin and registering your account. Lastly, from your ContactUs.com account, you’ll be able to manage your delivery options for your contact form, whether to direct form signups to an email address, receive an SMS alert, or post inquiry information to a 3rd party software tools like MailChimp, Zoho, Hubspot and Google Docs.
@@ -97,7 +92,7 @@ From within your free ContactUs.com account that is integrated with your contact
 * Extend your contact form to Facebook with our Facebook app
 * Include social media links and icons
 
-**Finally, powerful contact management tools: **your integrated ContactUs.com account provides**
+**Finally, powerful contact management tools: your integrated ContactUs.com account provides**
 
 * Track contact form submissions inside of your secure, cloud-based contact management database
 * Take notes on individual submissions
@@ -166,7 +161,6 @@ Below are links to answer additional questions about:
 * NEW : Added Create Form Buttons for each form type
 * General Bug fixes
 * *Launch date 02.01.2014*
-
 
 = 3.2 =
 * NEW : Added Go to Third Party Integrations button
