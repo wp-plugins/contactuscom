@@ -1030,7 +1030,7 @@ if (!function_exists('cUsCF_menu_render')) {
                                                                                 </div>
                                                                             </div>
 
-                                                                            <h4>Instructions on how tu build short codes and theme snippets <a href="javascript:;" class="blue_link" onclick="jQuery( '#cUsCF_tabs' ).tabs({ active: 2 })"> Here. </a></h4>
+                                                                            <h4>Instructions on how to build short codes and theme snippets <a href="javascript:;" class="blue_link" onclick="jQuery( '#cUsCF_tabs' ).tabs({ active: 2 })"> Here. </a></h4>
 
                                                                             <div class="template-selection">
                                                                                 <div class="form_templates_aCc">
