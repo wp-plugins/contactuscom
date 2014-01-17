@@ -11,8 +11,8 @@
  * Company      : contactus.com
  * Updated  	: 20131217
  * */
-//error_reporting(0);
-//error_reporting(E_ERROR);
+error_reporting(0);
+error_reporting(E_ERROR);
 
 class cUsComAPI_CF {
 
