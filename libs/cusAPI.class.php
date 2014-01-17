@@ -130,7 +130,7 @@ class cUsComAPI_CF {
             $strCURLOPT .= '&Auto_Activate=1';
             $strCURLOPT .= '&API_Credentials=1';
             $strCURLOPT .= '&Promotion_Code=WP';
-            $strCURLOPT .= '&Version=wp|4.2';
+            $strCURLOPT .= '&Version=wp|4.1';
 
             curl_setopt($ch, CURLOPT_URL, $strCURLOPT);
             curl_setopt($ch, CURLOPT_HEADER, 0);
