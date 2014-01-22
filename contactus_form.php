@@ -1598,7 +1598,7 @@ if (!function_exists('cUsCF_menu_render')) {
                             <div class="left-content">
                                 
                                 <h3>Note:</h3>
-                                <p>Hi ContactUs users, welcome to your V4.0 Contact Form Plugin!, in order for the our new cool upgrades to work, we need to sign in to your ContactUs account here. This is a one time thing, after up-grade set up, we wont ask this again.</p>
+                                <p>Hi ContactUs users, welcome to your V4.0 Contact Form Plugin!, in order for our new cool upgrades to work, you need to sign in to your ContactUs account here. This is a one time thing, after up-grade is done, we wont ask this again.</p>
                                
 
                                 <div id="cUsCF_settingss">
