@@ -1,4 +1,4 @@
-=== Contact Form ===
+=== Contact Form by ContactUs ===
 Contributors: contactus.com
 Stable tag: 4.2
 Requires at least: 3.4.2
