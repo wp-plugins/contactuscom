@@ -12,8 +12,9 @@
  * Updated  	: 20142102
  **/
 
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
+//DEBUG MODE OFF
+error_reporting(0);
+error_reporting(E_ERROR);
 
 $cus_dirbase = trailingslashit(basename(dirname(__FILE__)));
 $cus_dir = trailingslashit(WP_PLUGIN_DIR) . $cus_dirbase;
@@ -83,7 +84,7 @@ if (!function_exists('cUsCF_admin_header')) {
             wp_enqueue_script( 'cUsCF_cats_module' );
             
             //CONTACT FORM SUPPORT CHAT
-            wp_register_script( 'cUsCF_support_chat', '//cdn.contactus.com/cdn/forms/ZjAxYjQxMTMxZmQ,/contactus.js', array(), '2.7', true);
+            wp_register_script( 'cUsCF_support_chat', '//cdn.contactus.com/cdn/forms/MWVhZjJlMTNiY2I,/contactus.js', array(), '2.7', true);
             wp_enqueue_script( 'cUsCF_support_chat' );
             
         }
