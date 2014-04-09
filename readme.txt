@@ -299,6 +299,12 @@ Below are links to answer additional questions about:
 
 == Upgrade Notice ==
 
+= 4.2.2 =
+New version available, update NOW!
+
+= 4.2.1 =
+New version available, update NOW!
+
 = 4.2 =
 New version available, update NOW!
 
