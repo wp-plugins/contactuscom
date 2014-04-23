@@ -55,7 +55,7 @@ class cUsComAPI_CF {
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_USERAGENT, $_SERVER['HTTP_USER_AGENT']);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array('X-ContactUs-Request-URL: ' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'], 'X-ContactUs-Signature: wp|4.2.2|' . $this->getIP()));
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array('X-ContactUs-Request-URL: ' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'], 'X-ContactUs-Signature: wp|4.2.3|' . $this->getIP()));
         $content = curl_exec($ch);
         curl_close($ch);
 
@@ -127,18 +127,18 @@ class cUsComAPI_CF {
             $strCURLOPT .= '&Auto_Activate=1';
             $strCURLOPT .= '&API_Credentials=1';
             $strCURLOPT .= '&Promotion_Code=WP';
-            $strCURLOPT .= '&Version=wp|4.2.2';
+            $strCURLOPT .= '&Version=wp|4.2.3';
 
             curl_setopt($ch, CURLOPT_URL, $strCURLOPT);
             curl_setopt($ch, CURLOPT_HEADER, 0);
             curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
             curl_setopt($ch, CURLOPT_USERAGENT, $_SERVER['HTTP_USER_AGENT']);
-            curl_setopt($ch, CURLOPT_HTTPHEADER, array('X-ContactUs-Request-URL: ' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'], 'X-ContactUs-Signature: wp|4.2.2|' . $this->getIP()));
+            curl_setopt($ch, CURLOPT_HTTPHEADER, array('X-ContactUs-Request-URL: ' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'], 'X-ContactUs-Signature: wp|4.2.3|' . $this->getIP()));
             curl_setopt($ch, CURLOPT_USERAGENT, $_SERVER['HTTP_USER_AGENT']);
             curl_setopt($ch, CURLOPT_HTTPHEADER, array(
                 'X-ContactUs-Request-URL: ' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'],
-                'X-ContactUs-Signature: wp|4.2.2|' . $this->getIP()
+                'X-ContactUs-Signature: wp|4.2.3|' . $this->getIP()
             ));
             $content = curl_exec($ch);
             curl_close($ch);
@@ -169,7 +169,7 @@ class cUsComAPI_CF {
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_USERAGENT, $_SERVER['HTTP_USER_AGENT']);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array('X-ContactUs-Request-URL: ' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'], 'X-ContactUs-Signature: wp|4.2.2|' . $this->getIP()));
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array('X-ContactUs-Request-URL: ' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'], 'X-ContactUs-Signature: wp|4.2.3|' . $this->getIP()));
         $content = curl_exec($ch);
         curl_close($ch);
 
@@ -203,7 +203,7 @@ class cUsComAPI_CF {
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_USERAGENT, $_SERVER['HTTP_USER_AGENT']);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array('X-ContactUs-Request-URL: ' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'], 'X-ContactUs-Signature: wp|4.2.2|' . $this->getIP()));
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array('X-ContactUs-Request-URL: ' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'], 'X-ContactUs-Signature: wp|4.2.3|' . $this->getIP()));
         $content = curl_exec($ch);
         curl_close($ch);
 
@@ -237,7 +237,7 @@ class cUsComAPI_CF {
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_USERAGENT, $_SERVER['HTTP_USER_AGENT']);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array('X-ContactUs-Request-URL: ' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'], 'X-ContactUs-Signature: wp|4.2.2|' . $this->getIP()));
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array('X-ContactUs-Request-URL: ' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'], 'X-ContactUs-Signature: wp|4.2.3|' . $this->getIP()));
         $content = curl_exec($ch);
         curl_close($ch);
 
@@ -275,7 +275,7 @@ class cUsComAPI_CF {
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_USERAGENT, $_SERVER['HTTP_USER_AGENT']);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array('X-ContactUs-Request-URL: ' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'], 'X-ContactUs-Signature: wp|4.2.2|' . $this->getIP()));
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array('X-ContactUs-Request-URL: ' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'], 'X-ContactUs-Signature: wp|4.2.3|' . $this->getIP()));
         $content = curl_exec($ch);
         curl_close($ch);
 
@@ -310,7 +310,7 @@ class cUsComAPI_CF {
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_USERAGENT, $_SERVER['HTTP_USER_AGENT']);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array('X-ContactUs-Request-URL: ' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'], 'X-ContactUs-Signature: wp|4.2.2|' . $this->getIP()));
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array('X-ContactUs-Request-URL: ' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'], 'X-ContactUs-Signature: wp|4.2.3|' . $this->getIP()));
         $content = curl_exec($ch);
         curl_close($ch);
 
@@ -347,7 +347,7 @@ class cUsComAPI_CF {
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_USERAGENT, $_SERVER['HTTP_USER_AGENT']);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array('X-ContactUs-Request-URL: ' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'], 'X-ContactUs-Signature: wp|4.2.2|' . $this->getIP()));
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array('X-ContactUs-Request-URL: ' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'], 'X-ContactUs-Signature: wp|4.2.3|' . $this->getIP()));
         $content = curl_exec($ch);
         curl_close($ch);
 
@@ -377,7 +377,7 @@ class cUsComAPI_CF {
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_USERAGENT, $_SERVER['HTTP_USER_AGENT']);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array('X-ContactUs-Request-URL: ' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'], 'X-ContactUs-Signature: wp|4.2.2|' . $this->getIP()));
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array('X-ContactUs-Request-URL: ' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'], 'X-ContactUs-Signature: wp|4.2.3|' . $this->getIP()));
         $content = curl_exec($ch);
         curl_close($ch);
 
@@ -407,7 +407,7 @@ class cUsComAPI_CF {
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_USERAGENT, $_SERVER['HTTP_USER_AGENT']);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array('X-ContactUs-Request-URL: ' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'], 'X-ContactUs-Signature: wp|4.2.2|' . $this->getIP()));
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array('X-ContactUs-Request-URL: ' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'], 'X-ContactUs-Signature: wp|4.2.3|' . $this->getIP()));
         $content = curl_exec($ch);
         curl_close($ch);
 
