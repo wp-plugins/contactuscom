@@ -365,7 +365,7 @@ New version available, update NOW!
 Bug Fix: This has been resolved.
 
 = 2.0 =
-New cool features added to the V.2 plugin.
+New cool features added to the V.2 plugin
 
 = 1.0b =
-First version available to WordPress community.
+First version available to WordPress community
