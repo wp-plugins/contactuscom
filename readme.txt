@@ -172,9 +172,9 @@ Below are links to answer additional questions about:
 == Changelog ==
 
 = 4.2.5 =
-• NEW: Addition of interactive user guide
-• NEW: User Interface improvements
-• BUG-FIX: Special fix for C.U. users who are missing the required from types. (Allows 2 step form creation for missing form types during login process from plugin setup wizard)
+* NEW: Addition of interactive user guide
+* NEW: User Interface improvements
+* BUG-FIX: Special fix for C.U. users who are missing the required from types. (Allows 2 step form creation for missing form types during login process from plugin setup wizard)
 * *Launch date 13.05.2014*
 
 = 4.2.4 =
