@@ -140,7 +140,6 @@ ContactUs.com provides more than just a form to capture website inquiries. Your 
 
 **Please note:** This plugin from ContactUs.com includes JavaScript code used to connect the plugin to the ContactUs.com servers, when enabled. This JavaScript is used to connect to live chat support so that questions can be asked and answered directly from within the plugin.
 
-
 == Installation ==
 
 1. Log into your WordPress.org account as an administrator.
