@@ -2,7 +2,7 @@
 Contributors: contactus.com
 Stable tag: 5.0.2
 Requires at least: 3.4.2
-Tested up to: 3.9.2
+Tested up to: 4.0
 Donate link:
 Tags: contact form, contact form builder, contact page, contact us, contact us form, contactus, contactus.com, customer acquisition, database, form, form builder, signup form, captcha
 License: GPLv2 or later
