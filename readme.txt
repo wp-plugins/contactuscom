@@ -1,8 +1,8 @@
 === Contact Form by ContactUs ===
 Contributors: contactus.com
-Stable tag: 5.0.5
+Stable tag: 5.0.6
 Requires at least: 3.4.2
-Tested up to: 4.0
+Tested up to: 4.0.1
 Donate link:
 Tags: contact form, contact form builder, contact page, contact us, contact us form, contactus, contactus.com, customer acquisition, database, form, form builder, signup form, captcha
 License: GPLv2 or later
