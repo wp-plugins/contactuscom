@@ -12,7 +12,7 @@
  **/
 
 //PLUGIN NAME
-$cUs_plug_name = 'Contact Form Plugin v.5.0.8b1';
+$cUs_plug_name = 'Contact Form Plugin v.5.0.8';
 
 //DEBUG MODE OFF
 error_reporting(0);

@@ -1,7 +1,7 @@
 <?php
 /*
   Plugin Name: Contact Form by ContactUs
-  Version: 5.0.8b1
+  Version: 5.0.8
   Plugin URI:  http://help.contactus.com/hc/en-us/sections/200204997-Contact-Form-Plugin-by-ContactUs-com
   Description: Contact Form by ContactUs.com Plugin for Wordpress.
   Author: contactus.com
